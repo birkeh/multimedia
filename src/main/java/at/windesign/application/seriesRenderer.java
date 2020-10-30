@@ -1,9 +1,8 @@
 package at.windesign.application;
 
 import org.zkoss.image.Images;
-import org.zkoss.zul.Listcell;
-import org.zkoss.zul.Listitem;
-import org.zkoss.zul.ListitemRenderer;
+import org.zkoss.zk.ui.sys.ComponentsCtrl;
+import org.zkoss.zul.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,21 +14,29 @@ public class seriesRenderer implements ListitemRenderer
 	private Integer stateWidth  = 4;
 	private Integer stateHeight = 20;
 
+	private Listbox seriesList;
+
 	@Override
-	public void render(Listitem listitem, Object o, int i) throws Exception
+	public void render(Listitem item, Object o, int i) throws Exception
 	{
 		final Serie data = (Serie) o;
 
-		new Listcell(data.getSeriesName()).setParent(listitem);
-		new Listcell(String.valueOf(data.getSeriesFirstAired())).setParent(listitem);
-		new Listcell(data.getSeriesResolution()).setParent(listitem);
+		Listcell seriesNameCell       = new Listcell(data.getSeriesName());
+		Listcell seriesFirstAiredCell = new Listcell(String.valueOf(data.getSeriesFirstAired()));
+		Listcell seriesResolution     = new Listcell(data.getSeriesResolution());
 
-		for(int s = 1; s < data.getMaxSeason(); s++)
+		seriesNameCell.setParent(item);
+		seriesFirstAiredCell.setParent(item);
+		seriesResolution.setParent(item);
+
+		for(int s = 1; s <= data.getMaxSeason(); s++)
 		{
 			Listcell imageCell = new Listcell();
 			imageCell.setImageContent(Images.encode("bla.png", getStateImage(s, data.getEpisodeState())));
-			imageCell.setParent(listitem);
+			imageCell.setParent(item);
 		}
+
+		item.setValue(data);
 	}
 
 	private BufferedImage getStateImage(Integer curSeason, SortedMap<Integer, Integer> state)

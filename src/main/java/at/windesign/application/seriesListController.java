@@ -16,6 +16,7 @@ public class seriesListController extends GenericForwardComposer
 	protected Listbox        seriesList; // autowired
 	private   ListModelList  seriesListModel; // the model of the listbox
 	private   seriesRenderer renderer;
+	private   seriesListener itemListener = new seriesListener();
 
 	private final SeriesDataSource ds = SeriesDataSource.INSTANCE;
 
@@ -48,6 +49,8 @@ public class seriesListController extends GenericForwardComposer
 
 		seriesListModel = new ListModelList();
 		seriesList.setModel(seriesListModel);
+		seriesList.addEventListener("onSelect", itemListener);
+		itemListener.setSeriesList(seriesList);
 
 		Listhead   head       = seriesList.getListhead();
 		Listheader seriesName = new Listheader("Series Name");
@@ -65,7 +68,7 @@ public class seriesListController extends GenericForwardComposer
 		if(minSeason < 1)
 			minSeason = 1;
 
-		for(int i = minSeason;i <= maxSeason;i++)
+		for(int i = minSeason; i <= maxSeason; i++)
 		{
 			Listheader seasonHeader = new Listheader("Season " + i);
 			seasonHeader.setHflex("min");
@@ -109,6 +112,8 @@ public class seriesListController extends GenericForwardComposer
 			int                         oldID        = -1;
 			SortedMap<Integer, Integer> episodeState = new TreeMap<>();
 
+			serie.setSeriesID(-1);
+
 			while(rs.next())
 			{
 				if(rs.getInt("seriesID") != oldID)
@@ -136,6 +141,11 @@ public class seriesListController extends GenericForwardComposer
 					serie.setMaxSeason(rs.getInt("maxSeason"));
 				}
 				episodeState.put((rs.getInt("seasonNumber") << 8) + rs.getInt("episodeNumber"), rs.getInt("episodeState"));
+			}
+			if(serie.getSeriesID() != -1)
+			{
+				serie.setEpisodeState(episodeState);
+				seriesListModel.add(serie);
 			}
 		} catch(
 				SQLException e)
