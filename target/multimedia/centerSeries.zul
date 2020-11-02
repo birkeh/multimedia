@@ -1,0 +1,13 @@
+<div vflex="true"
+	 apply="at.windesign.application.seriesListController"
+>
+	<listbox id="seriesList"
+			 multiple="true"
+			 autopaging="true"
+			 vflex="true">
+		<listhead>
+		</listhead>
+<!--		https://stackoverflow.com/questions/28629458/display-image-from-db-on-zk-zul-listbox-->
+<!--		https://www.zkoss.org/zksandbox/#u6-->
+	</listbox>
+</div>

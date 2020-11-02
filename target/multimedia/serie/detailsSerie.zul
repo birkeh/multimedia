@@ -1,0 +1,12 @@
+<window id="resultWin"
+		title="Order Result"
+		border="normal"
+		width="800px"
+		height="750px"
+		apply="at.windesign.application.serie.serieDetailsForwardComposer, at.windesign.application.serie.serieDetailsSelectorComposer">
+	<label id="title"/>
+	<hbox width="100%" pack="center">
+		<button id="closeButton" label="Close"/>
+	</hbox>
+</window>
+<!--		contentStyle="background-image:url('http://www.freeimageslive.com/galleries/space/earth/pics/a08_h_15_2561.gif');background-repeat: no-repeat;-webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;"-->
