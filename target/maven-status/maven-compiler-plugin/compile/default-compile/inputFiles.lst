@@ -1,5 +1,10 @@
-C:\Users\birkeh\ownCloud\dev\IntelliJ\zk\multimedia\src\main\java\at\windesign\application\seriesListener.java
-C:\Users\birkeh\ownCloud\dev\IntelliJ\zk\multimedia\src\main\java\at\windesign\application\seriesListController.java
-C:\Users\birkeh\ownCloud\dev\IntelliJ\zk\multimedia\src\main\java\at\windesign\application\SeriesDataSource.java
-C:\Users\birkeh\ownCloud\dev\IntelliJ\zk\multimedia\src\main\java\at\windesign\application\Serie.java
-C:\Users\birkeh\ownCloud\dev\IntelliJ\zk\multimedia\src\main\java\at\windesign\application\seriesRenderer.java
+C:\Users\birkeh\ownCloud\dev\IntelliJ\zk\multimedia\src\main\java\at\windesign\application\serie\serieDataSource.java
+C:\Users\birkeh\ownCloud\dev\IntelliJ\zk\multimedia\src\main\java\at\windesign\application\main\mainSelectorComposer.java
+C:\Users\birkeh\ownCloud\dev\IntelliJ\zk\multimedia\src\main\java\at\windesign\application\main\mainForwardComposer.java
+C:\Users\birkeh\ownCloud\dev\IntelliJ\zk\multimedia\src\main\java\at\windesign\application\serie\serieDetailsSelectorComposer.java
+C:\Users\birkeh\ownCloud\dev\IntelliJ\zk\multimedia\src\main\java\at\windesign\application\serie\serie.java
+C:\Users\birkeh\ownCloud\dev\IntelliJ\zk\multimedia\src\main\java\at\windesign\application\serie\serieListSelectorComposer.java
+C:\Users\birkeh\ownCloud\dev\IntelliJ\zk\multimedia\src\main\java\at\windesign\application\serie\serieListForwardComposer.java
+C:\Users\birkeh\ownCloud\dev\IntelliJ\zk\multimedia\src\main\java\at\windesign\application\main\OXMainLayoutVM.java
+C:\Users\birkeh\ownCloud\dev\IntelliJ\zk\multimedia\src\main\java\at\windesign\application\serie\serieDetailsForwardComposer.java
+C:\Users\birkeh\ownCloud\dev\IntelliJ\zk\multimedia\src\main\java\at\windesign\application\serie\serieRenderer.java
