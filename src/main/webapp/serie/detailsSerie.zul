@@ -1,7 +1,10 @@
-<window id="resultWin"
+<window id="detailsSerie"
 		title=""
 		border="normal"
 		apply="at.windesign.application.serie.serieDetailsForwardComposer, at.windesign.application.serie.serieDetailsSelectorComposer">
+	<box orient="horizontal">
+		<label value="" id="seriesName" zclass="z-window-header" />
+	</box>
 	<hbox width="100%" pack="center">
 		<button id="saveButton" label="Save"/>
 		<button id="cancelButton" label="Cancel"/>

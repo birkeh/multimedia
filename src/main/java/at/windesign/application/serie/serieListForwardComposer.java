@@ -17,6 +17,9 @@ public class serieListForwardComposer extends GenericForwardComposer
 	private   ListModelList seriesListModel; // the model of the listbox
 	private   serieRenderer renderer;
 
+	private Integer stateWidth  = 4;
+	private Integer stateHeight = 20;
+
 	private final serieDataSource ds = serieDataSource.INSTANCE;
 
 	@Override
@@ -24,8 +27,10 @@ public class serieListForwardComposer extends GenericForwardComposer
 	{
 		super.doAfterCompose(comp);
 
-		int minSeason = 0;
-		int maxSeason = 0;
+		int                            minSeason  = 0;
+		int                            maxSeason  = 0;
+		SortedMap<Integer, Integer>    maxEpisode = new TreeMap<>();
+		SortedMap<Integer, Listheader> listHeader = new TreeMap<>();
 
 		try
 		{
@@ -41,7 +46,8 @@ public class serieListForwardComposer extends GenericForwardComposer
 				minSeason = rs.getInt("minSeason");
 				maxSeason = rs.getInt("maxSeason");
 			}
-		} catch(SQLException e)
+		}
+		catch(SQLException e)
 		{
 			e.printStackTrace();
 		}
@@ -68,8 +74,10 @@ public class serieListForwardComposer extends GenericForwardComposer
 		for(int i = minSeason; i <= maxSeason; i++)
 		{
 			Listheader seasonHeader = new Listheader("Season " + i);
-			seasonHeader.setHflex("min");
+//			seasonHeader.setHflex("min");
 			head.appendChild(seasonHeader);
+			maxEpisode.put(i, 0);
+			listHeader.put(i, seasonHeader);
 		}
 
 		renderer = new serieRenderer();
@@ -107,6 +115,9 @@ public class serieListForwardComposer extends GenericForwardComposer
 			// fetch all events from database
 			serie                       serie        = new serie();
 			int                         oldID        = -1;
+			int                         stateInit    = 0;
+			int                         stateProg    = 0;
+			int                         stateDone    = 0;
 			SortedMap<Integer, Integer> episodeState = new TreeMap<>();
 
 			serie.setSeriesID(-1);
@@ -118,8 +129,15 @@ public class serieListForwardComposer extends GenericForwardComposer
 					if(oldID != -1)
 					{
 						serie.setEpisodeState(episodeState);
+						serie.setStateInit(stateInit);
+						serie.setStateProg(stateProg);
+						serie.setStateDone(stateDone);
+
 						seriesListModel.add(serie);
 						episodeState = new TreeMap<>();
+						stateInit = 0;
+						stateProg = 0;
+						stateDone = 0;
 					}
 
 					oldID = rs.getInt("seriesID");
@@ -138,18 +156,49 @@ public class serieListForwardComposer extends GenericForwardComposer
 					serie.setMaxSeason(rs.getInt("maxSeason"));
 				}
 				episodeState.put((rs.getInt("seasonNumber") << 8) + rs.getInt("episodeNumber"), rs.getInt("episodeState"));
+
+				switch(rs.getInt("episodeState"))
+				{
+					case 1:
+						stateInit++;
+						break;
+					case 2:
+						stateProg++;
+						break;
+					case 3:
+						stateDone++;
+						break;
+				}
+				int _seasonNumber  = rs.getInt("seasonNumber");
+				int _episodeNumber = rs.getInt("episodeNumber");
+
+				if(_seasonNumber != 0)
+				{
+					if(maxEpisode.get(_seasonNumber) < _episodeNumber)
+						maxEpisode.put(_seasonNumber, _episodeNumber);
+				}
 			}
 			if(serie.getSeriesID() != -1)
 			{
 				serie.setEpisodeState(episodeState);
+				serie.setStateInit(stateInit);
+				serie.setStateProg(stateProg);
+				serie.setStateDone(stateDone);
 				seriesListModel.add(serie);
 			}
-		} catch(
-				SQLException e)
 
+			for(int i = minSeason; i <= maxSeason; i++)
+			{
+				int        size   = maxEpisode.get(i) * stateWidth;
+				Listheader header = listHeader.get(i);
+				header.setWidth(size + 40 + "px");
+			}
+		}
+		catch(SQLException e)
 		{
 			e.printStackTrace();
-		} finally
+		}
+		finally
 		{
 			ds.close();
 		}

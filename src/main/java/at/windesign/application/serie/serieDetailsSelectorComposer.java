@@ -12,7 +12,7 @@ public class serieDetailsSelectorComposer extends SelectorComposer<Component>
 	private static final long serialVersionUID = 1L;
 
 	@Wire
-	private Window resultWin;
+	private Window detailsSerie;
 
 	@Wire
 	protected Label title;
@@ -22,18 +22,18 @@ public class serieDetailsSelectorComposer extends SelectorComposer<Component>
 	@Listen("onClick = #saveButton")
 	public void save()
 	{
-		resultWin.onClose();
+		detailsSerie.onClose();
 	}
 
 	@Listen("onClick = #cancelButton")
 	public void cancel()
 	{
-		resultWin.onClose();
+		detailsSerie.onClose();
 	}
 
 	@Listen("onClick = #deleteButton")
 	public void delete()
 	{
-		resultWin.onClose();
+		detailsSerie.onClose();
 	}
 }

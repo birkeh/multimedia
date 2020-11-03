@@ -1,5 +1,7 @@
 package at.windesign.application.serie;
 
+import java.awt.*;
+import java.util.Objects;
 import java.util.SortedMap;
 
 class serie
@@ -16,12 +18,15 @@ class serie
 	private SortedMap<Integer, Integer> m_episodeState;
 	private int                         m_minSeason;
 	private int                         m_maxSeason;
+	private int                         m_stateInit;
+	private int                         m_stateProg;
+	private int                         m_stateDone;
 
 	public serie()
 	{
 	}
 
-	public serie(int seriesID, String seriesName, int seriesFirstAired, String seriesResolution, boolean seriesCliffhanger, String seriesStatus, String seriesDownload, String seriesPoster, String seriesBackdrop, SortedMap<Integer, Integer> episodeState, int minSeason, int maxSeason)
+	public serie(int seriesID, String seriesName, int seriesFirstAired, String seriesResolution, boolean seriesCliffhanger, String seriesStatus, String seriesDownload, String seriesPoster, String seriesBackdrop, SortedMap<Integer, Integer> episodeState, int minSeason, int maxSeason, int stateInit, int stateProg, int stateDone)
 	{
 		m_seriesID = seriesID;
 		m_seriesName = seriesName;
@@ -35,6 +40,9 @@ class serie
 		m_episodeState = episodeState;
 		m_minSeason = minSeason;
 		m_maxSeason = maxSeason;
+		m_stateInit = stateInit;
+		m_stateProg = stateProg;
+		m_stateDone = stateDone;
 	}
 
 	public int getSeriesID()
@@ -155,5 +163,59 @@ class serie
 	public void setMaxSeason(int maxSeason)
 	{
 		m_maxSeason = maxSeason;
+	}
+
+	public int getStateInit()
+	{
+		return m_stateInit;
+	}
+
+	public void setStateInit(int stateInit)
+	{
+		m_stateInit = stateInit;
+	}
+
+	public int getStateProg()
+	{
+		return m_stateProg;
+	}
+
+	public void setStateProg(int stateProg)
+	{
+		m_stateProg = stateProg;
+	}
+
+	public int getStateDone()
+	{
+		return m_stateDone;
+	}
+
+	public void setStateDone(int stateDone)
+	{
+		m_stateDone = stateDone;
+	}
+
+	public String getSeriesStyle()
+	{
+		String style = "";
+
+		if(m_seriesCliffhanger)
+			style = style + "font-style: italic; ";
+
+		if(Objects.equals(m_seriesStatus, "Returning Series"))
+			style = style + "font-weight: bold; ";
+
+		String color = "";
+
+		if(m_stateProg > 0)
+			color = "background-color: #0000C0; color: #FFFFFF";
+		else if(m_stateInit > 0)
+			color = "background-color: #C0C0C0;";
+		else if(m_stateDone > 0)
+			color = "background-color: #00C000;";
+
+		style += color;
+
+		return style;
 	}
 }

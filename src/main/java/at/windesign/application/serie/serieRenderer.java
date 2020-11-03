@@ -24,6 +24,7 @@ public class serieRenderer implements ListitemRenderer
 		Listcell seriesFirstAiredCell = new Listcell(String.valueOf(data.getSeriesFirstAired()));
 		Listcell seriesResolution     = new Listcell(data.getSeriesResolution());
 
+		seriesNameCell.setStyle(data.getSeriesStyle());
 		seriesNameCell.setParent(item);
 		seriesFirstAiredCell.setParent(item);
 		seriesResolution.setParent(item);
@@ -33,6 +34,7 @@ public class serieRenderer implements ListitemRenderer
 			Listcell imageCell = new Listcell();
 			imageCell.setImageContent(Images.encode("bla.png", getStateImage(s, data.getEpisodeState())));
 			imageCell.setParent(item);
+			imageCell.setTooltiptext(getStateText(s, data.getEpisodeState()));
 		}
 
 		item.setValue(data);
@@ -100,5 +102,65 @@ public class serieRenderer implements ListitemRenderer
 		}
 
 		return image;
+	}
+
+	private String getStateText(Integer curSeason, SortedMap<Integer, Integer> state)
+	{
+		int                         season      = -1;
+		int                         episode     = -1;
+		SortedMap<Integer, Integer> seasonState = new TreeMap<>();
+
+		for(int key : state.keySet())
+		{
+			season = key >> 8;
+			episode = key & 0xFF;
+
+			if(season == curSeason)
+				seasonState.put(episode, state.get(key));
+			else if(season > curSeason)
+				break;
+		}
+
+		if(seasonState.size() == 0)
+			return "";
+
+		String stateInit = "";
+		String stateProg = "";
+		String stateDone = "";
+
+		for(Integer key : seasonState.keySet())
+		{
+			switch(seasonState.get(key))
+			{
+				case 0:
+					break;
+				case 1:
+					if(stateInit != "")
+						stateInit = stateInit + ", ";
+					stateInit = stateInit + key;
+					break;
+				case 2:
+					if(stateProg != "")
+						stateProg = stateProg + ", ";
+					stateProg = stateProg + key;
+					break;
+				case 3:
+					if(stateDone != "")
+						stateDone = stateDone + ", ";
+					stateDone = stateDone + key;
+					break;
+			}
+		}
+
+		if(stateInit == "")
+			stateInit = "none";
+
+		if(stateProg == "")
+			stateProg = "none";
+
+		if(stateDone == "")
+			stateDone = "none";
+
+		return "Init: " + stateInit + "\nProgress: " + stateProg + "\nDone: " + stateDone;
 	}
 }
