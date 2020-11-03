@@ -96,6 +96,7 @@ public class serieListForwardComposer extends GenericForwardComposer
 							"           serie.download seriesDownload," +
 							"           serie.posterPath seriesPoster," +
 							"           serie.backdropPath seriesBackdrop," +
+							"			serie.overview seriesOverview," +
 							"           season.seasonNumber seasonNumber," +
 							"           episode.episodeNumber episodeNumber," +
 							"           episode.state episodeState," +
@@ -152,6 +153,7 @@ public class serieListForwardComposer extends GenericForwardComposer
 					serie.setSeriesDownload(rs.getString("seriesDownload"));
 					serie.setSeriesPoster(rs.getString("seriesPoster"));
 					serie.setSeriesBackdrop(rs.getString("seriesBackdrop"));
+					serie.setSeriesOverview(rs.getString("seriesOverview"));
 					serie.setMinSeason(rs.getInt("minSeason"));
 					serie.setMaxSeason(rs.getInt("maxSeason"));
 				}

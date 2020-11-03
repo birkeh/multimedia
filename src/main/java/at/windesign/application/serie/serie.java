@@ -15,6 +15,7 @@ class serie
 	private String                      m_seriesDownload;
 	private String                      m_seriesPoster;
 	private String                      m_seriesBackdrop;
+	private String                      m_seriesOverview;
 	private SortedMap<Integer, Integer> m_episodeState;
 	private int                         m_minSeason;
 	private int                         m_maxSeason;
@@ -26,7 +27,7 @@ class serie
 	{
 	}
 
-	public serie(int seriesID, String seriesName, int seriesFirstAired, String seriesResolution, boolean seriesCliffhanger, String seriesStatus, String seriesDownload, String seriesPoster, String seriesBackdrop, SortedMap<Integer, Integer> episodeState, int minSeason, int maxSeason, int stateInit, int stateProg, int stateDone)
+	public serie(int seriesID, String seriesName, int seriesFirstAired, String seriesResolution, boolean seriesCliffhanger, String seriesStatus, String seriesDownload, String seriesPoster, String seriesBackdrop, String seriesOverview, SortedMap<Integer, Integer> episodeState, int minSeason, int maxSeason, int stateInit, int stateProg, int stateDone)
 	{
 		m_seriesID = seriesID;
 		m_seriesName = seriesName;
@@ -37,6 +38,7 @@ class serie
 		m_seriesDownload = seriesDownload;
 		m_seriesPoster = seriesPoster;
 		m_seriesBackdrop = seriesBackdrop;
+		m_seriesOverview = seriesOverview;
 		m_episodeState = episodeState;
 		m_minSeason = minSeason;
 		m_maxSeason = maxSeason;
@@ -133,6 +135,16 @@ class serie
 	public void setSeriesBackdrop(String seriesBackdrop)
 	{
 		m_seriesBackdrop = seriesBackdrop;
+	}
+
+	public String getSeriesOverview()
+	{
+		return m_seriesOverview;
+	}
+
+	public void setSeriesOverview(String seriesOverview)
+	{
+		m_seriesOverview = seriesOverview;
 	}
 
 	public SortedMap<Integer, Integer> getEpisodeState()

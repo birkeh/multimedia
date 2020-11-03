@@ -2,14 +2,13 @@ package at.windesign.application.serie;
 
 import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Label;
+import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
 import java.net.URL;
-import java.sql.SQLException;
 
 public class serieDetailsForwardComposer extends GenericForwardComposer<Component>
 {
@@ -19,7 +18,16 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 	private Window detailsSerie;
 
 	@Wire
-	protected Label seriesName;
+	protected Label overviewLabel;
+
+	@Wire
+	protected Textbox downloadLink;
+
+	@Wire
+	protected Textbox localPath;
+
+	@Wire
+	protected Textbox resolution;
 
 	private serie m_serie;
 
@@ -67,6 +75,10 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 			}
 
 			detailsSerie.setTitle(m_serie.getSeriesName() + " (" + m_serie.getSeriesFirstAired() + ")");
+			overviewLabel.setValue(m_serie.getSeriesOverview());
+			downloadLink.setValue(m_serie.getSeriesDownload());
+			localPath.setValue("blablabla");
+			resolution.setValue(m_serie.getSeriesResolution());
 		}
 		catch(Exception e)
 		{

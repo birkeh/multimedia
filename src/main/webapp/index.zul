@@ -7,19 +7,22 @@
 			apply="at.windesign.application.main.indexForwardComposer, org.zkoss.bind.BindComposer"
 			onClientInfo="onClientInfo(event)"
 	>
-		<borderlayout hflex="1"
-					  vflex="1">
-			<north height="100px"
-				   border="none">
-				<label style="font-size:50px">North for header</label>
-			</north>
-			<center id="win"
-					border="none"
-					apply="org.zkoss.bind.BindComposer"
-					vflex="true">
-				<include src="/serie/centerSerie.zul"/>
-			</center>
-		</borderlayout>
+		<tabbox id="tb"
+				height="100%"
+				orient="left"
+		>
+			<tabs id="tabs"
+				  width="120px"
+			>
+				<tab id="tabSeries" label="TV Show"/>
+				<tab id="tabMovies" label="Movies"/>
+			</tabs>
+			<tabpanels>
+				<tabpanel>
+					<include src="/serie/centerSerie.zul"/>
+				</tabpanel>
+			</tabpanels>
+		</tabbox>
 		<zscript>
 			void onClientInfo(ClientInfoEvent evt) {
 			<![CDATA[desktop.setAttribute("desktopWidth",evt.desktopWidth);]]>

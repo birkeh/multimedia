@@ -2,9 +2,35 @@
 		title=""
 		border="normal"
 		apply="at.windesign.application.serie.serieDetailsForwardComposer, at.windesign.application.serie.serieDetailsSelectorComposer">
-	<box orient="horizontal">
-		<label value="" id="seriesName" zclass="z-window-header" />
-	</box>
+	<groupbox id="overview"
+			  style="opacity: 0.65;"
+	>
+		<caption>Overview</caption>
+		<label id="overviewLabel"
+			   value=""/>
+	</groupbox>
+	<groupbox id="settings"
+			  style="opacity: 0.65;"
+	>
+		<caption>Settings</caption>
+		<hbox width="100%">
+			<vbox width="45%">
+				<label value="Download Link"/>
+				<textbox id="downloadLink"
+						 tabindex="1"/>
+			</vbox>
+			<vbox width="45%">
+				<label value="Local Path"/>
+				<textbox id="localPath"
+						 tabindex="2"/>
+			</vbox>
+			<vbox width="10%">
+				<label value="Resolution"/>
+				<textbox id="resolution"
+						 tabindex="3"/>
+			</vbox>
+		</hbox>
+	</groupbox>
 	<hbox width="100%" pack="center">
 		<button id="saveButton" label="Save"/>
 		<button id="cancelButton" label="Cancel"/>
