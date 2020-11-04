@@ -94,6 +94,7 @@ public class serieListForwardComposer extends GenericForwardComposer
 							"           serie.cliffhanger seriesCliffhanger," +
 							"           serie.status seriesStatus," +
 							"           serie.download seriesDownload," +
+							"			serie.localPath seriesLocalPath," +
 							"           serie.posterPath seriesPoster," +
 							"           serie.backdropPath seriesBackdrop," +
 							"			serie.overview seriesOverview," +
@@ -151,6 +152,7 @@ public class serieListForwardComposer extends GenericForwardComposer
 					serie.setSeriesCliffhanger(rs.getBoolean("seriesCliffhanger"));
 					serie.setSeriesStatus(rs.getString("seriesStatus"));
 					serie.setSeriesDownload(rs.getString("seriesDownload"));
+					serie.setSeriesLocalPath(rs.getString("seriesLocalPath"));
 					serie.setSeriesPoster(rs.getString("seriesPoster"));
 					serie.setSeriesBackdrop(rs.getString("seriesBackdrop"));
 					serie.setSeriesOverview(rs.getString("seriesOverview"));

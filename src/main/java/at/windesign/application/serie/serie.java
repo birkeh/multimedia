@@ -13,6 +13,7 @@ class serie
 	private boolean                     m_seriesCliffhanger;
 	private String                      m_seriesStatus;
 	private String                      m_seriesDownload;
+	private String                      m_seriesLocalPath;
 	private String                      m_seriesPoster;
 	private String                      m_seriesBackdrop;
 	private String                      m_seriesOverview;
@@ -27,24 +28,25 @@ class serie
 	{
 	}
 
-	public serie(int seriesID, String seriesName, int seriesFirstAired, String seriesResolution, boolean seriesCliffhanger, String seriesStatus, String seriesDownload, String seriesPoster, String seriesBackdrop, String seriesOverview, SortedMap<Integer, Integer> episodeState, int minSeason, int maxSeason, int stateInit, int stateProg, int stateDone)
+	public serie(int seriesID, String seriesName, int seriesFirstAired, String seriesResolution, boolean seriesCliffhanger, String seriesStatus, String seriesDownload, String localPath, String seriesPoster, String seriesBackdrop, String seriesOverview, SortedMap<Integer, Integer> episodeState, int minSeason, int maxSeason, int stateInit, int stateProg, int stateDone)
 	{
-		m_seriesID = seriesID;
-		m_seriesName = seriesName;
-		m_seriesFirstAired = seriesFirstAired;
-		m_seriesResolution = seriesResolution;
+		m_seriesID          = seriesID;
+		m_seriesName        = seriesName;
+		m_seriesFirstAired  = seriesFirstAired;
+		m_seriesResolution  = seriesResolution;
 		m_seriesCliffhanger = seriesCliffhanger;
-		m_seriesStatus = seriesStatus;
-		m_seriesDownload = seriesDownload;
-		m_seriesPoster = seriesPoster;
-		m_seriesBackdrop = seriesBackdrop;
-		m_seriesOverview = seriesOverview;
-		m_episodeState = episodeState;
-		m_minSeason = minSeason;
-		m_maxSeason = maxSeason;
-		m_stateInit = stateInit;
-		m_stateProg = stateProg;
-		m_stateDone = stateDone;
+		m_seriesStatus      = seriesStatus;
+		m_seriesDownload    = seriesDownload;
+		m_seriesLocalPath   = localPath;
+		m_seriesPoster      = seriesPoster;
+		m_seriesBackdrop    = seriesBackdrop;
+		m_seriesOverview    = seriesOverview;
+		m_episodeState      = episodeState;
+		m_minSeason         = minSeason;
+		m_maxSeason         = maxSeason;
+		m_stateInit         = stateInit;
+		m_stateProg         = stateProg;
+		m_stateDone         = stateDone;
 	}
 
 	public int getSeriesID()
@@ -115,6 +117,16 @@ class serie
 	public void setSeriesDownload(String seriesDownload)
 	{
 		m_seriesDownload = seriesDownload;
+	}
+
+	public String getSeriesLocalPath()
+	{
+		return m_seriesLocalPath;
+	}
+
+	public void setSeriesLocalPath(String seriesLocalPath)
+	{
+		m_seriesLocalPath = seriesLocalPath;
 	}
 
 	public String getSeriesPoster()

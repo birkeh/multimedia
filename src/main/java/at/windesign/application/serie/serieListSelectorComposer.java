@@ -32,6 +32,7 @@ public class serieListSelectorComposer extends SelectorComposer<Component>
 		arguments.put("serie", s);
 
 		String template = "/serie/detailsSerie.zul";
+//		String template = "/testing/test.zul";
 		Window window   = (Window) Executions.createComponents(template, null, arguments);
 
 		window.doModal();

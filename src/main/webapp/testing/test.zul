@@ -1,8 +1,8 @@
-<window id="detailsSerie"
-		title=""
+<window id="test"
+		title="Hi"
 		contentStyle="overflow:auto"
 		border="normal"
-		apply="at.windesign.application.serie.serieDetailsForwardComposer, at.windesign.application.serie.serieDetailsSelectorComposer"
+		apply="at.windesign.application.testing.testForwardComposer"
 		width="500px"
 		height="500px"
 >
@@ -47,6 +47,39 @@
 						  tabindex="4"/>
 			</div>
 		</nodom>
+	</groupbox>
+
+	<groupbox
+	>
+		<caption>Test</caption>
+
+		<vlayout>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+		</vlayout>
 	</groupbox>
 
 	<hbox id="buttons"
