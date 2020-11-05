@@ -17,7 +17,7 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 {
 	private static final long            serialVersionUID = 1L;
 	private final        serieDataSource ds               = serieDataSource.INSTANCE;
-	private              int             opacity          = 70;
+	private              int             opacity          = 80;
 
 	@Wire
 	private Window detailsSerie;
@@ -95,7 +95,7 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 				wR = wI * h / hI;
 			}
 
-			String size   = String.valueOf(wR) + "px " + String.valueOf(hR) + "px";
+			String size   = wR + "px " + hR + "px";
 			String format = "overflow:auto; background:url('%1$s') no-repeat center center fixed; -webkit-background-size: " + size + "; -moz-background-size: \" + size + \"; -o-background-size: \" + size + \"; background-size: \" + size + \";";
 			String style  = String.format(format, uri);
 			detailsSerie.setContentStyle(style);
@@ -132,11 +132,11 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 	protected void addSeasonPanel(int season, SortedMap<Integer, Integer> state)
 	{
 		int maxEpisode = 0;
-		String styleString = "display: grid; " +
-				"grid-template-columns: 4fr ";
 
 		Groupbox groupbox = new Groupbox();
 		groupbox.setId("groupboxSeason" + season);
+		groupbox.setStyle("opacity: " + opacity + "%;");
+		groupbox.setContentStyle(" overflow: auto;");
 
 		Caption caption = new Caption();
 		caption.setLabel("Season " + season);
@@ -144,7 +144,7 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 
 		for(int key : state.keySet())
 		{
-			int _season = key >> 8;
+			int _season  = key >> 8;
 			int _episode = key & 0xFF;
 
 			if(_season == season)
@@ -164,7 +164,6 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 		groupbox.insertBefore(nodom, null);
 
 		Div div = new Div();
-		//div.setWidth("100%");
 		nodom.insertBefore(div, null);
 
 		Label dummy = new Label();
@@ -172,7 +171,7 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 
 		for(int key : state.keySet())
 		{
-			int _season = key >> 8;
+			int _season  = key >> 8;
 			int _episode = key & 0xFF;
 
 			if(_season == season)
@@ -192,16 +191,12 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 
 		for(int key : state.keySet())
 		{
-			int _season = key >> 8;
+			int _season  = key >> 8;
 			int _episode = key & 0xFF;
+			int _state   = state.get(key);
 
 			if(_season == season)
-			{
-				Radio radio = new Radio();
-				radio.setId("init" + _season + "_" + _episode);
-				radio.setRadiogroup("radiogroupSeason" + _season + "_" + _episode);
-				div.insertBefore(radio, null);
-			}
+				addRadio("init" + _season + "_" + _episode, "radiogroupSeason" + _season + "_" + _episode, _state == 1, div);
 			else if(_season > season)
 				break;
 		}
@@ -213,16 +208,12 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 
 		for(int key : state.keySet())
 		{
-			int _season = key >> 8;
+			int _season  = key >> 8;
 			int _episode = key & 0xFF;
+			int _state   = state.get(key);
 
 			if(_season == season)
-			{
-				Radio radio = new Radio();
-				radio.setId("prog" + _season + "_" + _episode);
-				radio.setRadiogroup("radiogroupSeason" + _season + "_" + _episode);
-				div.insertBefore(radio, null);
-			}
+				addRadio("prog" + _season + "_" + _episode, "radiogroupSeason" + _season + "_" + _episode, _state == 2, div);
 			else if(_season > season)
 				break;
 		}
@@ -234,27 +225,33 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 
 		for(int key : state.keySet())
 		{
-			int _season = key >> 8;
+			int _season  = key >> 8;
 			int _episode = key & 0xFF;
+			int _state   = state.get(key);
 
 			if(_season == season)
-			{
-				Radio radio = new Radio();
-				radio.setId("done" + _season + "_" + _episode);
-				radio.setRadiogroup("radiogroupSeason" + _season + "_" + _episode);
-				div.insertBefore(radio, null);
-			}
+				addRadio("done" + _season + "_" + _episode, "radiogroupSeason" + _season + "_" + _episode, _state == 3, div);
 			else if(_season > season)
 				break;
 		}
 
-		for(int i = 0;i < maxEpisode;i++)
-		{
-			styleString = styleString + "2fr ";
-		}
-		styleString = styleString + "; grid-gap: 10px; justify-items: center;";
+		String styleString = "display: grid; " +
+				"grid-template-areas: \"a ";
+
+		for(int i = 0; i < maxEpisode; i++)
+			styleString += "a ";
+		styleString = styleString + "\"; grid-auto-columns: max-content; grid-gap: 10px; justify-items: center;";
 		div.setStyle(styleString);
 
 		detailsSerie.insertBefore(groupbox, buttons);
+	}
+
+	protected void addRadio(String id, String group, boolean checked, Div div)
+	{
+		Radio radio = new Radio();
+		radio.setId(id);
+		radio.setRadiogroup(group);
+		div.insertBefore(radio, null);
+		radio.setChecked(checked);
 	}
 }
