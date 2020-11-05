@@ -53,9 +53,12 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 	protected Button cancelButton;
 
 	@Wire
+	protected Button updateButton;
+
+	@Wire
 	protected Button deleteButton;
 
-	private serie m_serie;
+	private serieData m_serie;
 
 	@Override
 	public void doAfterCompose(Component comp) throws Exception
@@ -72,9 +75,11 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 		detailsSerie.setHeight(hD - 10 + "px");
 
 		if(arg.containsKey("serie"))
-			m_serie = (serie) arg.get("serie");
+			m_serie = (serieData) arg.get("serie");
 		else
 			detailsSerie.detach();
+
+		detailsSerie.setAttribute("serie", m_serie);
 
 		if(m_serie.getSeriesBackdrop() != null)
 		{

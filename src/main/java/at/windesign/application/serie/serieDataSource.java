@@ -21,7 +21,8 @@ public enum serieDataSource
 		try
 		{
 			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch(ClassNotFoundException e)
+		}
+		catch(ClassNotFoundException e)
 		{
 			e.printStackTrace();
 		}
@@ -34,10 +35,12 @@ public enum serieDataSource
 		{
 			Statement stmt = this.getStatement();
 			stmt.close();
-		} catch(SQLException e)
+		}
+		catch(SQLException e)
 		{
 			e.printStackTrace();
-		} finally
+		}
+		finally
 		{
 			this.close();
 		}
@@ -61,7 +64,8 @@ public enum serieDataSource
 				conn.close();
 				conn = null;
 			}
-		} catch(SQLException e)
+		}
+		catch(SQLException e)
 		{
 			e.printStackTrace();
 		}

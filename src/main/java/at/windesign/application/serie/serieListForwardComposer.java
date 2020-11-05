@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.SortedMap;
+import java.util.TimeZone;
 import java.util.TreeMap;
 
 public class serieListForwardComposer extends GenericForwardComposer
@@ -74,7 +75,6 @@ public class serieListForwardComposer extends GenericForwardComposer
 		for(int i = minSeason; i <= maxSeason; i++)
 		{
 			Listheader seasonHeader = new Listheader("Season " + i);
-//			seasonHeader.setHflex("min");
 			head.appendChild(seasonHeader);
 			maxEpisode.put(i, 0);
 			listHeader.put(i, seasonHeader);
@@ -89,15 +89,38 @@ public class serieListForwardComposer extends GenericForwardComposer
 			ResultSet rs = stmt.executeQuery(
 					"SELECT		serie.seriesID seriesID," +
 							" 			serie.seriesName seriesName," +
-							"           YEAR(serie.firstAired) seriesFirstAired," +
-							"           serie.resolution seriesResolution," +
-							"           serie.cliffhanger seriesCliffhanger," +
+							"			serie.originalName seriesOriginalName," +
+							"           serie.backdropPath seriesBackdrop," +
+							"			serie.createdBy seriesCreatedBy," +
+							"			serie.homepage seriesHomepage," +
+							"			serie.lastAired seriesLastAired," +
+							"			serie.languages seriesLanguages," +
+							"			serie.networks seriesNetworks," +
+							"			serie.nrEpisodes seriesNrEpisodes," +
+							"			serie.nrSeasons seriesNrSeasons," +
+							"			serie.originCountries seriesOriginCountries," +
+							"			serie.originalLanguage seriesOriginalLanguage," +
+							"			serie.popularity seriesPopularity," +
+							"           serie.posterPath seriesPoster," +
+							"			serie.productionCompanies seriesProductionCompanies," +
+							"			serie.type seriesType," +
+							"			serie.voteAverage seriesVoteAverage," +
+							"			serie.voteCount seriesVoteCount," +
+							"			serie.overview seriesOverview," +
+							"           serie.firstAired seriesFirstAired," +
+							"			serie.cast seriesCast," +
+							"			serie.crew seriesCrew," +
+							"			serie.genre seriesGenre," +
+							"			serie.imdbid seriesIMDBID," +
+							"			serie.freebasemid seriesFreebaseMID," +
+							"			serie.freebaseid seriesFreebaseID," +
+							"			serie.tvdbid seriesTVDBID," +
+							"			serie.tvrageid seriesTVRageID," +
 							"           serie.status seriesStatus," +
 							"           serie.download seriesDownload," +
 							"			serie.localPath seriesLocalPath," +
-							"           serie.posterPath seriesPoster," +
-							"           serie.backdropPath seriesBackdrop," +
-							"			serie.overview seriesOverview," +
+							"           serie.resolution seriesResolution," +
+							"           serie.cliffhanger seriesCliffhanger," +
 							"           season.seasonNumber seasonNumber," +
 							"           episode.episodeNumber episodeNumber," +
 							"           episode.state episodeState," +
@@ -115,7 +138,7 @@ public class serieListForwardComposer extends GenericForwardComposer
 			);
 
 			// fetch all events from database
-			serie                       serie        = new serie();
+			serieData                   serie        = new serieData();
 			int                         oldID        = -1;
 			int                         stateInit    = 0;
 			int                         stateProg    = 0;
@@ -143,19 +166,42 @@ public class serieListForwardComposer extends GenericForwardComposer
 					}
 
 					oldID = rs.getInt("seriesID");
-					serie = new serie();
+					serie = new serieData();
 
 					serie.setSeriesID(rs.getInt("seriesID"));
 					serie.setSeriesName(rs.getString("seriesName"));
-					serie.setSeriesFirstAired(rs.getInt("seriesFirstAired"));
-					serie.setSeriesResolution(rs.getString("seriesResolution"));
-					serie.setSeriesCliffhanger(rs.getBoolean("seriesCliffhanger"));
+					serie.setSeriesOriginalName(rs.getString("seriesOriginalName"));
+					serie.setSeriesBackdrop(rs.getString("seriesBackdrop"));
+					serie.setSeriesCreatedBy(rs.getString("seriesCreatedBy"));
+					serie.setSeriesHomepage(rs.getString("seriesHomepage"));
+					serie.setSeriesLastAired(rs.getDate("seriesLastAired"));
+					serie.setSeriesLanguages(rs.getString("seriesLanguages"));
+					serie.setSeriesNetworks(rs.getString("seriesNetworks"));
+					serie.setSeriesNrEpisodes(rs.getInt("seriesNrEpisodes"));
+					serie.setSeriesNrSeasons(rs.getInt("seriesNrSeasons"));
+					serie.setSeriesOriginCountries(rs.getString("seriesOriginCountries"));
+					serie.setSeriesOriginalLanguage(rs.getString("seriesOriginalLanguage"));
+					serie.setSeriesPopularity(rs.getInt("seriesPopularity"));
+					serie.setSeriesPoster(rs.getString("seriesPoster"));
+					serie.setSeriesProductionCompanies(rs.getString("seriesProductionCompanies"));
+					serie.setSeriesType(rs.getString("seriesType"));
+					serie.setSeriesVoteAverage(rs.getDouble("seriesVoteAverage"));
+					serie.setSeriesVoteCount(rs.getInt("seriesVoteCount"));
+					serie.setSeriesOverview(rs.getString("seriesOverview"));
+					serie.setSeriesFirstAired(rs.getDate("seriesFirstAired"));
+					serie.setSeriesCast(rs.getString("seriesCast"));
+					serie.setSeriesCrew(rs.getString("seriesCrew"));
+					serie.setSeriesGenre(rs.getString("seriesGenre"));
+					serie.setSeriesIMDBID(rs.getString("seriesIMDBID"));
+					serie.setSeriesFreebaseMID(rs.getString("seriesFreebaseMID"));
+					serie.setSeriesFreebaseID(rs.getString("seriesFreebaseID"));
+					serie.setSeriesTVDBID(rs.getString("seriesTVDBID"));
+					serie.setSeriesTVRageID(rs.getString("seriesTVRageID"));
 					serie.setSeriesStatus(rs.getString("seriesStatus"));
 					serie.setSeriesDownload(rs.getString("seriesDownload"));
 					serie.setSeriesLocalPath(rs.getString("seriesLocalPath"));
-					serie.setSeriesPoster(rs.getString("seriesPoster"));
-					serie.setSeriesBackdrop(rs.getString("seriesBackdrop"));
-					serie.setSeriesOverview(rs.getString("seriesOverview"));
+					serie.setSeriesResolution(rs.getString("seriesResolution"));
+					serie.setSeriesCliffhanger(rs.getBoolean("seriesCliffhanger"));
 					serie.setMinSeason(rs.getInt("minSeason"));
 					serie.setMaxSeason(rs.getInt("maxSeason"));
 				}

@@ -18,7 +18,7 @@ public class serieRenderer implements ListitemRenderer
 	@Override
 	public void render(Listitem item, Object o, int i) throws Exception
 	{
-		final serie data = (serie) o;
+		final serieData data = (serieData) o;
 
 		Listcell seriesNameCell       = new Listcell(data.getSeriesName());
 		Listcell seriesFirstAiredCell = new Listcell(String.valueOf(data.getSeriesFirstAired()));

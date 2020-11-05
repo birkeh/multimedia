@@ -25,14 +25,13 @@ public class serieListSelectorComposer extends SelectorComposer<Component>
 		if(item == null)
 			return;
 
-		serie s = (serie) item.getValue();
+		serieData s = (serieData) item.getValue();
 
 		Map<String, Object> arguments = new HashMap<String, Object>();
 
 		arguments.put("serie", s);
 
 		String template = "/serie/detailsSerie.zul";
-//		String template = "/testing/test.zul";
 		Window window   = (Window) Executions.createComponents(template, null, arguments);
 
 		window.doModal();
