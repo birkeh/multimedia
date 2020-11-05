@@ -246,6 +246,13 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 		detailsSerie.insertBefore(groupbox, buttons);
 	}
 
+	/**
+	 *
+	 * @param id id of the radio button
+	 * @param group name of the radio button group
+	 * @param checked set the radio button to selected / not selected
+	 * @param div parent DIV the radio button is created in
+	 */
 	protected void addRadio(String id, String group, boolean checked, Div div)
 	{
 		Radio radio = new Radio();

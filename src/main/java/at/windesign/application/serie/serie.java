@@ -49,6 +49,7 @@ class serie
 		m_stateDone         = stateDone;
 	}
 
+	
 	public int getSeriesID()
 	{
 		return m_seriesID;

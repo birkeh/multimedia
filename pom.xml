@@ -5,8 +5,7 @@
 	<artifactId>multimedia</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<properties>
-		<zk.version>9.0.0-Eval</zk.version>
-<!--		<zk.version>9.5.0.1</zk.version>-->
+		<zk.version>9.5.0.1</zk.version>
 		<commons-io>2.6</commons-io>
 		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
 		<packname>-${project.version}-FL-${maven.build.timestamp}</packname>
@@ -80,6 +79,27 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.17</version>
 			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.zkoss.theme</groupId>
+			<artifactId>breeze</artifactId>
+			<version>${zk.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.theme</groupId>
+			<artifactId>atlantic</artifactId>
+			<version>${zk.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.theme</groupId>
+			<artifactId>sapphire</artifactId>
+			<version>${zk.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.zkoss.theme</groupId>
+			<artifactId>silvertail</artifactId>
+			<version>${zk.version}</version>
 		</dependency>
 	</dependencies>
 	<build>
