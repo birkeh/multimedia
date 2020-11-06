@@ -55,6 +55,12 @@ public enum serieDataSource
 		return stmt;
 	}
 
+	public Connection getConnection() throws SQLException
+	{
+		conn = DriverManager.getConnection(url, user, pwd);
+		return conn;
+	}
+
 	public void close()
 	{
 		try

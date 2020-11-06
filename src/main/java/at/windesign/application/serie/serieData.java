@@ -1,52 +1,46 @@
 package at.windesign.application.serie;
 
-import java.awt.*;
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
+import java.sql.*;
 import java.util.Objects;
 import java.util.SortedMap;
 
-import static org.zkoss.zk.ui.util.Clients.alert;
-
 class serieData
 {
-	private int     m_seriesID;
-	private String  m_seriesName;
-	private String  m_seriesOriginalName;
-	private String  m_seriesBackdrop;
-	private String  m_seriesCreatedBy;
-	private String  m_seriesHomepage;
-	private Date    m_seriesLastAired;
-	private String  m_seriesLanguages;
-	private String  m_seriesNetworks;
-	private int     m_seriesNrEpisodes;
-	private int     m_seriesNrSeasons;
-	private String  m_seriesOriginCountries;
-	private String  m_seriesOriginalLanguage;
-	private int     m_seriesPopularity;
-	private String  m_seriesPoster;
-	private String  m_seriesProductionCompanies;
-	private String  m_seriesType;
-	private double  m_seriesVoteAverage;
-	private int     m_seriesVoteCount;
-	private String  m_seriesOverview;
-	private Date    m_seriesFirstAired;
-	private String  m_seriesCast;
-	private String  m_seriesCrew;
-	private String  m_seriesGenre;
-	private String  m_seriesIMDBID;
-	private String  m_seriesFreebaseMID;
-	private String  m_seriesFreebaseID;
-	private String  m_seriesTVDBID;
-	private String  m_seriesTVRageID;
-	private String  m_seriesStatus;
-	private String  m_seriesDownload;
-	private String  m_seriesLocalPath;
-	private String  m_seriesResolution;
-	private boolean m_seriesCliffhanger;
+	private int                            m_seriesID;
+	private String                         m_seriesName;
+	private String                         m_seriesOriginalName;
+	private String                         m_seriesBackdrop;
+	private String                         m_seriesCreatedBy;
+	private String                         m_seriesHomepage;
+	private Date                           m_seriesLastAired;
+	private String                         m_seriesLanguages;
+	private String                         m_seriesNetworks;
+	private int                            m_seriesNrEpisodes;
+	private int                            m_seriesNrSeasons;
+	private String                         m_seriesOriginCountries;
+	private String                         m_seriesOriginalLanguage;
+	private int                            m_seriesPopularity;
+	private String                         m_seriesPoster;
+	private String                         m_seriesProductionCompanies;
+	private String                         m_seriesType;
+	private double                         m_seriesVoteAverage;
+	private int                            m_seriesVoteCount;
+	private String                         m_seriesOverview;
+	private Date                           m_seriesFirstAired;
+	private String                         m_seriesCast;
+	private String                         m_seriesCrew;
+	private String                         m_seriesGenre;
+	private String                         m_seriesIMDBID;
+	private String                         m_seriesFreebaseMID;
+	private String                         m_seriesFreebaseID;
+	private String                         m_seriesTVDBID;
+	private String                         m_seriesTVRageID;
+	private String                         m_seriesStatus;
+	private String                         m_seriesDownload;
+	private String                         m_seriesLocalPath;
+	private String                         m_seriesResolution;
+	private boolean                        m_seriesCliffhanger;
+	private SortedMap<Integer, seasonData> m_seasons;
 
 	private SortedMap<Integer, Integer> m_episodeState;
 
@@ -402,6 +396,21 @@ class serieData
 		m_seriesCliffhanger = seriesCliffhanger;
 	}
 
+	public SortedMap<Integer, seasonData> getSeasons()
+	{
+		return m_seasons;
+	}
+
+	public void setSeasons(SortedMap<Integer, seasonData> seasons)
+	{
+		m_seasons = seasons;
+	}
+
+	public void setSeason(int season, seasonData data)
+	{
+		m_seasons.put(season, data);
+	}
+
 	public SortedMap<Integer, Integer> getEpisodeState()
 	{
 		return m_episodeState;
@@ -496,6 +505,95 @@ class serieData
 		try
 		{
 			Statement stmt = ds.getStatement();
+			stmt.execute("DELETE FROM serie WHERE seriesID=" + m_seriesID + ";");
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+		finally
+		{
+			ds.close();
+		}
+
+		try
+		{
+			Connection conn = ds.getConnection();
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO serie (" +
+														 "seriesID, " +
+														 "seriesName, " +
+														 "originalName, " +
+														 "backdropPath, " +
+														 "createdBy, " +
+														 "homepage, " +
+														 "lastAired, " +
+														 "languages, " +
+														 "networks, " +
+														 "nrEpisodes, " +
+														 "nrSeasons, " +
+														 "originCountries, " +
+														 "originalLanguage, " +
+														 "popularity, " +
+														 "posterPath, " +
+														 "productionCompanies, " +
+														 "type, " +
+														 "voteAverage, " +
+														 "voteCount, " +
+														 "overview, " +
+														 "firstAired, " +
+														 "cast, " +
+														 "crew, " +
+														 "genre, " +
+														 "imdbid, " +
+														 "freebasemid, " +
+														 "freebaseid, " +
+														 "tvdbid, " +
+														 "tvrageid, " +
+														 "status, " +
+														 "download, " +
+														 "localPath, " +
+														 "resolution, " +
+														 "cliffhanger" +
+														 ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"
+														);
+			ps.setInt(1, m_seriesID);
+			ps.setString(2, m_seriesName);
+			ps.setString(3, m_seriesOriginalName);
+			ps.setString(4, m_seriesBackdrop);
+			ps.setString(5, m_seriesCreatedBy);
+			ps.setString(6, m_seriesHomepage);
+			ps.setDate(7, m_seriesLastAired);
+			ps.setString(8, m_seriesLanguages);
+			ps.setString(9, m_seriesNetworks);
+			ps.setInt(10, m_seriesNrEpisodes);
+			ps.setInt(11, m_seriesNrSeasons);
+			ps.setString(12, m_seriesOriginCountries);
+			ps.setString(13, m_seriesOriginalLanguage);
+			ps.setInt(14, m_seriesPopularity);
+			ps.setString(15, m_seriesPoster);
+			ps.setString(16, m_seriesProductionCompanies);
+			ps.setString(17, m_seriesType);
+			ps.setDouble(18, m_seriesVoteAverage);
+			ps.setInt(19, m_seriesVoteCount);
+			ps.setString(20, m_seriesOverview);
+			ps.setDate(21, m_seriesFirstAired);
+			ps.setString(22, m_seriesCast);
+			ps.setString(23, m_seriesCrew);
+			ps.setString(24, m_seriesGenre);
+			ps.setString(25, m_seriesIMDBID);
+			ps.setString(26, m_seriesFreebaseMID);
+			ps.setString(27, m_seriesFreebaseID);
+			ps.setString(28, m_seriesTVDBID);
+			ps.setString(29, m_seriesTVRageID);
+			ps.setString(30, m_seriesStatus);
+			ps.setString(31, m_seriesDownload);
+			ps.setString(32, m_seriesLocalPath);
+			ps.setString(33, m_seriesResolution);
+			ps.setBoolean(34, m_seriesCliffhanger);
+
+			boolean ret = ps.execute();
+/*
 			int cnt = stmt.executeUpdate(
 					"UPDATE		serie" +
 							" SET		seriesName='" + m_seriesName + "'," +
@@ -532,10 +630,12 @@ class serieData
 							"			resolution='" + m_seriesResolution + "'," +
 							"			cliffhanger=" + m_seriesCliffhanger +
 							" WHERE		seriesID=" + m_seriesID + ";");
+*/
 		}
 		catch(SQLException e)
 		{
 			e.printStackTrace();
+			return false;
 		}
 		finally
 		{
