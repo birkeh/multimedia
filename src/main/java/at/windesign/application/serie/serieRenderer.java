@@ -32,32 +32,19 @@ public class serieRenderer implements ListitemRenderer
 		for(int s = 1; s <= data.getMaxSeason(); s++)
 		{
 			Listcell imageCell = new Listcell();
-			imageCell.setImageContent(Images.encode("bla.png", getStateImage(s, data.getEpisodeState())));
+			imageCell.setImageContent(Images.encode("bla.png", getStateImage(data.getSeasons().get(s))));
 			imageCell.setParent(item);
-			imageCell.setTooltiptext(getStateText(s, data.getEpisodeState()));
+			imageCell.setTooltiptext(getStateText(data.getSeasons().get(s)));
 		}
 
 		item.setValue(data);
 	}
 
-	private BufferedImage getStateImage(Integer curSeason, SortedMap<Integer, Integer> state)
+	private BufferedImage getStateImage(seasonData s)
 	{
-		int                         season      = -1;
-		int                         episode     = -1;
-		SortedMap<Integer, Integer> seasonState = new TreeMap<>();
+		SortedMap<Integer, episodeData> episodes = s.getEpisodes();
 
-		for(int key : state.keySet())
-		{
-			season = key >> 8;
-			episode = key & 0xFF;
-
-			if(season == curSeason)
-				seasonState.put(episode, state.get(key));
-			else if(season > curSeason)
-				break;
-		}
-
-		if(seasonState.size() == 0)
+		if(episodes.size() == 0)
 		{
 			BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
 			Graphics2D    g2d   = image.createGraphics();
@@ -68,7 +55,7 @@ public class serieRenderer implements ListitemRenderer
 			return image;
 		}
 
-		BufferedImage image    = new BufferedImage(stateWidth * seasonState.lastKey(), stateHeight, BufferedImage.TYPE_INT_RGB);
+		BufferedImage image    = new BufferedImage(stateWidth * episodes.lastKey(), stateHeight, BufferedImage.TYPE_INT_RGB);
 		Graphics2D    g2d      = image.createGraphics();
 		Color         colGrey  = new Color(192, 192, 192);
 		Color         colBlue  = new Color(0, 0, 192);
@@ -77,11 +64,11 @@ public class serieRenderer implements ListitemRenderer
 		Color         col      = colBlack;
 
 		g2d.setColor(colBlack);
-		g2d.fillRect(0, 0, stateWidth * seasonState.lastKey(), stateHeight);
+		g2d.fillRect(0, 0, stateWidth * episodes.lastKey(), stateHeight);
 
-		for(Integer key : seasonState.keySet())
+		for(Integer key : episodes.keySet())
 		{
-			switch(seasonState.get(key))
+			switch(episodes.get(key).getEpisodeState())
 			{
 				case 0:
 					col = colBlack;
@@ -104,33 +91,20 @@ public class serieRenderer implements ListitemRenderer
 		return image;
 	}
 
-	private String getStateText(Integer curSeason, SortedMap<Integer, Integer> state)
+	private String getStateText(seasonData s)
 	{
-		int                         season      = -1;
-		int                         episode     = -1;
-		SortedMap<Integer, Integer> seasonState = new TreeMap<>();
+		SortedMap<Integer, episodeData> episodes = s.getEpisodes();
 
-		for(int key : state.keySet())
-		{
-			season = key >> 8;
-			episode = key & 0xFF;
-
-			if(season == curSeason)
-				seasonState.put(episode, state.get(key));
-			else if(season > curSeason)
-				break;
-		}
-
-		if(seasonState.size() == 0)
+		if(episodes.size() == 0)
 			return "";
 
 		String stateInit = "";
 		String stateProg = "";
 		String stateDone = "";
 
-		for(Integer key : seasonState.keySet())
+		for(Integer key : episodes.keySet())
 		{
-			switch(seasonState.get(key))
+			switch(episodes.get(key).getEpisodeState())
 			{
 				case 0:
 					break;

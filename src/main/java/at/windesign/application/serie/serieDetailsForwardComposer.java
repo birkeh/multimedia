@@ -130,7 +130,7 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 			if(i < 1)
 				continue;
 
-			addSeasonPanel(i, m_serie.getEpisodeState());
+			//addSeasonPanel(i, m_serie.getEpisodeState());
 		}
 	}
 

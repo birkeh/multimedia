@@ -2,18 +2,19 @@ package at.windesign.application.serie;
 
 import java.sql.Date;
 import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class seasonData
 {
 	private int                             m_seasonID;
-	private int                             m_season_ID;
+	private String                            m_season_ID;
 	private Date                            m_seasonAirDate;
 	private String                          m_seasonName;
 	private String                          m_seasonOverview;
 	private String                          m_seasonPosterPath;
 	private int                             m_seasonNumber;
 	private serieData                       m_serie;
-	private SortedMap<Integer, episodeData> m_episodes;
+	private SortedMap<Integer, episodeData> m_episodes = new TreeMap<>();
 
 	public seasonData()
 	{
@@ -29,12 +30,12 @@ public class seasonData
 		m_seasonID = seasonID;
 	}
 
-	public int getSeason_ID()
+	public String getSeason_ID()
 	{
 		return m_season_ID;
 	}
 
-	public void setSeason_ID(int season_ID)
+	public void setSeason_ID(String season_ID)
 	{
 		m_season_ID = season_ID;
 	}

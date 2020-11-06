@@ -3,6 +3,7 @@ package at.windesign.application.serie;
 import java.sql.*;
 import java.util.Objects;
 import java.util.SortedMap;
+import java.util.TreeMap;
 
 class serieData
 {
@@ -19,7 +20,7 @@ class serieData
 	private int                            m_seriesNrSeasons;
 	private String                         m_seriesOriginCountries;
 	private String                         m_seriesOriginalLanguage;
-	private int                            m_seriesPopularity;
+	private double                         m_seriesPopularity;
 	private String                         m_seriesPoster;
 	private String                         m_seriesProductionCompanies;
 	private String                         m_seriesType;
@@ -40,12 +41,8 @@ class serieData
 	private String                         m_seriesLocalPath;
 	private String                         m_seriesResolution;
 	private boolean                        m_seriesCliffhanger;
-	private SortedMap<Integer, seasonData> m_seasons;
+	private SortedMap<Integer, seasonData> m_seasons = new TreeMap<>();
 
-	private SortedMap<Integer, Integer> m_episodeState;
-
-	private int m_minSeason;
-	private int m_maxSeason;
 	private int m_stateInit;
 	private int m_stateProg;
 	private int m_stateDone;
@@ -54,6 +51,9 @@ class serieData
 
 	public serieData()
 	{
+		m_stateInit = 0;
+		m_stateProg = 0;
+		m_stateDone = 0;
 	}
 
 	public int getSeriesID()
@@ -186,12 +186,12 @@ class serieData
 		m_seriesOriginalLanguage = seriesOriginalLanguage;
 	}
 
-	public int getSeriesPopularity()
+	public double getSeriesPopularity()
 	{
 		return m_seriesPopularity;
 	}
 
-	public void setSeriesPopularity(int seriesPopularity)
+	public void setSeriesPopularity(double seriesPopularity)
 	{
 		m_seriesPopularity = seriesPopularity;
 	}
@@ -411,39 +411,14 @@ class serieData
 		m_seasons.put(season, data);
 	}
 
-	public SortedMap<Integer, Integer> getEpisodeState()
-	{
-		return m_episodeState;
-	}
-
-	public void setEpisodeState(SortedMap<Integer, Integer> episodeState)
-	{
-		m_episodeState = episodeState;
-	}
-
-	public void setEpisodeState(int season, int episode, int state)
-	{
-		m_episodeState.put(season << 8 + episode, state);
-	}
-
 	public int getMinSeason()
 	{
-		return m_minSeason;
-	}
-
-	public void setMinSeason(int minSeason)
-	{
-		m_minSeason = minSeason;
+		return m_seasons.get(m_seasons.firstKey()).getSeasonNumber();
 	}
 
 	public int getMaxSeason()
 	{
-		return m_maxSeason;
-	}
-
-	public void setMaxSeason(int maxSeason)
-	{
-		m_maxSeason = maxSeason;
+		return m_seasons.get(m_seasons.lastKey()).getSeasonNumber();
 	}
 
 	public int getStateInit()
@@ -456,6 +431,11 @@ class serieData
 		m_stateInit = stateInit;
 	}
 
+	public void addStateInit()
+	{
+		m_stateInit++;
+	}
+
 	public int getStateProg()
 	{
 		return m_stateProg;
@@ -466,6 +446,11 @@ class serieData
 		m_stateProg = stateProg;
 	}
 
+	public void addStateProd()
+	{
+		m_stateProg++;
+	}
+
 	public int getStateDone()
 	{
 		return m_stateDone;
@@ -474,6 +459,11 @@ class serieData
 	public void setStateDone(int stateDone)
 	{
 		m_stateDone = stateDone;
+	}
+
+	public void addStateDone()
+	{
+		m_stateDone++;
 	}
 
 	public String getSeriesStyle()
@@ -521,42 +511,42 @@ class serieData
 		{
 			Connection conn = ds.getConnection();
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO serie (" +
-														 "seriesID, " +
-														 "seriesName, " +
-														 "originalName, " +
-														 "backdropPath, " +
-														 "createdBy, " +
-														 "homepage, " +
-														 "lastAired, " +
-														 "languages, " +
-														 "networks, " +
-														 "nrEpisodes, " +
-														 "nrSeasons, " +
-														 "originCountries, " +
-														 "originalLanguage, " +
-														 "popularity, " +
-														 "posterPath, " +
-														 "productionCompanies, " +
-														 "type, " +
-														 "voteAverage, " +
-														 "voteCount, " +
-														 "overview, " +
-														 "firstAired, " +
-														 "cast, " +
-														 "crew, " +
-														 "genre, " +
-														 "imdbid, " +
-														 "freebasemid, " +
-														 "freebaseid, " +
-														 "tvdbid, " +
-														 "tvrageid, " +
-														 "status, " +
-														 "download, " +
-														 "localPath, " +
-														 "resolution, " +
-														 "cliffhanger" +
-														 ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"
-														);
+					"seriesID, " +
+					"seriesName, " +
+					"originalName, " +
+					"backdropPath, " +
+					"createdBy, " +
+					"homepage, " +
+					"lastAired, " +
+					"languages, " +
+					"networks, " +
+					"nrEpisodes, " +
+					"nrSeasons, " +
+					"originCountries, " +
+					"originalLanguage, " +
+					"popularity, " +
+					"posterPath, " +
+					"productionCompanies, " +
+					"type, " +
+					"voteAverage, " +
+					"voteCount, " +
+					"overview, " +
+					"firstAired, " +
+					"cast, " +
+					"crew, " +
+					"genre, " +
+					"imdbid, " +
+					"freebasemid, " +
+					"freebaseid, " +
+					"tvdbid, " +
+					"tvrageid, " +
+					"status, " +
+					"download, " +
+					"localPath, " +
+					"resolution, " +
+					"cliffhanger" +
+					") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"
+			);
 			ps.setInt(1, m_seriesID);
 			ps.setString(2, m_seriesName);
 			ps.setString(3, m_seriesOriginalName);
@@ -570,7 +560,7 @@ class serieData
 			ps.setInt(11, m_seriesNrSeasons);
 			ps.setString(12, m_seriesOriginCountries);
 			ps.setString(13, m_seriesOriginalLanguage);
-			ps.setInt(14, m_seriesPopularity);
+			ps.setDouble(14, m_seriesPopularity);
 			ps.setString(15, m_seriesPoster);
 			ps.setString(16, m_seriesProductionCompanies);
 			ps.setString(17, m_seriesType);
