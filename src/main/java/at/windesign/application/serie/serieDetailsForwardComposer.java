@@ -1,11 +1,20 @@
 package at.windesign.application.serie;
 
 import org.zkoss.image.AImage;
+import org.zkoss.image.Images;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.*;
+import org.zkoss.zul.Button;
+import org.zkoss.zul.Checkbox;
+import org.zkoss.zul.Label;
+import org.zkoss.zul.Window;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -60,6 +69,8 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 
 	private serieData m_serie;
 
+	protected TreeMap<String, Radiogroup> radioGroups = new TreeMap<>();
+
 	@Override
 	public void doAfterCompose(Component comp) throws Exception
 	{
@@ -109,9 +120,9 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 		Statement stmt = ds.getStatement();
 		ResultSet rs = stmt.executeQuery(
 				"SELECT		resolution" +
-						" FROM		resolution" +
-						" ORDER BY	sort;"
-		);
+				" FROM		resolution" +
+				" ORDER BY	sort;"
+										);
 
 		while(rs.next())
 		{
@@ -125,45 +136,49 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 		resolution.setValue(m_serie.getSeriesResolution());
 		cliffhanger.setChecked(m_serie.getSeriesCliffhanger());
 
-		for(int i = m_serie.getMinSeason(); i <= m_serie.getMaxSeason(); i++)
+		for(int s = m_serie.getMinSeason(); s <= m_serie.getMaxSeason(); s++)
 		{
-			if(i < 1)
+			if(s < 1)
 				continue;
 
-			//addSeasonPanel(i, m_serie.getEpisodeState());
+			addSeasonPanel(m_serie.getSeasons().get(s));
 		}
 	}
 
-	protected void addSeasonPanel(int season, SortedMap<Integer, Integer> state)
+	protected void addSeasonPanel(seasonData season)
 	{
+		SortedMap<Integer, episodeData> episodes     = season.getEpisodes();
+		int                             seasonNumber = season.getSeasonNumber();
+
+		if(episodes.size() == 0)
+			return;
+
 		int maxEpisode = 0;
 
 		Groupbox groupbox = new Groupbox();
-		groupbox.setId("groupboxSeason" + season);
+		groupbox.setId("groupboxSeason" + season.getSeasonNumber());
 		groupbox.setStyle("opacity: " + opacity + "%;");
 		groupbox.setContentStyle(" overflow: auto;");
 
 		Caption caption = new Caption();
-		caption.setLabel("Season " + season);
+		caption.setLabel("Season " + season.getSeasonNumber());
 		groupbox.insertBefore(caption, null);
 
-		for(int key : state.keySet())
+		for(int key : episodes.keySet())
 		{
-			int _season  = key >> 8;
-			int _episode = key & 0xFF;
+			int _episode = key;
 
-			if(_season == season)
-			{
-				Radiogroup radiogroup = new Radiogroup();
-				radiogroup.setName("radiogroupSeason" + _season + "_" + _episode);
-				radiogroup.setId("radiogroupSeason" + _season + "_" + _episode);
-				groupbox.insertBefore(radiogroup, null);
+			Radiogroup radiogroup = new Radiogroup();
+			radiogroup.setName("radiogroupSeason" + seasonNumber + "_" + _episode);
+			radiogroup.setId("radiogroupSeason" + seasonNumber + "_" + _episode);
 
-				maxEpisode = _episode;
-			}
-			else if(_season > season)
-				break;
+			radioGroups.put("radiogroupSeason" + seasonNumber + "_" + _episode, radiogroup);
+
+			groupbox.insertBefore(radiogroup, null);
+
+			maxEpisode = _episode;
 		}
+
 
 		NoDOM nodom = new NoDOM();
 		groupbox.insertBefore(nodom, null);
@@ -174,74 +189,44 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 		Label dummy = new Label();
 		div.insertBefore(dummy, null);
 
-		for(int key : state.keySet())
+		for(int key : episodes.keySet())
 		{
-			int _season  = key >> 8;
-			int _episode = key & 0xFF;
+			int _episode = key;
 
-			if(_season == season)
-			{
-				Label episodeLabel = new Label();
-				episodeLabel.setValue("" + _episode);
-				div.insertBefore(episodeLabel, null);
-			}
-			else if(_season > season)
-				break;
+			Label episodeLabel = new Label();
+			episodeLabel.setValue("" + _episode);
+			div.insertBefore(episodeLabel, null);
 		}
 
-		Button buttonInit = new Button();
-		buttonInit.setLabel("init");
-		buttonInit.setId("buttonInit" + season);
-		div.insertBefore(buttonInit, null);
-
-		for(int key : state.keySet())
+		addButton("init", "buttonInit", seasonNumber, episodes.firstKey(), episodes.lastKey(), 0, div);
+		for(int key : episodes.keySet())
 		{
-			int _season  = key >> 8;
 			int _episode = key & 0xFF;
-			int _state   = state.get(key);
+			int _state   = episodes.get(key).getEpisodeState();
 
-			if(_season == season)
-				addRadio("init" + _season + "_" + _episode, "radiogroupSeason" + _season + "_" + _episode, _state == 1, div);
-			else if(_season > season)
-				break;
+			addRadio("init" + seasonNumber + "_" + _episode, "radiogroupSeason" + seasonNumber + "_" + _episode, _state == 1, div);
 		}
 
-		Button buttonProg = new Button();
-		buttonProg.setLabel("prog");
-		buttonProg.setId("buttonProg" + season);
-		div.insertBefore(buttonProg, null);
-
-		for(int key : state.keySet())
+		addButton("prog", "buttonProg", seasonNumber, episodes.firstKey(), episodes.lastKey(), 1, div);
+		for(int key : episodes.keySet())
 		{
-			int _season  = key >> 8;
 			int _episode = key & 0xFF;
-			int _state   = state.get(key);
+			int _state   = episodes.get(key).getEpisodeState();
 
-			if(_season == season)
-				addRadio("prog" + _season + "_" + _episode, "radiogroupSeason" + _season + "_" + _episode, _state == 2, div);
-			else if(_season > season)
-				break;
+			addRadio("prog" + seasonNumber + "_" + _episode, "radiogroupSeason" + seasonNumber + "_" + _episode, _state == 2, div);
 		}
 
-		Button buttonDone = new Button();
-		buttonDone.setLabel("done");
-		buttonDone.setId("buttonDone" + season);
-		div.insertBefore(buttonDone, null);
-
-		for(int key : state.keySet())
+		addButton("done", "buttonDone", seasonNumber, episodes.firstKey(), episodes.lastKey(), 2, div);
+		for(int key : episodes.keySet())
 		{
-			int _season  = key >> 8;
 			int _episode = key & 0xFF;
-			int _state   = state.get(key);
+			int _state   = episodes.get(key).getEpisodeState();
 
-			if(_season == season)
-				addRadio("done" + _season + "_" + _episode, "radiogroupSeason" + _season + "_" + _episode, _state == 3, div);
-			else if(_season > season)
-				break;
+			addRadio("done" + seasonNumber + "_" + _episode, "radiogroupSeason" + seasonNumber + "_" + _episode, _state == 3, div);
 		}
 
 		String styleString = "display: grid; " +
-				"grid-template-areas: \"a ";
+							 "grid-template-areas: \"a ";
 
 		for(int i = 0; i < maxEpisode; i++)
 			styleString += "a ";
@@ -251,12 +236,32 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 		detailsSerie.insertBefore(groupbox, buttons);
 	}
 
+	protected void addButton(String name, String idPrefix, int seasonNumber, int firstEpisode, int lastEpisode, int id, Div div)
+	{
+		Button button = new Button();
+		button.setLabel(name);
+		button.setId(idPrefix + seasonNumber);
+		div.insertBefore(button, null);
+
+		button.addEventListener("onClick", new EventListener<Event>()
+		{
+			@Override
+			public void onEvent(Event event) throws Exception
+			{
+				for(int i = firstEpisode; i <= lastEpisode; i++)
+				{
+					Radiogroup group = radioGroups.get("radiogroupSeason" + seasonNumber + "_" + i);
+					group.setSelectedIndex(id);
+				}
+			}
+		});
+	}
+
 	/**
-	 *
-	 * @param id id of the radio button
-	 * @param group name of the radio button group
+	 * @param id      id of the radio button
+	 * @param group   name of the radio button group
 	 * @param checked set the radio button to selected / not selected
-	 * @param div parent DIV the radio button is created in
+	 * @param div     parent DIV the radio button is created in
 	 */
 	protected void addRadio(String id, String group, boolean checked, Div div)
 	{

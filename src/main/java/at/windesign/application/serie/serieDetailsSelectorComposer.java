@@ -33,7 +33,7 @@ public class serieDetailsSelectorComposer extends SelectorComposer<Component>
 	public void save()
 	{
 		serieData serie = getCurrentValues();
-		serie.save();
+//		serie.save();
 
 		alert("Data Saved!");
 		detailsSerie.onClose();
@@ -107,7 +107,7 @@ public class serieDetailsSelectorComposer extends SelectorComposer<Component>
 				int    episode = Integer.parseInt(id.substring(id.indexOf("_") + 1));
 				int    state   = group.getSelectedIndex()+1;
 
-				//serie.setEpisodeState(season, episode, state);
+				serie.setEpisodeState(season, episode, state);
 			}
 		}
 	}

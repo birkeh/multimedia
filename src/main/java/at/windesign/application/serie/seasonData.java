@@ -1,6 +1,6 @@
 package at.windesign.application.serie;
 
-import java.sql.Date;
+import java.sql.*;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -113,5 +113,134 @@ public class seasonData
 	public void setEpisode(int episode, episodeData data)
 	{
 		m_episodes.put(episode, data);
+	}
+
+	public void setEpisodeState(int episode, int state)
+	{
+		episodeData eData = m_episodes.get(episode);
+
+		if(eData == null)
+			return;
+
+		eData.setEpisodeState(state);
+	}
+
+	public boolean save()
+	{
+/*
+		try
+		{
+			Statement stmt = ds.getStatement();
+			stmt.execute("DELETE FROM serie WHERE seriesID=" + m_seriesID + ";");
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+		finally
+		{
+			ds.close();
+		}
+
+		try
+		{
+			Connection conn = ds.getConnection();
+			PreparedStatement ps = conn.prepareStatement("INSERT INTO serie (" +
+														 "seriesID, " +
+														 "seriesName, " +
+														 "originalName, " +
+														 "backdropPath, " +
+														 "createdBy, " +
+														 "homepage, " +
+														 "lastAired, " +
+														 "languages, " +
+														 "networks, " +
+														 "nrEpisodes, " +
+														 "nrSeasons, " +
+														 "originCountries, " +
+														 "originalLanguage, " +
+														 "popularity, " +
+														 "posterPath, " +
+														 "productionCompanies, " +
+														 "type, " +
+														 "voteAverage, " +
+														 "voteCount, " +
+														 "overview, " +
+														 "firstAired, " +
+														 "cast, " +
+														 "crew, " +
+														 "genre, " +
+														 "imdbid, " +
+														 "freebasemid, " +
+														 "freebaseid, " +
+														 "tvdbid, " +
+														 "tvrageid, " +
+														 "status, " +
+														 "download, " +
+														 "localPath, " +
+														 "resolution, " +
+														 "cliffhanger" +
+														 ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"
+														);
+			ps.setInt(1, m_seriesID);
+			ps.setString(2, m_seriesName);
+			ps.setString(3, m_seriesOriginalName);
+			ps.setString(4, m_seriesBackdrop);
+			ps.setString(5, m_seriesCreatedBy);
+			ps.setString(6, m_seriesHomepage);
+			ps.setDate(7, m_seriesLastAired);
+			ps.setString(8, m_seriesLanguages);
+			ps.setString(9, m_seriesNetworks);
+			ps.setInt(10, m_seriesNrEpisodes);
+			ps.setInt(11, m_seriesNrSeasons);
+			ps.setString(12, m_seriesOriginCountries);
+			ps.setString(13, m_seriesOriginalLanguage);
+			ps.setDouble(14, m_seriesPopularity);
+			ps.setString(15, m_seriesPoster);
+			ps.setString(16, m_seriesProductionCompanies);
+			ps.setString(17, m_seriesType);
+			ps.setDouble(18, m_seriesVoteAverage);
+			ps.setInt(19, m_seriesVoteCount);
+			ps.setString(20, m_seriesOverview);
+			ps.setDate(21, m_seriesFirstAired);
+			ps.setString(22, m_seriesCast);
+			ps.setString(23, m_seriesCrew);
+			ps.setString(24, m_seriesGenre);
+			ps.setString(25, m_seriesIMDBID);
+			ps.setString(26, m_seriesFreebaseMID);
+			ps.setString(27, m_seriesFreebaseID);
+			ps.setString(28, m_seriesTVDBID);
+			ps.setString(29, m_seriesTVRageID);
+			ps.setString(30, m_seriesStatus);
+			ps.setString(31, m_seriesDownload);
+			ps.setString(32, m_seriesLocalPath);
+			ps.setString(33, m_seriesResolution);
+			ps.setBoolean(34, m_seriesCliffhanger);
+
+			boolean ret = ps.execute();
+
+			for(int season : getSeasons().keySet())
+			{
+				getSeasons().get(season).save();
+			}
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+		finally
+		{
+			ds.close();
+		}
+*/
+
+		for(int episode : getEpisodes().keySet())
+		{
+			getEpisodes().get(episode).save();
+		}
+
+		return true;
 	}
 }

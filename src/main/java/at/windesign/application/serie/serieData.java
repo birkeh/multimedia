@@ -466,6 +466,16 @@ class serieData
 		m_stateDone++;
 	}
 
+	public void setEpisodeState(int season, int episode, int state)
+	{
+		seasonData sData = m_seasons.get(season);
+
+		if(sData == null)
+			return;
+
+		sData.setEpisodeState(episode, state);
+	}
+
 	public String getSeriesStyle()
 	{
 		String style = "";
@@ -583,44 +593,11 @@ class serieData
 			ps.setBoolean(34, m_seriesCliffhanger);
 
 			boolean ret = ps.execute();
-/*
-			int cnt = stmt.executeUpdate(
-					"UPDATE		serie" +
-							" SET		seriesName='" + m_seriesName + "'," +
-							"			originalName='" + m_seriesOriginalName + "'," +
-							"			backdropPath='" + m_seriesBackdrop + "'," +
-							"			backdropPath='" + m_seriesCreatedBy + "'," +
-							"			backdropPath='" + m_seriesHomepage + "'," +
-							"			backdropPath='" + m_seriesLastAired + "'," +
-							"			backdropPath='" + m_seriesLanguages + "'," +
-							"			backdropPath='" + m_seriesNetworks + "'," +
-							"			backdropPath=" + m_seriesNrEpisodes + "," +
-							"			backdropPath=" + m_seriesNrSeasons + "," +
-							"			backdropPath='" + m_seriesOriginCountries + "'," +
-							"			backdropPath='" + m_seriesOriginalLanguage + "'," +
-							"			backdropPath=" + m_seriesPopularity + "," +
-							"			posterPath='" + m_seriesPoster + "'," +
-							"			posterPath='" + m_seriesProductionCompanies + "'," +
-							"			posterPath='" + m_seriesType + "'," +
-							"			posterPath=" + m_seriesVoteAverage + "," +
-							"			posterPath=" + m_seriesVoteCount + "," +
-							"			overview='" + m_seriesOverview + "'," +
-							"			firstAired='" + m_seriesFirstAired + "'," +
-							"			resolution='" + m_seriesCast + "'," +
-							"			resolution='" + m_seriesCrew + "'," +
-							"			resolution='" + m_seriesGenre + "'," +
-							"			resolution='" + m_seriesIMDBID + "'," +
-							"			resolution='" + m_seriesFreebaseMID + "'," +
-							"			resolution='" + m_seriesFreebaseID + "'," +
-							"			resolution='" + m_seriesTVDBID + "'," +
-							"			resolution='" + m_seriesTVRageID + "'," +
-							"			status='" + m_seriesStatus + "'," +
-							"			download='" + m_seriesDownload + "'," +
-							"			localPath='" + m_seriesLocalPath + "'," +
-							"			resolution='" + m_seriesResolution + "'," +
-							"			cliffhanger=" + m_seriesCliffhanger +
-							" WHERE		seriesID=" + m_seriesID + ";");
-*/
+
+			for(int season : getSeasons().keySet())
+			{
+				getSeasons().get(season).save();
+			}
 		}
 		catch(SQLException e)
 		{
@@ -631,34 +608,6 @@ class serieData
 		{
 			ds.close();
 		}
-/*
-				"SELECT		serie.seriesID seriesID," +
-						" 			serie.seriesName seriesName," +
-						"           YEAR(serie.firstAired) seriesFirstAired," +
-						"           serie.resolution seriesResolution," +
-						"           serie.cliffhanger seriesCliffhanger," +
-						"           serie.status seriesStatus," +
-						"           serie.download seriesDownload," +
-						"			serie.localPath seriesLocalPath," +
-						"           serie.posterPath seriesPoster," +
-						"           serie.backdropPath seriesBackdrop," +
-						"			serie.overview seriesOverview," +
-						"           season.seasonNumber seasonNumber," +
-						"           episode.episodeNumber episodeNumber," +
-						"           episode.state episodeState," +
-						"           ( SELECT MIN(s.seasonNumber) FROM season s WHERE s.seriesID = serie.seriesID ) minSeason," +
-						"           ( SELECT MAX(s.seasonNumber) FROM season s WHERE s.seriesID = serie.seriesID ) maxSeason" +
-						" FROM		serie" +
-						" LEFT JOIN	season ON serie.seriesID = season.seriesID" +
-						" LEFT JOIN	episode ON serie.seriesID = episode.seriesID AND season.seasonNumber = episode.seasonNumber" +
-						" WHERE     season.seasonNumber != 0 OR" +
-						"           serie.seriesID >= 1000000" +
-						" ORDER BY	serie.seriesName," +
-						" 			serie.firstAired," +
-						" 			season.seasonNumber," +
-						" 			episode.episodeNumber;"
-		);
-*/
 		return true;
 	}
 }
