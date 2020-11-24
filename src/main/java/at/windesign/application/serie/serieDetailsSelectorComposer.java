@@ -1,5 +1,9 @@
 package at.windesign.application.serie;
 
+import info.movito.themoviedbapi.TmdbApi;
+import info.movito.themoviedbapi.TmdbTV;
+import info.movito.themoviedbapi.model.tv.TvSeason;
+import info.movito.themoviedbapi.model.tv.TvSeries;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.SelectorComposer;
@@ -9,6 +13,8 @@ import org.zkoss.zul.*;
 
 import java.util.Iterator;
 import java.util.List;
+
+//a33271b9e54cdcb9a80680eaf5522f1b
 
 public class serieDetailsSelectorComposer extends SelectorComposer<Component>
 {
@@ -58,6 +64,14 @@ public class serieDetailsSelectorComposer extends SelectorComposer<Component>
 	public void update()
 	{
 		serieData serie = (serieData) detailsSerie.getAttribute("serie");
+/*
+		TmdbApi  tmdbAPI = new TmdbApi("a33271b9e54cdcb9a80680eaf5522f1b");
+		TmdbTV   tmdbTV  = tmdbAPI.getTvSeries();
+		TvSeries series  = tmdbTV.getSeries(60948, "de");
+
+		TvSeason season = tmdbAPI.getTvSeasons().getSeason(60948, 2, "de");
+*/
+
 		detailsSerie.onClose();
 	}
 

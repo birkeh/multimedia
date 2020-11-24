@@ -1,12 +1,60 @@
-<window id="resultWin"
-		title="Order Result"
+<window id="detailsSerie"
+		title=""
+		contentStyle="overflow:auto"
 		border="normal"
-		width="800px"
-		height="750px"
-		apply="at.windesign.application.serie.serieDetailsForwardComposer, at.windesign.application.serie.serieDetailsSelectorComposer">
-	<label id="title"/>
-	<hbox width="100%" pack="center">
-		<button id="closeButton" label="Close"/>
+		apply="at.windesign.application.serie.serieDetailsForwardComposer, at.windesign.application.serie.serieDetailsSelectorComposer"
+		width="500px"
+		height="500px"
+>
+
+	<style>
+		.grid {
+		display: grid;
+		grid-template-columns: 4fr 4fr 1fr 1fr;
+		grid-gap: 10px;
+		justify-items: center;
+		}
+	</style>
+
+	<groupbox id="overview"
+	>
+		<caption>Overview</caption>
+		<label id="overviewLabel"
+			   value=""/>
+	</groupbox>
+
+	<groupbox id="settings"
+	>
+		<caption>Settings</caption>
+
+		<nodom>
+			<div sclass="grid"
+				 width="100%">
+				<label value="Download Link"/>
+				<label value="Local Path"/>
+				<label value="Resolution"/>
+				<label value="Cliffhanger"/>
+				<textbox id="downloadLink"
+						 width="100%"
+						 tabindex="1"/>
+				<textbox id="localPath"
+						 width="100%"
+						 tabindex="2"/>
+				<combobox id="resolution"
+						  width="100%"
+						  tabindex="3"/>
+				<checkbox id="cliffhanger"
+						  tabindex="4"/>
+			</div>
+		</nodom>
+	</groupbox>
+
+	<hbox id="buttons"
+		  width="100%"
+		  pack="center">
+		<button id="saveButton" label="Save"/>
+		<button id="cancelButton" label="Cancel"/>
+		<button id="updateButton" label="Update"/>
+		<button id="deleteButton" label="Delete"/>
 	</hbox>
 </window>
-<!--		contentStyle="background-image:url('http://www.freeimageslive.com/galleries/space/earth/pics/a08_h_15_2561.gif');background-repeat: no-repeat;-webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;"-->

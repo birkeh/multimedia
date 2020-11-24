@@ -1,7 +1,6 @@
 package at.windesign.application.serie;
 
 import org.zkoss.image.AImage;
-import org.zkoss.image.Images;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -13,14 +12,15 @@ import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Window;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import info.movito.themoviedbapi.TmdbApi;
+import info.movito.themoviedbapi.TmdbMovies;
+import info.movito.themoviedbapi.model.MovieDb;
 
 public class serieDetailsForwardComposer extends GenericForwardComposer<Component>
 {
@@ -69,7 +69,7 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 
 	private serieData m_serie;
 	private Listitem  m_item;
-	private Listitem m_list;
+	private Listitem  m_list;
 
 	protected TreeMap<String, Radiogroup> radioGroups = new TreeMap<>();
 

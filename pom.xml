@@ -31,6 +31,11 @@
       		<name>ZK Evaluation Repository</name>
 			<url>https://mavensync.zkoss.org/eval</url>
 		</repository>
+        <repository>
+            <id>jcenter</id>
+            <name>jcenter</name>
+            <url>https://jcenter.bintray.com</url>
+        </repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
@@ -101,6 +106,11 @@
 			<artifactId>silvertail</artifactId>
 			<version>${zk.version}</version>
 		</dependency>
+        <dependency>
+            <groupId>info.movito</groupId>
+            <artifactId>themoviedbapi</artifactId>
+            <version>1.10</version>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>

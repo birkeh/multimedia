@@ -9,5 +9,9 @@
 		<value>multimedia</value>
 	</preference>
 	-->
-	
+
+	<library-property>
+		<name>org.zkoss.theme.preferred</name>
+		<value>breeze_c</value> <!-- no whitespace in theme names -->
+	</library-property>
 </zk>
