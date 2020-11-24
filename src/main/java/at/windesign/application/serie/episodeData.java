@@ -11,9 +11,6 @@ public class episodeData
 	private String     m_episodeGuestStars;
 	private String     m_episodeOverview;
 	private String     m_episodeProductionCode;
-	private int        m_seasonNumber;
-	private int        m_seasonID;
-	private int        m_seriesID;
 	private String     m_episodeStillPath;
 	private double     m_episodeVoteAverage;
 	private int        m_episodeVoteCount;
@@ -21,6 +18,8 @@ public class episodeData
 	private int        m_episodeState;
 	private serieData  m_serie;
 	private seasonData m_season;
+
+	private final serieDataSource ds = serieDataSource.INSTANCE;
 
 	public int getEpisodeID()
 	{
@@ -90,36 +89,6 @@ public class episodeData
 	public void setEpisodeProductionCode(String episodeProductionCode)
 	{
 		m_episodeProductionCode = episodeProductionCode;
-	}
-
-	public int getSeasonNumber()
-	{
-		return m_seasonNumber;
-	}
-
-	public void setSeasonNumber(int seasonNumber)
-	{
-		m_seasonNumber = seasonNumber;
-	}
-
-	public int getSeasonID()
-	{
-		return m_seasonID;
-	}
-
-	public void setSeasonID(int seasonID)
-	{
-		m_seasonID = seasonID;
-	}
-
-	public int getSeriesID()
-	{
-		return m_seriesID;
-	}
-
-	public void setSeriesID(int seriesID)
-	{
-		m_seriesID = seriesID;
 	}
 
 	public String getEpisodeStillPath()
@@ -194,103 +163,14 @@ public class episodeData
 
 	public boolean save()
 	{
-/*
-		try
-		{
-			Statement stmt = ds.getStatement();
-			stmt.execute("DELETE FROM serie WHERE seriesID=" + m_seriesID + ";");
-		}
-		catch(SQLException e)
-		{
-			e.printStackTrace();
-			return false;
-		}
-		finally
-		{
-			ds.close();
-		}
-
 		try
 		{
 			Connection conn = ds.getConnection();
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO serie (" +
-														 "seriesID, " +
-														 "seriesName, " +
-														 "originalName, " +
-														 "backdropPath, " +
-														 "createdBy, " +
-														 "homepage, " +
-														 "lastAired, " +
-														 "languages, " +
-														 "networks, " +
-														 "nrEpisodes, " +
-														 "nrSeasons, " +
-														 "originCountries, " +
-														 "originalLanguage, " +
-														 "popularity, " +
-														 "posterPath, " +
-														 "productionCompanies, " +
-														 "type, " +
-														 "voteAverage, " +
-														 "voteCount, " +
-														 "overview, " +
-														 "firstAired, " +
-														 "cast, " +
-														 "crew, " +
-														 "genre, " +
-														 "imdbid, " +
-														 "freebasemid, " +
-														 "freebaseid, " +
-														 "tvdbid, " +
-														 "tvrageid, " +
-														 "status, " +
-														 "download, " +
-														 "localPath, " +
-														 "resolution, " +
-														 "cliffhanger" +
-														 ") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"
-														);
-			ps.setInt(1, m_seriesID);
-			ps.setString(2, m_seriesName);
-			ps.setString(3, m_seriesOriginalName);
-			ps.setString(4, m_seriesBackdrop);
-			ps.setString(5, m_seriesCreatedBy);
-			ps.setString(6, m_seriesHomepage);
-			ps.setDate(7, m_seriesLastAired);
-			ps.setString(8, m_seriesLanguages);
-			ps.setString(9, m_seriesNetworks);
-			ps.setInt(10, m_seriesNrEpisodes);
-			ps.setInt(11, m_seriesNrSeasons);
-			ps.setString(12, m_seriesOriginCountries);
-			ps.setString(13, m_seriesOriginalLanguage);
-			ps.setDouble(14, m_seriesPopularity);
-			ps.setString(15, m_seriesPoster);
-			ps.setString(16, m_seriesProductionCompanies);
-			ps.setString(17, m_seriesType);
-			ps.setDouble(18, m_seriesVoteAverage);
-			ps.setInt(19, m_seriesVoteCount);
-			ps.setString(20, m_seriesOverview);
-			ps.setDate(21, m_seriesFirstAired);
-			ps.setString(22, m_seriesCast);
-			ps.setString(23, m_seriesCrew);
-			ps.setString(24, m_seriesGenre);
-			ps.setString(25, m_seriesIMDBID);
-			ps.setString(26, m_seriesFreebaseMID);
-			ps.setString(27, m_seriesFreebaseID);
-			ps.setString(28, m_seriesTVDBID);
-			ps.setString(29, m_seriesTVRageID);
-			ps.setString(30, m_seriesStatus);
-			ps.setString(31, m_seriesDownload);
-			ps.setString(32, m_seriesLocalPath);
-			ps.setString(33, m_seriesResolution);
-			ps.setBoolean(34, m_seriesCliffhanger);
+			Statement stmt = conn.createStatement();
+			stmt.execute("DELETE FROM episode WHERE id=" + m_episodeID + ";");
 
-			boolean ret = ps.execute();
-
-			for(int season : getSeasons().keySet())
-			{
-				getSeasons().get(season).save();
-			}
+			PreparedStatement ps = prepareStatement(conn);
+			save(ps);
 		}
 		catch(SQLException e)
 		{
@@ -301,7 +181,65 @@ public class episodeData
 		{
 			ds.close();
 		}
-*/
+
 		return true;
+	}
+
+	public boolean save(PreparedStatement ps)
+	{
+		try
+		{
+			ps.setInt(1, m_episodeID);
+			ps.setString(2, m_episodeName);
+			ps.setInt(3, m_episodeNumber);
+			ps.setDate(4, m_episodeAirDate);
+			ps.setString(5, m_episodeGuestStars);
+			ps.setString(6, m_episodeOverview);
+			ps.setString(7, m_episodeProductionCode);
+			ps.setInt(8, m_season.getSeasonNumber());
+			ps.setInt(9, m_season.getSeasonID());
+			ps.setInt(10, m_serie.getSeriesID());
+			ps.setString(11, m_episodeStillPath);
+			ps.setDouble(12, m_episodeVoteAverage);
+			ps.setInt(13, m_episodeVoteCount);
+			ps.setString(14, m_episodeCrew);
+			ps.setInt(15, m_episodeState);
+
+			boolean ret = ps.execute();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+		finally
+		{
+		}
+
+		return true;
+	}
+
+	public PreparedStatement prepareStatement(Connection conn) throws SQLException
+	{
+		PreparedStatement ps = conn.prepareStatement("INSERT INTO episode (" +
+				"id, " +
+				"name, " +
+				"episodeNumber, " +
+				"airDate, " +
+				"guestStars, " +
+				"overview, " +
+				"productioncode, " +
+				"seasonNumber, " +
+				"seasonID, " +
+				"seriesID, " +
+				"stillPath, " +
+				"voteAverage, " +
+				"voteCount, " +
+				"crew, " +
+				"state " +
+				") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"
+		);
+
+		return ps;
 	}
 }

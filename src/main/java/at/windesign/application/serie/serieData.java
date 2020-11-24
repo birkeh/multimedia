@@ -1,5 +1,7 @@
 package at.windesign.application.serie;
 
+import org.zkoss.zul.ListModelList;
+
 import java.sql.*;
 import java.util.Objects;
 import java.util.SortedMap;
@@ -42,6 +44,7 @@ class serieData
 	private String                         m_seriesResolution;
 	private boolean                        m_seriesCliffhanger;
 	private SortedMap<Integer, seasonData> m_seasons = new TreeMap<>();
+	private ListModelList                  m_model;
 
 	private int m_stateInit;
 	private int m_stateProg;
@@ -466,6 +469,46 @@ class serieData
 		m_stateDone++;
 	}
 
+	public ListModelList getModel()
+	{
+		return m_model;
+	}
+
+	public void setModel(ListModelList model)
+	{
+		m_model = model;
+	}
+
+	public void recalcState()
+	{
+		m_stateInit = 0;
+		m_stateProg = 0;
+		m_stateDone = 0;
+
+		for(int season : m_seasons.keySet())
+		{
+			seasonData sData = m_seasons.get(season);
+
+			for(int episode : sData.getEpisodes().keySet())
+			{
+				episodeData eData = sData.getEpisodes().get(episode);
+
+				switch(eData.getEpisodeState())
+				{
+					case 1:
+						m_stateInit++;
+						break;
+					case 2:
+						m_stateProg++;
+						break;
+					case 3:
+						m_stateDone++;
+						break;
+				}
+			}
+		}
+	}
+
 	public void setEpisodeState(int season, int episode, int state)
 	{
 		seasonData sData = m_seasons.get(season);
@@ -504,22 +547,10 @@ class serieData
 	{
 		try
 		{
-			Statement stmt = ds.getStatement();
-			stmt.execute("DELETE FROM serie WHERE seriesID=" + m_seriesID + ";");
-		}
-		catch(SQLException e)
-		{
-			e.printStackTrace();
-			return false;
-		}
-		finally
-		{
-			ds.close();
-		}
-
-		try
-		{
 			Connection conn = ds.getConnection();
+			Statement stmt = conn.createStatement();
+			stmt.execute("DELETE FROM serie WHERE seriesID=" + m_seriesID + ";");
+
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO serie (" +
 					"seriesID, " +
 					"seriesName, " +
@@ -594,9 +625,17 @@ class serieData
 
 			boolean ret = ps.execute();
 
-			for(int season : getSeasons().keySet())
+			stmt.execute("DELETE FROM season WHERE seriesID=" + m_seriesID + ";");
+			stmt.execute("DELETE FROM episode WHERE seriesID=" + m_seriesID + ";");
+
+			if(m_seasons.size() > 0)
 			{
-				getSeasons().get(season).save();
+				ps = getSeasons().get(getSeasons().firstKey()).prepareStatement(conn);
+
+				for(int season : getSeasons().keySet())
+				{
+					getSeasons().get(season).save(ps);
+				}
 			}
 		}
 		catch(SQLException e)
@@ -608,6 +647,7 @@ class serieData
 		{
 			ds.close();
 		}
+
 		return true;
 	}
 }

@@ -54,6 +54,7 @@ public class serieListForwardComposer extends GenericForwardComposer
 
 		seriesListModel = new ListModelList();
 		seriesList.setModel(seriesListModel);
+		seriesList.setAttribute("listModelList", seriesListModel);
 
 		Listhead   head       = seriesList.getListhead();
 		Listheader seriesName = new Listheader("Series Name");
@@ -255,7 +256,10 @@ public class serieListForwardComposer extends GenericForwardComposer
 		}
 
 		for(serieData serie : serieList)
+		{
 			seriesListModel.add(serie);
+			serie.setModel(seriesListModel);
+		}
 
 		for(int i = minSeason; i <= maxSeason; i++)
 		{

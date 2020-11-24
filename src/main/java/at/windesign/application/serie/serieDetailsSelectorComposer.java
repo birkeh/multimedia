@@ -33,9 +33,18 @@ public class serieDetailsSelectorComposer extends SelectorComposer<Component>
 	public void save()
 	{
 		serieData serie = getCurrentValues();
-//		serie.save();
+		serie.recalcState();
+		serie.save();
 
-		alert("Data Saved!");
+		Listitem      item   = (Listitem) detailsSerie.getAttribute("item");
+		serieData     serie1 = (serieData) detailsSerie.getAttribute("serie");
+		ListModelList model  = serie1.getModel();
+		int           index  = item.getIndex();
+
+		serie.setModel(model);
+		model.remove(index);
+		model.add(index, serie);
+
 		detailsSerie.onClose();
 	}
 
@@ -104,8 +113,8 @@ public class serieDetailsSelectorComposer extends SelectorComposer<Component>
 			{
 				Radiogroup group = (Radiogroup) comp;
 
-				int    episode = Integer.parseInt(id.substring(id.indexOf("_") + 1));
-				int    state   = group.getSelectedIndex()+1;
+				int episode = Integer.parseInt(id.substring(id.indexOf("_") + 1));
+				int state   = group.getSelectedIndex() + 1;
 
 				serie.setEpisodeState(season, episode, state);
 			}

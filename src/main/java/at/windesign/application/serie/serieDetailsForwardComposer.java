@@ -68,6 +68,8 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 	protected Button deleteButton;
 
 	private serieData m_serie;
+	private Listitem  m_item;
+	private Listitem m_list;
 
 	protected TreeMap<String, Radiogroup> radioGroups = new TreeMap<>();
 
@@ -90,7 +92,13 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 		else
 			detailsSerie.detach();
 
+		if(arg.containsKey("item"))
+			m_item = (Listitem) arg.get("item");
+		else
+			detailsSerie.detach();
+
 		detailsSerie.setAttribute("serie", m_serie);
+		detailsSerie.setAttribute("item", m_item);
 
 		if(m_serie.getSeriesBackdrop() != null)
 		{
@@ -120,9 +128,9 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 		Statement stmt = ds.getStatement();
 		ResultSet rs = stmt.executeQuery(
 				"SELECT		resolution" +
-				" FROM		resolution" +
-				" ORDER BY	sort;"
-										);
+						" FROM		resolution" +
+						" ORDER BY	sort;"
+		);
 
 		while(rs.next())
 		{
@@ -226,7 +234,7 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 		}
 
 		String styleString = "display: grid; " +
-							 "grid-template-areas: \"a ";
+				"grid-template-areas: \"a ";
 
 		for(int i = 0; i < maxEpisode; i++)
 			styleString += "a ";
