@@ -18,10 +18,6 @@ import java.sql.Statement;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import info.movito.themoviedbapi.TmdbApi;
-import info.movito.themoviedbapi.TmdbMovies;
-import info.movito.themoviedbapi.model.MovieDb;
-
 public class serieDetailsForwardComposer extends GenericForwardComposer<Component>
 {
 	private static final long            serialVersionUID = 1L;

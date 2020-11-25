@@ -32,6 +32,11 @@
       <option name="url" value="https://jcenter.bintray.com" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="mvnrepository" />
+      <option name="name" value="mvnrepository" />
+      <option name="url" value="http://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="jcenter" />
       <option name="name" value="jcenter" />
       <option name="url" value="https://jcenter.bintray.com" />

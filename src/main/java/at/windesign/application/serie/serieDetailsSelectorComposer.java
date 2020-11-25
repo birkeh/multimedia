@@ -1,9 +1,6 @@
 package at.windesign.application.serie;
 
-import info.movito.themoviedbapi.TmdbApi;
-import info.movito.themoviedbapi.TmdbTV;
-import info.movito.themoviedbapi.model.tv.TvSeason;
-import info.movito.themoviedbapi.model.tv.TvSeries;
+import com.omertron.themoviedbapi.MovieDbException;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.SelectorComposer;
@@ -64,13 +61,55 @@ public class serieDetailsSelectorComposer extends SelectorComposer<Component>
 	public void update()
 	{
 		serieData serie = (serieData) detailsSerie.getAttribute("serie");
-/*
-		TmdbApi  tmdbAPI = new TmdbApi("a33271b9e54cdcb9a80680eaf5522f1b");
-		TmdbTV   tmdbTV  = tmdbAPI.getTvSeries();
-		TvSeries series  = tmdbTV.getSeries(60948, "de");
+		serieData serieNew;
 
-		TvSeason season = tmdbAPI.getTvSeasons().getSeason(60948, 2, "de");
-*/
+		try
+		{
+			serieNew = new serieData();
+			serieNew.fromTMDB(serie.getSeriesID());
+			serieNew.setSeriesDownload(serie.getSeriesDownload());
+			serieNew.setSeriesLocalPath(serie.getSeriesLocalPath());
+			serieNew.setSeriesResolution(serie.getSeriesResolution());
+			serieNew.setSeriesCliffhanger(serie.getSeriesCliffhanger());
+
+			for(int season : serieNew.getSeasons().keySet())
+			{
+				seasonData sDataOriginal = serie.getSeasons().get(season);
+
+				if(sDataOriginal != null)
+				{
+					seasonData sData = serieNew.getSeasons().get(season);
+
+					for(int episode : sData.getEpisodes().keySet())
+					{
+						episodeData eDataOriginal = sDataOriginal.getEpisodes().get(episode);
+
+						if(eDataOriginal != null)
+						{
+							episodeData eData = sData.getEpisodes().get(episode);
+
+							eData.setEpisodeState(eDataOriginal.getEpisodeState());
+						}
+					}
+				}
+			}
+
+			serieNew.recalcState();
+			serieNew.save();
+
+			Listitem      item  = (Listitem) detailsSerie.getAttribute("item");
+			ListModelList model = serie.getModel();
+
+			int index = item.getIndex();
+
+			serieNew.setModel(model);
+			model.remove(index);
+			model.add(index, serieNew);
+		}
+		catch(MovieDbException e)
+		{
+			e.printStackTrace();
+		}
 
 		detailsSerie.onClose();
 	}

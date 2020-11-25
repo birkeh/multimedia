@@ -1,0 +1,92 @@
+<window id="test"
+		title="Hi"
+		contentStyle="overflow:auto"
+		border="normal"
+		apply="at.windesign.application.testing.testForwardComposer"
+		width="500px"
+		height="500px"
+>
+
+	<style>
+		.grid {
+		display: grid;
+		grid-template-columns: 4fr 4fr 1fr 1fr;
+		grid-gap: 10px;
+		justify-items: center;
+		}
+	</style>
+
+	<groupbox id="overview"
+	>
+		<caption>Overview</caption>
+		<label id="overviewLabel"
+			   value=""/>
+	</groupbox>
+
+	<groupbox id="settings"
+	>
+		<caption>Settings</caption>
+
+		<nodom>
+			<div sclass="grid"
+				 width="100%">
+				<label value="Download Link"/>
+				<label value="Local Path"/>
+				<label value="Resolution"/>
+				<label value="Cliffhanger"/>
+				<textbox id="downloadLink"
+						 width="100%"
+						 tabindex="1"/>
+				<textbox id="localPath"
+						 width="100%"
+						 tabindex="2"/>
+				<combobox id="resolution"
+						  width="100%"
+						  tabindex="3"/>
+				<checkbox id="cliffhanger"
+						  tabindex="4"/>
+			</div>
+		</nodom>
+	</groupbox>
+
+	<groupbox
+	>
+		<caption>Test</caption>
+
+		<vlayout>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+			<label value="blablabla"/>
+		</vlayout>
+	</groupbox>
+
+	<hbox id="buttons"
+		  width="100%"
+		  pack="center">
+		<button id="saveButton" label="Save"/>
+		<button id="cancelButton" label="Cancel"/>
+		<button id="deleteButton" label="Delete"/>
+	</hbox>
+</window>

@@ -36,6 +36,16 @@
             <name>jcenter</name>
             <url>https://jcenter.bintray.com</url>
         </repository>
+		<repository>
+			<id>mvnrepository</id>
+			<url>http://repo1.maven.org/maven2</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
@@ -106,11 +116,19 @@
 			<artifactId>silvertail</artifactId>
 			<version>${zk.version}</version>
 		</dependency>
+<!--
         <dependency>
             <groupId>info.movito</groupId>
             <artifactId>themoviedbapi</artifactId>
             <version>1.10</version>
         </dependency>
+-->
+		<!-- https://mvnrepository.com/artifact/com.omertron/themoviedbapi -->
+		<dependency>
+			<groupId>com.omertron</groupId>
+			<artifactId>themoviedbapi</artifactId>
+			<version>4.3</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>

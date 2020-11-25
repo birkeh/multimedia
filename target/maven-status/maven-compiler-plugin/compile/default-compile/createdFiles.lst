@@ -1,13 +1,10 @@
+at\windesign\application\serie\serieDataSource.class
+at\windesign\application\serie\serieListForwardComposer.class
+at\windesign\application\testing\testForwardComposer.class
 at\windesign\application\serie\seasonData.class
 at\windesign\application\serie\serieRenderer.class
 at\windesign\application\serie\serieData.class
 at\windesign\application\serie\serieDetailsForwardComposer$1.class
 at\windesign\application\serie\serieDetailsForwardComposer.class
-at\windesign\application\serie\serieDetailsSelectorComposer$1.class
-at\windesign\application\serie\serieDataSource.class
-at\windesign\application\serie\serieListForwardComposer.class
-at\windesign\application\serie\serieDetailsSelectorComposer.class
-at\windesign\application\testing\testForwardComposer.class
 at\windesign\application\serie\serieListSelectorComposer.class
 at\windesign\application\serie\episodeData.class
-at\windesign\application\main\indexForwardComposer.class

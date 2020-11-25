@@ -1,11 +1,29 @@
 package at.windesign.application.serie;
 
+import com.omertron.themoviedbapi.MovieDbException;
+import com.omertron.themoviedbapi.TheMovieDbApi;
+import com.omertron.themoviedbapi.enumeration.TVMethod;
+import com.omertron.themoviedbapi.methods.TmdbSeasons;
+import com.omertron.themoviedbapi.methods.TmdbTV;
+import com.omertron.themoviedbapi.model.Genre;
+import com.omertron.themoviedbapi.model.credits.MediaCreditCast;
+import com.omertron.themoviedbapi.model.credits.MediaCreditCrew;
+import com.omertron.themoviedbapi.model.movie.ProductionCompany;
+import com.omertron.themoviedbapi.model.network.Network;
+import com.omertron.themoviedbapi.model.person.PersonBasic;
+import com.omertron.themoviedbapi.model.tv.*;
+import com.omertron.themoviedbapi.tools.HttpTools;
+import org.yamj.api.common.http.SimpleHttpClientBuilder;
 import org.zkoss.zul.ListModelList;
+import org.apache.http.client.HttpClient;
 
 import java.sql.*;
+import java.util.List;
 import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import static org.zkoss.zk.ui.util.Clients.alert;
 
 class serieData
 {
@@ -548,7 +566,7 @@ class serieData
 		try
 		{
 			Connection conn = ds.getConnection();
-			Statement stmt = conn.createStatement();
+			Statement  stmt = conn.createStatement();
 			stmt.execute("DELETE FROM serie WHERE seriesID=" + m_seriesID + ";");
 
 			PreparedStatement ps = conn.prepareStatement("INSERT INTO serie (" +
@@ -646,6 +664,227 @@ class serieData
 		finally
 		{
 			ds.close();
+		}
+
+		return true;
+	}
+
+	String personListToString(List<PersonBasic> personList)
+	{
+		String  str   = "";
+		boolean first = true;
+
+		for(PersonBasic p : personList)
+		{
+			if(first)
+				first = false;
+			else
+				str = str + ",";
+			str = str + p.getName();
+		}
+
+		return str;
+	}
+
+	String stringListToString(List<String> stringList)
+	{
+		String  str   = "";
+		boolean first = true;
+
+		for(String s : stringList)
+		{
+			if(first)
+				first = false;
+			else
+				str = str + ",";
+			str = str + s;
+		}
+
+		return str;
+	}
+
+	String networkListToString(List<Network> networkList)
+	{
+		String  str   = "";
+		boolean first = true;
+
+		for(Network n : networkList)
+		{
+			if(first)
+				first = false;
+			else
+				str = str + ",";
+			str = str + n.getName();
+		}
+
+		return str;
+	}
+
+	String productionCompaniesListToString(List<ProductionCompany> productionCompanyList)
+	{
+		String  str   = "";
+		boolean first = true;
+
+		for(ProductionCompany c : productionCompanyList)
+		{
+			if(first)
+				first = false;
+			else
+				str = str + ",";
+			str = str + c.getName();
+		}
+
+		return str;
+	}
+
+	String castListToString(List<MediaCreditCast> castList)
+	{
+		String  str   = "";
+		boolean first = true;
+
+		for(MediaCreditCast p : castList)
+		{
+			if(first)
+				first = false;
+			else
+				str = str + "|";
+			str = str + p.getName() + "," + p.getCharacter();
+		}
+
+		return str;
+	}
+
+	String crewListToString(List<MediaCreditCrew> crewList)
+	{
+		String  str   = "";
+		boolean first = true;
+
+		for(MediaCreditCrew p : crewList)
+		{
+			if(first)
+				first = false;
+			else
+				str = str + "|";
+			str = str + p.getName() + "," + p.getJob();
+		}
+
+		return str;
+	}
+
+	String genreListToString(List<Genre> genreList)
+	{
+		String  str   = "";
+		boolean first = true;
+
+		for(Genre g : genreList)
+		{
+			if(first)
+				first = false;
+			else
+				str = str + ",";
+			str = str + g.getName();
+		}
+
+		return str;
+	}
+
+	Date string2Date(String strDate)
+	{
+		if(strDate == null)
+			return new Date(1900, 1, 1);
+		else
+			return Date.valueOf(strDate);
+	}
+
+	public boolean fromTMDB(int id) throws MovieDbException
+	{
+		HttpClient httpClient;
+		HttpTools  httpTools;
+
+		httpClient = new SimpleHttpClientBuilder().build();
+		httpTools = new HttpTools(httpClient);
+
+		TheMovieDbApi api = new TheMovieDbApi("a33271b9e54cdcb9a80680eaf5522f1b", httpClient);
+		return fromTMDB(id, api);
+	}
+
+	public boolean fromTMDB(int id, TheMovieDbApi api) throws MovieDbException
+	{
+		String appendToResponse = "credits,external_ids";
+
+		TVInfo series = api.getTVInfo(id, "de", appendToResponse);
+
+		m_seriesID = series.getId();
+		m_seriesName = series.getName();
+		m_seriesOriginalName = series.getOriginalName();
+		m_seriesBackdrop = series.getBackdropPath();
+		m_seriesCreatedBy = personListToString(series.getCreatedBy());
+		m_seriesHomepage = series.getHomepage();
+		m_seriesLastAired = string2Date(series.getLastAirDate());
+		m_seriesLanguages = stringListToString(series.getLanguages());
+		m_seriesNetworks = networkListToString(series.getNetworks());
+		m_seriesNrEpisodes = series.getNumberOfEpisodes();
+		m_seriesNrSeasons = series.getNumberOfSeasons();
+		m_seriesOriginCountries = stringListToString(series.getOriginCountry());
+		m_seriesOriginalLanguage = series.getOriginalLanguage();
+		m_seriesPopularity = series.getPopularity();
+		m_seriesPoster = series.getPosterPath();
+		m_seriesProductionCompanies = productionCompaniesListToString(series.getProductionCompanies());
+		m_seriesType = series.getType();
+		m_seriesVoteAverage = series.getVoteAverage();
+		m_seriesVoteCount = series.getVoteCount();
+		m_seriesOverview = series.getOverview();
+		m_seriesFirstAired = string2Date(series.getFirstAirDate());
+		m_seriesCast = castListToString(series.getCredits().getCast());
+		m_seriesCrew = crewListToString(series.getCredits().getCrew());
+		m_seriesGenre = genreListToString(series.getGenres());
+		m_seriesIMDBID = series.getExternalIDs().getImdbId();
+		m_seriesFreebaseMID = series.getExternalIDs().getFreebaseMid();
+		m_seriesFreebaseID = series.getExternalIDs().getFreebaseId();
+		m_seriesTVDBID = series.getExternalIDs().getTvdbId();
+		m_seriesTVRageID = series.getExternalIDs().getTvrageId();
+		m_seriesStatus = series.getStatus();
+
+		if(series.getSeasons() != null)
+		{
+			for(TVSeasonBasic season : series.getSeasons())
+			{
+				TVSeasonInfo seasons = api.getSeasonInfo(id, season.getSeasonNumber(), "de");
+				seasonData   sData   = new seasonData();
+
+				//sData.setSeason_ID();
+				sData.setSeasonAirDate(string2Date(seasons.getAirDate()));
+				sData.setSeasonName(seasons.getName());
+				sData.setSeasonOverview(seasons.getOverview());
+				sData.setSeasonID(seasons.getId());
+				sData.setSeasonPosterPath(seasons.getPosterPath());
+				sData.setSeasonNumber(seasons.getSeasonNumber());
+				sData.setSerie(this);
+				m_seasons.put(season.getSeasonNumber(), sData);
+
+				if(seasons.getEpisodes() != null)
+				{
+					for(TVEpisodeInfo episode : seasons.getEpisodes())
+					{
+						episodeData eData = new episodeData();
+
+						eData.setEpisodeID(episode.getId());
+						eData.setEpisodeName(episode.getName());
+						eData.setEpisodeNumber(episode.getEpisodeNumber());
+						eData.setEpisodeAirDate(string2Date(episode.getAirDate()));
+						eData.setEpisodeGuestStars(castListToString(episode.getGuestStars()));
+						eData.setEpisodeOverview(episode.getOverview());
+						eData.setEpisodeProductionCode(episode.getProductionCode());
+						eData.setSeason(sData);
+						eData.setSerie(this);
+						eData.setEpisodeStillPath(episode.getStillPath());
+						eData.setEpisodeVoteAverage(episode.getVoteAverage());
+						eData.setEpisodeVoteCount(episode.getVoteCount());
+						eData.setEpisodeCrew(crewListToString(episode.getCrew()));
+						sData.setEpisode(eData.getEpisodeNumber(), eData);
+					}
+				}
+			}
 		}
 
 		return true;
