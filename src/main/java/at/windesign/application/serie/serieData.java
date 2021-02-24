@@ -499,12 +499,16 @@ class serieData
 
 	public boolean isActive()
 	{
-		if(m_seriesStatus == "Ended")
-			return false;
-		if(m_seriesStatus == "Canceled")
-			return false;
+//		if(m_seriesStatus == "Ended")
+//			return false;
+//		if(m_seriesStatus == "Canceled")
+//			return false;
+//
+//		return true;
 
-		return true;
+		if(Objects.equals(m_seriesStatus, "Returning Series"))
+			return true;
+		return false;
 	}
 
 	public void recalcState()
