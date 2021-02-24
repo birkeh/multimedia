@@ -17,7 +17,7 @@ public class serieListSelectorComposer extends SelectorComposer<Component>
 	private Listbox seriesList;
 
 	@Listen("onDoubleClick = #seriesList")
-	public void onClick()
+	public void onClickSeriesList()
 	{
 		Listitem item = seriesList.getSelectedItem();
 
@@ -32,6 +32,31 @@ public class serieListSelectorComposer extends SelectorComposer<Component>
 		arguments.put("item", item);
 
 		String template = "/serie/detailsSerie.zul";
+		Window window   = (Window) Executions.createComponents(template, null, arguments);
+
+		window.doModal();
+	}
+
+	@Listen("onClick = #updateAll")
+	public void onClickUpdateAll()
+	{
+		update(true);
+	}
+
+	@Listen("onClick = #updateOpen")
+	public void onClickUpdateOpen()
+	{
+		update(false);
+	}
+
+	private void update(boolean all)
+	{
+		Map<String, Object> arguments = new HashMap<String, Object>();
+
+		arguments.put("seriesList", seriesList);
+		arguments.put("all", all);
+
+		String template = "/serie/updateSerie.zul";
 		Window window   = (Window) Executions.createComponents(template, null, arguments);
 
 		window.doModal();

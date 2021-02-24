@@ -61,9 +61,10 @@ public class serieRenderer implements ListitemRenderer
 		Color         colBlue  = new Color(0, 0, 192);
 		Color         colGreen = new Color(0, 192, 0);
 		Color         colBlack = new Color(0, 0, 0);
+		Color         colWhite = new Color(255, 255, 255);
 		Color         col      = colBlack;
 
-		g2d.setColor(colBlack);
+		g2d.setColor(colWhite);
 		g2d.fillRect(0, 0, stateWidth * episodes.lastKey(), stateHeight);
 
 		for(Integer key : episodes.keySet())
@@ -84,6 +85,8 @@ public class serieRenderer implements ListitemRenderer
 					break;
 			}
 
+			g2d.setColor(colBlack);
+			g2d.fillRect((key - 1) * stateWidth, 0, stateWidth, stateHeight);
 			g2d.setColor(col);
 			g2d.fillRect((key - 1) * stateWidth, 0, stateWidth - 1, stateHeight);
 		}

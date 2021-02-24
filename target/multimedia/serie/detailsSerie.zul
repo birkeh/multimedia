@@ -54,7 +54,7 @@
 		  pack="center">
 		<button id="saveButton" label="Save"/>
 		<button id="cancelButton" label="Cancel"/>
-		<button id="updateButton" label="Update"/>
+		<button id="updateButton" label="Update from TMDB"/>
 		<button id="deleteButton" label="Delete"/>
 	</hbox>
 </window>

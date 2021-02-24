@@ -67,34 +67,8 @@ public class serieDetailsSelectorComposer extends SelectorComposer<Component>
 		{
 			serieNew = new serieData();
 			serieNew.fromTMDB(serie.getSeriesID());
-			serieNew.setSeriesDownload(serie.getSeriesDownload());
-			serieNew.setSeriesLocalPath(serie.getSeriesLocalPath());
-			serieNew.setSeriesResolution(serie.getSeriesResolution());
-			serieNew.setSeriesCliffhanger(serie.getSeriesCliffhanger());
+			serieNew.copyFrom(serie);
 
-			for(int season : serieNew.getSeasons().keySet())
-			{
-				seasonData sDataOriginal = serie.getSeasons().get(season);
-
-				if(sDataOriginal != null)
-				{
-					seasonData sData = serieNew.getSeasons().get(season);
-
-					for(int episode : sData.getEpisodes().keySet())
-					{
-						episodeData eDataOriginal = sDataOriginal.getEpisodes().get(episode);
-
-						if(eDataOriginal != null)
-						{
-							episodeData eData = sData.getEpisodes().get(episode);
-
-							eData.setEpisodeState(eDataOriginal.getEpisodeState());
-						}
-					}
-				}
-			}
-
-			serieNew.recalcState();
 			serieNew.save();
 
 			Listitem      item  = (Listitem) detailsSerie.getAttribute("item");

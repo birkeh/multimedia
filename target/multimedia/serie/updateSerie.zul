@@ -1,0 +1,14 @@
+<window id="detailsSerie"
+		title=""
+		contentStyle="overflow:auto"
+		border="normal"
+		apply="at.windesign.application.serie.serieUpdateForwardComposer, at.windesign.application.serie.serieUpdateSelectorComposer"
+		width="500px"
+		height="500px"
+>
+
+
+	<label id="serieLabel"
+		   value=""/>
+
+</window>

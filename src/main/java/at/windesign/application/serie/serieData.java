@@ -497,6 +497,16 @@ class serieData
 		m_model = model;
 	}
 
+	public boolean isActive()
+	{
+		if(m_seriesStatus == "Ended")
+			return false;
+		if(m_seriesStatus == "Canceled")
+			return false;
+
+		return true;
+	}
+
 	public void recalcState()
 	{
 		m_stateInit = 0;
@@ -792,6 +802,8 @@ class serieData
 	{
 		if(strDate == null)
 			return new Date(1900, 1, 1);
+		else if(strDate.isEmpty())
+			return new Date(1900, 1, 1);
 		else
 			return Date.valueOf(strDate);
 	}
@@ -881,6 +893,7 @@ class serieData
 						eData.setEpisodeVoteAverage(episode.getVoteAverage());
 						eData.setEpisodeVoteCount(episode.getVoteCount());
 						eData.setEpisodeCrew(crewListToString(episode.getCrew()));
+						eData.setEpisodeState(1);
 						sData.setEpisode(eData.getEpisodeNumber(), eData);
 					}
 				}
@@ -888,5 +901,37 @@ class serieData
 		}
 
 		return true;
+	}
+
+	void copyFrom(serieData serie)
+	{
+		setSeriesDownload(serie.getSeriesDownload());
+		setSeriesLocalPath(serie.getSeriesLocalPath());
+		setSeriesResolution(serie.getSeriesResolution());
+		setSeriesCliffhanger(serie.getSeriesCliffhanger());
+
+		for(int season : getSeasons().keySet())
+		{
+			seasonData sDataOriginal = serie.getSeasons().get(season);
+
+			if(sDataOriginal != null)
+			{
+				seasonData sData = getSeasons().get(season);
+
+				for(int episode : sData.getEpisodes().keySet())
+				{
+					episodeData eDataOriginal = sDataOriginal.getEpisodes().get(episode);
+
+					if(eDataOriginal != null)
+					{
+						episodeData eData = sData.getEpisodes().get(episode);
+
+						eData.setEpisodeState(eDataOriginal.getEpisodeState());
+					}
+				}
+			}
+		}
+
+		recalcState();
 	}
 }

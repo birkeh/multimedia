@@ -2,6 +2,18 @@
 	 vflex="true"
 	 apply="at.windesign.application.serie.serieListForwardComposer, at.windesign.application.serie.serieListSelectorComposer"
 >
+	<hbox width="100%" widths="50%,50%" pack="stretch">
+		<button width="100%"
+				id="updateAll"
+				label="update all"
+		>
+		</button>
+		<button width="100%"
+				id="updateOpen"
+				label="update open"
+		>
+		</button>
+	</hbox>
 	<listbox id="seriesList"
 			 multiple="true"
 			 autopaging="true"
