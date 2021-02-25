@@ -2,9 +2,6 @@ package at.windesign.application.serie;
 
 import com.omertron.themoviedbapi.MovieDbException;
 import com.omertron.themoviedbapi.TheMovieDbApi;
-import com.omertron.themoviedbapi.enumeration.TVMethod;
-import com.omertron.themoviedbapi.methods.TmdbSeasons;
-import com.omertron.themoviedbapi.methods.TmdbTV;
 import com.omertron.themoviedbapi.model.Genre;
 import com.omertron.themoviedbapi.model.credits.MediaCreditCast;
 import com.omertron.themoviedbapi.model.credits.MediaCreditCrew;
@@ -23,7 +20,6 @@ import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import static org.zkoss.zk.ui.util.Clients.alert;
 
 class serieData
 {
@@ -499,13 +495,6 @@ class serieData
 
 	public boolean isActive()
 	{
-//		if(m_seriesStatus == "Ended")
-//			return false;
-//		if(m_seriesStatus == "Canceled")
-//			return false;
-//
-//		return true;
-
 		if(Objects.equals(m_seriesStatus, "Returning Series"))
 			return true;
 		return false;

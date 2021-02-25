@@ -1,11 +1,11 @@
-package at.windesign.application.serie;
+package at.windesign.application.movie;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public enum serieDataSource
+public enum movieDataSource
 {
 	INSTANCE;
 
@@ -27,7 +27,7 @@ public enum serieDataSource
 		}
 	}
 
-	private serieDataSource()
+	private movieDataSource()
 	{
 		// drop the table if it exists
 		try

@@ -1,0 +1,26 @@
+<window id="updateMovie"
+        title="update Movies"
+        contentStyle="overflow:auto"
+        border="normal"
+        apply="at.windesign.application.movie.movieUpdateSelectorComposer"
+        width="500px"
+        height="150px">
+    <div class="panel"
+         align="center">
+        <timer id="timer"
+               repeats="true"
+               delay="1000"
+               onCreate="self.stop()"/>
+        <hbox align="center">
+            <progressmeter id="movieProgress"
+                           value="0"
+                           width="400px"/>
+            <label id="movieProgressLabel"
+                   value="0%">
+            </label>
+        </hbox>
+        <label id="movieLabel"
+               value="please wait...">
+        </label>
+    </div>
+</window>

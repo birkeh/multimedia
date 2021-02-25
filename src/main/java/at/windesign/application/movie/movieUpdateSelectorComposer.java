@@ -1,4 +1,4 @@
-package at.windesign.application.serie;
+package at.windesign.application.movie;
 
 import com.omertron.themoviedbapi.MovieDbException;
 import org.zkoss.zk.ui.Component;
@@ -15,28 +15,24 @@ import org.zkoss.zul.*;
 
 import java.io.*;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-//a33271b9e54cdcb9a80680eaf5522f1b
-
-public class serieUpdateSelectorComposer extends SelectorComposer<Component>
+public class movieUpdateSelectorComposer extends SelectorComposer<Component>
 {
 	private static final long    serialVersionUID = 1L;
 	private              int     opacity          = 80;
-	private              Listbox m_seriesList;
-	private              boolean m_all;
+	private              Listbox m_movieList;
 
 	@Wire
-	private Window updateSerie;
+	private Window updateMovie;
 
 	@Wire
-	protected Label serieLabel;
+	protected Label movieLabel;
 
 	@Wire
-	protected Progressmeter serieProgress;
+	protected Progressmeter movieProgress;
 
 	@Wire
-	protected Label serieProgressLabel;
+	protected Label movieProgressLabel;
 
 	@Wire
 	private Timer timer;
@@ -48,7 +44,7 @@ public class serieUpdateSelectorComposer extends SelectorComposer<Component>
 	private boolean isFinish;
 
 	private int    progress;
-	private String serieName;
+	private String movieName;
 
 	@Override
 	public void doAfterCompose(Component comp) throws Exception
@@ -57,15 +53,10 @@ public class serieUpdateSelectorComposer extends SelectorComposer<Component>
 
 		final Execution execution = Executions.getCurrent();
 
-		if(execution.getArg().containsKey("seriesList"))
-			m_seriesList = (Listbox) execution.getArg().get("seriesList");
+		if(execution.getArg().containsKey("movieList"))
+			m_movieList = (Listbox) execution.getArg().get("movieList");
 		else
-			updateSerie.detach();
-
-		if(execution.getArg().containsKey("all"))
-			m_all = (boolean) execution.getArg().get("all");
-		else
-			updateSerie.detach();
+			updateMovie.detach();
 
 		try
 		{
@@ -78,7 +69,7 @@ public class serieUpdateSelectorComposer extends SelectorComposer<Component>
 	}
 
 	@Listen("onAddNameEvent = #timer")
-	public void processingSeries()
+	public void processingMovies()
 	{
 		try
 		{
@@ -143,33 +134,21 @@ public class serieUpdateSelectorComposer extends SelectorComposer<Component>
 		int total   = 0;
 		int current = 0;
 
-		ListModelList   list     = (ListModelList) m_seriesList.getModel();
-		List<serieData> dataList = list.getInnerList();
-
-		for(serieData data : dataList)
-		{
-			if(m_all == true)
-				total++;
-			else
-			{
-				if(data.isActive())
-					total++;
-			}
-		}
+		ListModelList   list     = (ListModelList) m_movieList.getModel();
+		List<movieData> dataList = list.getInnerList();
+		total = dataList.size();
 
 		try
 		{
-			for(serieData data : dataList)
+			for(movieData data : dataList)
 			{
-				if(m_all == true || data.isActive() == true)
-				{
-					progress = current * 100 / total;
-					serieName = data.getSeriesName();
+				progress = current * 100 / total;
+				movieName = data.getMovieTitle();
 
-					updateSerie(data);
+				updateMovie(data);
 
-					current++;
-				}
+				current++;
+
 				break;
 			}
 			isFinish = true;
@@ -201,9 +180,9 @@ public class serieUpdateSelectorComposer extends SelectorComposer<Component>
 	{
 		try
 		{
-			serieProgress.setValue(progress);
-			serieProgressLabel.setValue(progress + "%");
-			serieLabel.setValue(serieName);
+			movieProgress.setValue(progress);
+			movieProgressLabel.setValue(progress + "%");
+			movieLabel.setValue(movieName);
 		}
 		catch(Exception e)
 		{
@@ -216,12 +195,12 @@ public class serieUpdateSelectorComposer extends SelectorComposer<Component>
 		{
 			if(isFinish)
 			{
-				serieProgressLabel.setValue("Finish!");
-				updateSerie.detach();
+				movieProgressLabel.setValue("Finish!");
+				updateMovie.detach();
 
 				OutputStream tempFile    = new FileOutputStream("redir");
 				PrintStream  printStream = new PrintStream(tempFile);
-				printStream.print("serie");
+				printStream.print("movie");
 				printStream.close();
 
 				Executions.sendRedirect("");
@@ -234,7 +213,7 @@ public class serieUpdateSelectorComposer extends SelectorComposer<Component>
 
 	private boolean isTheProgressmeterFull()
 	{
-		return serieProgress.getValue() == ONE_HUNDRED;
+		return movieProgress.getValue() == ONE_HUNDRED;
 	}
 
 	private void stop()
@@ -256,17 +235,17 @@ public class serieUpdateSelectorComposer extends SelectorComposer<Component>
 		}
 	}
 
-	private void updateSerie(serieData serie)
+	private void updateMovie(movieData movie)
 	{
-		serieData serieNew;
+		movieData movieNew;
 
 		try
 		{
-			serieNew = new serieData();
-			serieNew.fromTMDB(serie.getSeriesID());
-			serieNew.copyFrom(serie);
+			movieNew = new movieData();
+			movieNew.fromTMDB(movie.getMovieID());
+			movieNew.copyFrom(movie);
 
-			serieNew.save();
+			movieNew.save();
 		}
 		catch(MovieDbException e)
 		{
