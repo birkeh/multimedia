@@ -1,14 +1,26 @@
-<window id="detailsSerie"
-		title=""
+<window id="updateSerie"
+		title="update TV Shows"
 		contentStyle="overflow:auto"
 		border="normal"
-		apply="at.windesign.application.serie.serieUpdateForwardComposer, at.windesign.application.serie.serieUpdateSelectorComposer"
+		apply="at.windesign.application.serie.serieUpdateSelectorComposer"
 		width="500px"
-		height="500px"
->
-
-
-	<label id="serieLabel"
-		   value=""/>
-
+		height="150px">
+	<div class="panel"
+		 align="center">
+		<timer id="timer"
+			   repeats="true"
+			   delay="1000"
+			   onCreate="self.stop()"/>
+		<hbox align="center">
+			<progressmeter id="serieProgress"
+						   value="0"
+						   width="400px"/>
+			<label id="serieProgressLabel"
+				   value="0%">
+			</label>
+		</hbox>
+		<label id="serieLabel"
+			   value="please wait...">
+		</label>
+	</div>
 </window>

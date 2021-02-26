@@ -7,7 +7,7 @@
 			apply="at.windesign.application.main.indexForwardComposer, org.zkoss.bind.BindComposer"
 			onClientInfo="onClientInfo(event)"
 	>
-		<tabbox id="tb"
+		<tabbox id="tabbox"
 				height="100%"
 				orient="left"
 		>
@@ -20,6 +20,9 @@
 			<tabpanels>
 				<tabpanel>
 					<include src="/serie/centerSerie.zul"/>
+				</tabpanel>
+				<tabpanel>
+					<include src="/movie/centerMovie.zul"/>
 				</tabpanel>
 			</tabpanels>
 		</tabbox>

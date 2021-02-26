@@ -2,10 +2,20 @@
      vflex="true"
      apply="at.windesign.application.movie.movieListForwardComposer, at.windesign.application.movie.movieListSelectorComposer"
 >
-    <hbox width="100%" widths="100%" pack="stretch">
+    <hbox width="100%" pack="stretch">
         <button width="100%"
                 id="updateAll"
                 label="update all"
+        >
+        </button>
+        <button width="100%"
+                id="searchMovie"
+                label="search Movie"
+        >
+        </button>
+        <button width="100%"
+                id="discoverMovie"
+                label="discover Movie"
         >
         </button>
     </hbox>

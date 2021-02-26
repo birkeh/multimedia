@@ -50,4 +50,17 @@ public class movieListSelectorComposer extends SelectorComposer<Component>
 
 		window.doModal();
 	}
+
+	@Listen("onClick = #searchMovie")
+	public void onSearchMovie()
+	{
+		Map<String, Object> arguments = new HashMap<String, Object>();
+
+		arguments.put("movieList", movieList);
+
+		String template = "/movie/searchMovie.zul";
+		Window window   = (Window) Executions.createComponents(template, null, arguments);
+
+		window.doModal();
+	}
 }

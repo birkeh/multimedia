@@ -1,0 +1,50 @@
+<window id="searchMovie"
+        title="search Movies"
+        contentStyle="overflow:auto"
+        border="normal"
+        apply="at.windesign.application.movie.movieSearchForwardComposer,at.windesign.application.movie.movieSearchSelectorComposer"
+        width="500px"
+        height="500px">
+    <groupbox id="search"
+    >
+        <style>
+            .grid {
+            display: grid;
+            grid-template-columns: 10fr 2fr 1fr;
+            grid-gap: 10px;
+            justify-items: center;
+            }
+        </style>
+
+        <nodom>
+            <div sclass="grid"
+                 width="100%">
+                <label value="*Search"/>
+                <label value="Year"/>
+                <label value=""/>
+                <textbox id="searchText"
+                         width="100%"
+                         tabindex="2"/>
+                <textbox id="searchYear"
+                          width="100%"
+                          tabindex="3"/>
+                <button id="searchButton"
+                        label="search"/>
+            </div>
+        </nodom>
+    </groupbox>
+    <listbox id="resultList"
+             multiple="true"
+             autopaging="true"
+             vflex="true">
+        <listhead sizable="true"
+        >
+        </listhead>
+    </listbox>
+    <hlayout>
+        <button id="saveButton"
+                label="save"/>
+        <button id="cancelButton"
+                label="cancel"/>
+    </hlayout>
+</window>
