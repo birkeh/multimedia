@@ -1,18 +1,17 @@
-package at.windesign.application.movie;
+package at.windesign.application.serie;
 
+import at.windesign.application.movie.movieData;
 import com.omertron.themoviedbapi.MovieDbException;
 import com.omertron.themoviedbapi.TheMovieDbApi;
 import com.omertron.themoviedbapi.enumeration.SearchType;
 import com.omertron.themoviedbapi.model.movie.MovieInfo;
+import com.omertron.themoviedbapi.model.tv.TVBasic;
 import com.omertron.themoviedbapi.results.ResultList;
-import com.omertron.themoviedbapi.tools.HttpTools;
 import org.apache.http.client.HttpClient;
 import org.yamj.api.common.http.SimpleHttpClientBuilder;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -23,21 +22,15 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
-public class movieSearchSelectorComposer extends SelectorComposer<Component>
+public class serieSearchSelectorComposer extends SelectorComposer<Component>
 {
 	private static final long    serialVersionUID = 1L;
-	private              Listbox m_movieList;
+	private              Listbox m_serieList;
 
 	@Wire
-	private Window searchMovie;
+	private Window searchSerie;
 
 	@Wire
 	protected Textbox searchText;
@@ -55,8 +48,8 @@ public class movieSearchSelectorComposer extends SelectorComposer<Component>
 
 		final Execution execution = Executions.getCurrent();
 
-		if(execution.getArg().containsKey("movieList"))
-			m_movieList = (Listbox) execution.getArg().get("movieList");
+		if(execution.getArg().containsKey("serieList"))
+			m_serieList = (Listbox) execution.getArg().get("serieList");
 	}
 
 	@Listen("onClick = #searchButton")
@@ -75,7 +68,7 @@ public class movieSearchSelectorComposer extends SelectorComposer<Component>
 	public void save() throws FileNotFoundException
 	{
 		ListModelList   resultListModel = (ListModelList) resultList.getModel();
-		List<movieData> dataList        = resultListModel.getInnerList();
+		List<serieData> dataList        = resultListModel.getInnerList();
 
 		for(int index = 0; index < resultListModel.size(); index++)
 		{
@@ -93,13 +86,13 @@ public class movieSearchSelectorComposer extends SelectorComposer<Component>
 					{
 						if(box.isChecked())
 						{
-							movieData data     = dataList.get(index);
-							movieData newMovie = new movieData();
+							serieData data     = dataList.get(index);
+							serieData newSerie = new serieData();
 
 							try
 							{
-								newMovie.fromTMDB(data.getMovieID());
-								newMovie.save();
+								newSerie.fromTMDB(data.getSeriesID());
+								newSerie.save();
 							}
 							catch(Exception e)
 							{
@@ -110,18 +103,18 @@ public class movieSearchSelectorComposer extends SelectorComposer<Component>
 			}
 			OutputStream tempFile    = new FileOutputStream("redir");
 			PrintStream  printStream = new PrintStream(tempFile);
-			printStream.print("movie");
+			printStream.print("serie");
 			printStream.close();
 
 			Executions.sendRedirect("");
 		}
-		searchMovie.onClose();
+		searchSerie.onClose();
 	}
 
 	@Listen("onClick = #cancelButton")
 	public void cancel()
 	{
-		searchMovie.onClose();
+		searchSerie.onClose();
 	}
 
 	public void search() throws MovieDbException
@@ -147,30 +140,30 @@ public class movieSearchSelectorComposer extends SelectorComposer<Component>
 		if(sText.isEmpty())
 			return;
 
-		movieData     movie;
+		serieData     serie;
 		ListModelList resultListModel = (ListModelList) resultList.getModel();
 
 		resultListModel.clear();
 
 		for(page = 1; page <= maxPage; page++)
 		{
-			ResultList<MovieInfo> movies = api.searchMovie(sText, page, "de-DE", true, sYear, 0, SearchType.PHRASE);
-			if(movies.getResults().size() == 0)
+			ResultList<TVBasic> series = api.searchTV(sText, page, "de-DE", sYear, SearchType.PHRASE);
+			if(series.getResults().size() == 0)
 				break;
 
-			for(MovieInfo resultMovie : movies.getResults())
+			for(TVBasic resultSerie : series.getResults())
 			{
-				if(!exist(resultMovie.getId()))
+				if(!exist(resultSerie.getId()))
 				{
-					movie = new movieData();
+					serie = new serieData();
 
-					movie.setMovieID(resultMovie.getId());
-					movie.setMovieTitle(resultMovie.getTitle());
-					movie.setReleaseDate(string2Date(resultMovie.getReleaseDate()));
-					movie.setOverview(resultMovie.getOverview());
+					serie.setSeriesID(resultSerie.getId());
+					serie.setSeriesName(resultSerie.getName());
+					serie.setSeriesFirstAired(string2Date(resultSerie.getFirstAirDate()));
+					serie.setSeriesOverview(resultSerie.getOverview());
 
-					resultListModel.add(movie);
-					movie.setModel(resultListModel);
+					resultListModel.add(serie);
+					serie.setModel(resultListModel);
 				}
 			}
 		}
@@ -188,12 +181,12 @@ public class movieSearchSelectorComposer extends SelectorComposer<Component>
 
 	boolean exist(int id)
 	{
-		ListModelList   list     = (ListModelList) m_movieList.getModel();
-		List<movieData> dataList = list.getInnerList();
+		ListModelList   list     = (ListModelList) m_serieList.getModel();
+		List<serieData> dataList = list.getInnerList();
 
-		for(movieData data : dataList)
+		for(serieData data : dataList)
 		{
-			if(id == data.getMovieID())
+			if(id == data.getSeriesID())
 				return true;
 		}
 		return false;

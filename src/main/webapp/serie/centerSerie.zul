@@ -15,12 +15,12 @@
 			>
 			</button>
 			<button width="100%"
-					id="addTVShow"
-					label="add TV Show"
+					id="searchSerie"
+					label="search TV Show"
 			>
 			</button>
 			<button width="100%"
-					id="discoverTVShow"
+					id="discoverSerie"
 					label="discover TV Show"
 			>
 			</button>

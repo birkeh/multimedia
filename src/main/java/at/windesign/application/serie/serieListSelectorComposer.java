@@ -61,4 +61,17 @@ public class serieListSelectorComposer extends SelectorComposer<Component>
 
 		window.doModal();
 	}
+
+	@Listen("onClick = #searchSerie")
+	public void onSearchSerie()
+	{
+		Map<String, Object> arguments = new HashMap<String, Object>();
+
+		arguments.put("serieList", seriesList);
+
+		String template = "/serie/searchSerie.zul";
+		Window window   = (Window) Executions.createComponents(template, null, arguments);
+
+		window.doModal();
+	}
 }

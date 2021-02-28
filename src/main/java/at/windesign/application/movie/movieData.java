@@ -685,7 +685,7 @@ public class movieData
 		m_video = videoListToString(movie.getVideos());
 		m_cast = castListToString(movie.getCast());
 		m_crew = crewListToString(movie.getCrew());
-		m_state = 0;
+		m_state = 1;
 
 		return true;
 	}

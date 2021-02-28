@@ -2,7 +2,7 @@ package at.windesign.application.movie;
 
 import org.zkoss.zul.*;
 
-public class resultRenderer implements ListitemRenderer
+public class movieResultRenderer implements ListitemRenderer
 {
 	private Listbox movieList;
 

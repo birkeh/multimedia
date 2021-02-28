@@ -1,5 +1,6 @@
-package at.windesign.application.movie;
+package at.windesign.application.serie;
 
+import at.windesign.application.movie.movieResultRenderer;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
@@ -8,14 +9,14 @@ import org.zkoss.zul.*;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-public class movieSearchForwardComposer extends GenericForwardComposer<Component>
+public class serieSearchForwardComposer extends GenericForwardComposer<Component>
 {
 	private static final long            serialVersionUID = 1L;
-	private final        movieDataSource ds               = movieDataSource.INSTANCE;
+	private final        serieDataSource ds               = serieDataSource.INSTANCE;
 	private              int             opacity          = 80;
 
 	@Wire
-	private Window searchMovie;
+	private Window searchSerie;
 
 	@Wire
 	protected Textbox searchText;
@@ -40,8 +41,8 @@ public class movieSearchForwardComposer extends GenericForwardComposer<Component
 		int hD = (int) self.getDesktop().getAttribute("desktopHeight");
 		int wD = (int) self.getDesktop().getAttribute("desktopWidth");
 
-		searchMovie.setWidth(wD - 10 + "px");
-		searchMovie.setHeight(hD - 10 + "px");
+		searchSerie.setWidth(wD - 10 + "px");
+		searchSerie.setHeight(hD - 10 + "px");
 
 		SortedMap<Integer, Listheader> listHeader = new TreeMap<>();
 
@@ -52,21 +53,21 @@ public class movieSearchForwardComposer extends GenericForwardComposer<Component
 		resultList.getListhead().getChildren().clear();
 		Listhead   head       = resultList.getListhead();
 		Listheader selected   = new Listheader("");
-		Listheader movieName  = new Listheader("Movie Name");
+		Listheader serieName  = new Listheader("TV Show Name");
 		Listheader firstAired = new Listheader("First Aired");
 		Listheader overview   = new Listheader("Overview");
 
 		selected.setHflex("min");
-		movieName.setHflex("min");
+		serieName.setHflex("min");
 		firstAired.setHflex("min");
 		overview.setHflex("min");
 
 		head.appendChild(selected);
-		head.appendChild(movieName);
+		head.appendChild(serieName);
 		head.appendChild(firstAired);
 		head.appendChild(overview);
 
-		movieResultRenderer renderer = new movieResultRenderer();
+		serieResultRenderer renderer = new serieResultRenderer();
 		resultList.setItemRenderer(renderer);
 	}
 }
