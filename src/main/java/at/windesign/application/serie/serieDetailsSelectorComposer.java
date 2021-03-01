@@ -93,21 +93,29 @@ public class serieDetailsSelectorComposer extends SelectorComposer<Component>
 	{
 		serieData serie = (serieData) detailsSerie.getAttribute("serie");
 
-		Messagebox.show("Are you sure to delete \"" + serie.getSeriesName() + "\"?", "Confirm Dialog", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener()
-		{
-			public void onEvent(Event evt) throws InterruptedException
-			{
-				if(evt.getName().equals("onYES"))
-				{
-					alert("Data Saved!");
-					detailsSerie.onClose();
-				}
-				else
-				{
-					detailsSerie.onClose();
-				}
-			}
-		});
+		Messagebox.show("Are you sure to delete \"" + serie.getSeriesName() + "\"?",
+						"Question", Messagebox.OK | Messagebox.CANCEL,
+						Messagebox.QUESTION,
+						new org.zkoss.zk.ui.event.EventListener()
+						{
+							public void onEvent(Event e)
+							{
+								if("onOK".equals(e.getName()))
+								{
+									serie.delete();
+									Listitem item      = (Listitem) detailsSerie.getAttribute("item");
+									Listbox  serieList = item.getListbox();
+									serieList.removeItemAt(item.getIndex());
+
+									detailsSerie.onClose();
+								}
+								else if("onCancel".equals(e.getName()))
+								{
+									detailsSerie.onClose();
+								}
+							}
+						}
+					   );
 	}
 
 	private serieData getCurrentValues()

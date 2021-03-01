@@ -84,21 +84,31 @@ public class movieDetailsSelectorComposer extends SelectorComposer<Component>
 	{
 		movieData movie = (movieData) detailsMovie.getAttribute("movie");
 
-		Messagebox.show("Are you sure to delete \"" + movie.getMovieTitle() + "\"?", "Confirm Dialog", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener()
-		{
-			public void onEvent(Event evt) throws InterruptedException
-			{
-				if(evt.getName().equals("onYES"))
-				{
-//					alert("Data Saved!");
-					detailsMovie.onClose();
-				}
-				else
-				{
-					detailsMovie.onClose();
-				}
-			}
-		});
+		Messagebox.show("Are you sure to delete \"" + movie.getMovieTitle() + "\"?",
+						"Question", Messagebox.OK | Messagebox.CANCEL,
+						Messagebox.QUESTION,
+						new org.zkoss.zk.ui.event.EventListener()
+						{
+							public void onEvent(Event e)
+							{
+								if("onOK".equals(e.getName()))
+								{
+									movie.delete();
+									Listitem item      = (Listitem) detailsMovie.getAttribute("item");
+									Listbox  movieList = item.getListbox();
+									movieList.removeItemAt(item.getIndex());
+
+									detailsMovie.onClose();
+								}
+								else if("onCancel".equals(e.getName()))
+								{
+									detailsMovie.onClose();
+								}
+							}
+						}
+					   );
+
+		detailsMovie.onClose();
 	}
 
 	private movieData getCurrentValues()
@@ -107,7 +117,7 @@ public class movieDetailsSelectorComposer extends SelectorComposer<Component>
 
 		movie.setLocalPath(localPath.getValue());
 		movie.setResolution(resolution.getValue());
-		movie.setState(progress.getSelectedIndex()+1);
+		movie.setState(progress.getSelectedIndex() + 1);
 
 		return movie;
 	}

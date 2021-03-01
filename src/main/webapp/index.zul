@@ -9,7 +9,7 @@
 	>
 		<tabbox id="tabbox"
 				height="100%"
-				orient="left"
+				orient="top"
 		>
 			<tabs id="tabs"
 				  width="120px"

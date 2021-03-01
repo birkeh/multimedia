@@ -19,14 +19,29 @@
         >
         </button>
     </hbox>
+
     <listbox id="movieList"
              multiple="true"
              autopaging="true"
-             vflex="true">
+             vflex="true"
+             context="moviePopup"
+    >
         <listhead sizable="true"
         >
         </listhead>
         <!--		https://stackoverflow.com/questions/28629458/display-image-from-db-on-zk-zul-listbox-->
         <!--		https://www.zkoss.org/zksandbox/#u6-->
     </listbox>
+
+    <menupopup id="moviePopup">
+        <menu label="set status">
+            <menupopup>
+                <menuitem label="set Init"/>
+                <menuitem label="set Progress"/>
+                <menuitem label="set Done"/>
+            </menupopup>
+        </menu>
+        <menuitem label="update"/>
+        <menuitem label="delete"/>
+    </menupopup>
 </div>

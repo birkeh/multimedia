@@ -459,6 +459,27 @@ public class movieData
 		return true;
 	}
 
+	public boolean delete()
+	{
+		try
+		{
+			Connection conn = ds.getConnection();
+			Statement  stmt = conn.createStatement();
+			stmt.execute("DELETE FROM movie WHERE movieID=" + m_movieID + ";");
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+		finally
+		{
+			ds.close();
+		}
+
+		return true;
+	}
+
 	String personListToString(List<PersonBasic> personList)
 	{
 		String  str   = "";

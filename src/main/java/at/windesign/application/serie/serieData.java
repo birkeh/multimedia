@@ -672,6 +672,29 @@ class serieData
 		return true;
 	}
 
+	public boolean delete()
+	{
+		try
+		{
+			Connection conn = ds.getConnection();
+			Statement  stmt = conn.createStatement();
+			stmt.execute("DELETE FROM serie WHERE seriesID=" + m_seriesID + ";");
+			stmt.execute("DELETE FROM season WHERE seriesID=" + m_seriesID + ";");
+			stmt.execute("DELETE FROM episode WHERE seriesID=" + m_seriesID + ";");
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+		finally
+		{
+			ds.close();
+		}
+
+		return true;
+	}
+
 	String personListToString(List<PersonBasic> personList)
 	{
 		String  str   = "";
