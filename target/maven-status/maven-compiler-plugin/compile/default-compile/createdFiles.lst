@@ -1,3 +1,5 @@
+at\windesign\application\movie\movieSearchForwardComposer.class
+at\windesign\application\movie\movieResultRenderer.class
 at\windesign\application\serie\serieDataSource.class
 at\windesign\application\serie\serieDetailsSelectorComposer.class
 at\windesign\application\serie\seasonData.class
@@ -9,5 +11,7 @@ at\windesign\application\serie\serieDetailsForwardComposer.class
 at\windesign\application\serie\serieDetailsSelectorComposer$1.class
 at\windesign\application\serie\serieListForwardComposer.class
 at\windesign\application\testing\testForwardComposer.class
+at\windesign\application\movie\movieSearchSelectorComposer.class
 at\windesign\application\serie\episodeData.class
+at\windesign\application\serie\serieResultRenderer.class
 at\windesign\application\main\indexForwardComposer.class
