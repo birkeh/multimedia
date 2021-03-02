@@ -66,6 +66,19 @@ public class movieListSelectorComposer extends SelectorComposer<Component>
 		window.doModal();
 	}
 
+	@Listen("onClick = #discoverMovie")
+	public void onDiscoverMovie()
+	{
+		Map<String, Object> arguments = new HashMap<String, Object>();
+
+		arguments.put("movieList", movieList);
+
+		String template = "/movie/discoverMovie.zul";
+		Window window   = (Window) Executions.createComponents(template, null, arguments);
+
+		window.doModal();
+	}
+
 	@Listen("onClick = menuitem")
 	public void onMoviePopup(MouseEvent event)
 	{

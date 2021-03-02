@@ -1,7 +1,5 @@
 package at.windesign.application.serie;
 
-import at.windesign.application.movie.movieData;
-import org.zkoss.zhtml.Li;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
@@ -80,6 +78,19 @@ public class serieListSelectorComposer extends SelectorComposer<Component>
 		window.doModal();
 	}
 
+	@Listen("onClick = #discoverSerie")
+	public void onDiscoverSerie()
+	{
+		Map<String, Object> arguments = new HashMap<String, Object>();
+
+		arguments.put("serieList", seriesList);
+
+		String template = "/serie/discoverSerie.zul";
+		Window window   = (Window) Executions.createComponents(template, null, arguments);
+
+		window.doModal();
+	}
+
 	@Listen("onClick = menuitem")
 	public void onSeriePopup(MouseEvent event)
 	{
@@ -87,6 +98,8 @@ public class serieListSelectorComposer extends SelectorComposer<Component>
 
 		if(label.compareToIgnoreCase("set all Progress to Done") == 0)
 			setAllProgressToDone();
+		else if(label.compareToIgnoreCase("update") == 0)
+			updateSerie();
 		else if(label.compareToIgnoreCase("delete") == 0)
 			deleteSerie();
 	}

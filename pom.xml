@@ -46,12 +46,40 @@
 				<enabled>true</enabled>
 			</releases>
 		</repository>
+		<repository>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>central</id>
+			<name>libs-release</name>
+			<url>http://artifactory.autocrm.net/artifactory/libs-release</url>
+		</repository>
+		<repository>
+			<snapshots />
+			<id>snapshots</id>
+			<name>libs-snapshot</name>
+			<url>http://artifactory.autocrm.net/artifactory/libs-snapshot</url>
+		</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
 			<id>zkmaven</id>
 			<name>ZK Maven Plugin Repository</name>
 			<url>https://mavensync.zkoss.org/maven2/</url>
+		</pluginRepository>
+		<pluginRepository>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>central</id>
+			<name>plugins-release</name>
+			<url>http://artifactory.autocrm.net/artifactory/plugins-release</url>
+		</pluginRepository>
+		<pluginRepository>
+			<snapshots />
+			<id>snapshots</id>
+			<name>plugins-snapshot</name>
+			<url>http://artifactory.autocrm.net/artifactory/plugins-snapshot</url>
 		</pluginRepository>
 	</pluginRepositories>
 	<dependencies>
@@ -127,7 +155,7 @@
 		<dependency>
 			<groupId>com.omertron</groupId>
 			<artifactId>themoviedbapi</artifactId>
-			<version>4.3</version>
+			<version>4.4</version>
 		</dependency>
 	</dependencies>
 	<build>

@@ -7,9 +7,19 @@
       <option name="url" value="https://repo.maven.apache.org/maven2" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="libs-release" />
+      <option name="url" value="http://artifactory.autocrm.net/artifactory/libs-release" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="ZK CE" />
       <option name="name" value="ZK CE Repository" />
       <option name="url" value="https://mavensync.zkoss.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="snapshots" />
+      <option name="name" value="libs-snapshot" />
+      <option name="url" value="http://artifactory.autocrm.net/artifactory/libs-snapshot" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="ZK EVAL" />

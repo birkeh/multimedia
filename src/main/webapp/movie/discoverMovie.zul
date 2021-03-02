@@ -1,0 +1,71 @@
+<window id="discoverMovie"
+        title="discover Movies"
+        contentStyle="overflow:auto"
+        border="normal"
+        apply="at.windesign.application.movie.movieDiscoverForwardComposer,at.windesign.application.movie.movieDiscoverSelectorComposer"
+        width="500px"
+        height="500px">
+    <groupbox id="groupboxGenre"
+              contentStyle="overflow: auto;">
+        <caption label="Genre"/>
+        <nodom>
+            <div sclass="grid"
+                 id="divGenre">
+            </div>
+        </nodom>
+    </groupbox>
+    <groupbox id="groupboxSearch"
+    >
+        <nodom>
+            <div sclass="grid"
+                 width="100%"
+                 style="display: grid; grid-template-columns: 10fr 2fr 2fr 2fr 2fr 2fr 2fr 1fr; grid-gap: 10px; justify-items: center">
+                <label value="Search"/>
+                <label value="Year from"/>
+                <label value="to"/>
+                <label value="vote count from"/>
+                <label value="to"/>
+                <label value="vote average from"/>
+                <label value="to (max 10)"/>
+                <label value=""/>
+                <textbox id="searchText"
+                         width="100%"
+                         tabindex="2"/>
+                <textbox id="searchYearGTE"
+                         width="100%"
+                         tabindex="3"/>
+                <textbox id="searchYearLTE"
+                         width="100%"
+                         tabindex="4"/>
+                <textbox id="searchVoteCountGTE"
+                         width="100%"
+                         tabindex="5"/>
+                <textbox id="searchVoteCountLTE"
+                         width="100%"
+                         tabindex="6"/>
+                <textbox id="searchVoteGTE"
+                         width="100%"
+                         tabindex="7"/>
+                <textbox id="searchVoteLTE"
+                         width="100%"
+                         tabindex="8"/>
+                <button id="searchButton"
+                        label="search"/>
+            </div>
+        </nodom>
+    </groupbox>
+    <listbox id="resultList"
+             multiple="true"
+             autopaging="true"
+             vflex="true">
+        <listhead sizable="true"
+        >
+        </listhead>
+    </listbox>
+    <hlayout>
+        <button id="saveButton"
+                label="save"/>
+        <button id="cancelButton"
+                label="cancel"/>
+    </hlayout>
+</window>
