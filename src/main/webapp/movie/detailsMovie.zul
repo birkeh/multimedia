@@ -23,6 +23,66 @@
                value=""/>
     </groupbox>
 
+    <hbox>
+        <groupbox id="castBox"
+        >
+            <caption>Cast</caption>
+            <listbox id="castList"
+                     height="200px"
+            >
+                <listhead>
+                    <listheader label="Name"/>
+                    <listheader label="Role"/>
+                </listhead>
+            </listbox>
+        </groupbox>
+        <groupbox id="crewBox"
+        >
+            <caption>Crew</caption>
+            <listbox id="crewList"
+                     height="200px"
+            >
+                <listhead>
+                    <listheader label="Name"/>
+                    <listheader label="Job"/>
+                </listhead>
+            </listbox>
+        </groupbox>
+        <groupbox id="genreBox"
+        >
+            <caption>Genre</caption>
+            <listbox id="genreList"
+                     height="200px"
+            >
+                <listhead>
+                    <listheader label="Genre"/>
+                </listhead>
+            </listbox>
+        </groupbox>
+        <groupbox id="productionCompaniesBox"
+        >
+            <caption>Production Companies</caption>
+            <listbox id="productionCompaniesList"
+                     height="200px"
+            >
+                <listhead>
+                    <listheader label="Production Company"/>
+                </listhead>
+            </listbox>
+        </groupbox>
+        <groupbox id="productionCountriesBox"
+        >
+            <caption>Production Companies</caption>
+            <listbox id="productionCountriesList"
+                     height="200px"
+            >
+                <listhead>
+                    <listheader label="Production Country"/>
+                </listhead>
+            </listbox>
+        </groupbox>
+    </hbox>
+
     <groupbox id="settings"
     >
         <caption>Settings</caption>

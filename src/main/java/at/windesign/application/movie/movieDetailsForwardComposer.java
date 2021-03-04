@@ -9,6 +9,8 @@ import org.zkoss.zul.*;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.TreeMap;
 
 public class movieDetailsForwardComposer extends GenericForwardComposer<Component>
@@ -21,10 +23,40 @@ public class movieDetailsForwardComposer extends GenericForwardComposer<Componen
 	private Window detailsMovie;
 
 	@Wire
+	protected Groupbox castBox;
+
+	@Wire
+	protected Groupbox crewBox;
+
+	@Wire
+	protected Groupbox genreBox;
+
+	@Wire
+	protected Groupbox productionCompaniesBox;
+
+	@Wire
+	protected Groupbox productionCountriesBox;
+
+	@Wire
 	protected Groupbox overview;
 
 	@Wire
 	protected Label overviewLabel;
+
+	@Wire
+	protected Listbox castList;
+
+	@Wire
+	protected Listbox crewList;
+
+	@Wire
+	protected Listbox genreList;
+
+	@Wire
+	protected Listbox productionCompaniesList;
+
+	@Wire
+	protected Listbox productionCountriesList;
 
 	@Wire
 	protected Groupbox settings;
@@ -65,6 +97,11 @@ public class movieDetailsForwardComposer extends GenericForwardComposer<Componen
 		super.doAfterCompose(comp);
 
 		overview.setStyle("opacity: " + opacity + "%");
+		castBox.setStyle("opacity: " + opacity + "%");
+		crewBox.setStyle("opacity: " + opacity + "%");
+		genreBox.setStyle("opacity: " + opacity + "%");
+		productionCompaniesBox.setStyle("opacity: " + opacity + "%");
+		productionCountriesBox.setStyle("opacity: " + opacity + "%");
 		settings.setStyle("opacity: " + opacity + "%");
 
 		int hD = (int) self.getDesktop().getAttribute("desktopHeight");
@@ -123,10 +160,103 @@ public class movieDetailsForwardComposer extends GenericForwardComposer<Componen
 			resolution.appendItem(rs.getString("resolution"));
 		}
 
-		detailsMovie.setTitle(m_movie.getMovieTitle() + " (" + m_movie.getReleaseDate() + ")");
+		String title = m_movie.getMovieTitle() + " (" + m_movie.getReleaseDate() + ")";
+
+		if(!m_movie.getOriginalTitle().isEmpty())
+		{
+			title = title + " [" + m_movie.getOriginalTitle() + "]";
+		}
+
+		detailsMovie.setTitle(title);
 		overviewLabel.setValue(m_movie.getOverview());
+
+		for(String cast : m_movie.getCast().split("\\|"))
+		{
+			if(cast.isEmpty())
+				continue;
+
+			String   name     = cast.substring(0, cast.indexOf(","));
+			String   role     = cast.substring(cast.indexOf(",") + 1);
+			Listitem item     = new Listitem();
+			Listcell nameCell = new Listcell();
+			Listcell roleCell = new Listcell();
+
+			nameCell.setLabel(name);
+			roleCell.setLabel(role);
+
+			item.appendChild(nameCell);
+			item.appendChild(roleCell);
+
+			castList.appendChild(item);
+		}
+
+		for(String crew : m_movie.getCrew().split("\\|"))
+		{
+			if(crew.isEmpty())
+				continue;
+
+			String   name     = crew.substring(0, crew.indexOf(","));
+			String   job      = crew.substring(crew.indexOf(",") + 1);
+			Listitem item     = new Listitem();
+			Listcell nameCell = new Listcell();
+			Listcell jobCell  = new Listcell();
+
+			nameCell.setLabel(name);
+			jobCell.setLabel(job);
+
+			item.appendChild(nameCell);
+			item.appendChild(jobCell);
+
+			crewList.appendChild(item);
+		}
+
+		for(String genre : m_movie.getGenre().split(","))
+		{
+			if(genre.isEmpty())
+				continue;
+
+			Listitem item     = new Listitem();
+			Listcell genreCell = new Listcell();
+
+			genreCell.setLabel(genre);
+
+			item.appendChild(genreCell);
+
+			genreList.appendChild(item);
+		}
+
+		for(String productionCompany : m_movie.getProductionCompanies().split(","))
+		{
+			if(productionCompany.isEmpty())
+				continue;
+
+			Listitem item     = new Listitem();
+			Listcell productionCompanyCell = new Listcell();
+
+			productionCompanyCell.setLabel(productionCompany);
+
+			item.appendChild(productionCompanyCell);
+
+			productionCompaniesList.appendChild(item);
+		}
+
+		for(String productionCountry : m_movie.getProductionCountries().split(","))
+		{
+			if(productionCountry.isEmpty())
+				continue;
+
+			Listitem item     = new Listitem();
+			Listcell productionCountryCell = new Listcell();
+
+			productionCountryCell.setLabel(productionCountry);
+
+			item.appendChild(productionCountryCell);
+
+			productionCountriesList.appendChild(item);
+		}
+
 		localPath.setValue(m_movie.getLocalPath());
 		resolution.setValue(m_movie.getResolution());
-		progress.setSelectedIndex(m_movie.getState()-1);
+		progress.setSelectedIndex(m_movie.getState() - 1);
 	}
 }

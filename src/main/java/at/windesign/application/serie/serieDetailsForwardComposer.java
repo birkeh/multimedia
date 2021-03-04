@@ -28,10 +28,40 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 	private Window detailsSerie;
 
 	@Wire
+	protected Groupbox castBox;
+
+	@Wire
+	protected Groupbox crewBox;
+
+	@Wire
+	protected Groupbox genreBox;
+
+	@Wire
+	protected Groupbox productionCompaniesBox;
+
+	@Wire
+	protected Groupbox productionCountriesBox;
+
+	@Wire
 	protected Groupbox overview;
 
 	@Wire
 	protected Label overviewLabel;
+
+	@Wire
+	protected Listbox castList;
+
+	@Wire
+	protected Listbox crewList;
+
+	@Wire
+	protected Listbox genreList;
+
+	@Wire
+	protected Listbox productionCompaniesList;
+
+	@Wire
+	protected Listbox productionCountriesList;
 
 	@Wire
 	protected Groupbox settings;
@@ -75,6 +105,11 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 		super.doAfterCompose(comp);
 
 		overview.setStyle("opacity: " + opacity + "%");
+		castBox.setStyle("opacity: " + opacity + "%");
+		crewBox.setStyle("opacity: " + opacity + "%");
+		genreBox.setStyle("opacity: " + opacity + "%");
+		productionCompaniesBox.setStyle("opacity: " + opacity + "%");
+		productionCountriesBox.setStyle("opacity: " + opacity + "%");
 		settings.setStyle("opacity: " + opacity + "%");
 
 		int hD = (int) self.getDesktop().getAttribute("desktopHeight");
@@ -135,6 +170,92 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 
 		detailsSerie.setTitle(m_serie.getSeriesName() + " (" + m_serie.getSeriesFirstAired() + ")");
 		overviewLabel.setValue(m_serie.getSeriesOverview());
+
+		for(String cast : m_serie.getSeriesCast().split("\\|"))
+		{
+			if(cast.isEmpty())
+				continue;
+
+			String   name     = cast.substring(0, cast.indexOf(","));
+			String   role     = cast.substring(cast.indexOf(",") + 1);
+			Listitem item     = new Listitem();
+			Listcell nameCell = new Listcell();
+			Listcell roleCell = new Listcell();
+
+			nameCell.setLabel(name);
+			roleCell.setLabel(role);
+
+			item.appendChild(nameCell);
+			item.appendChild(roleCell);
+
+			castList.appendChild(item);
+		}
+
+		for(String crew : m_serie.getSeriesCrew().split("\\|"))
+		{
+			if(crew.isEmpty())
+				continue;
+
+			String   name     = crew.substring(0, crew.indexOf(","));
+			String   job      = crew.substring(crew.indexOf(",") + 1);
+			Listitem item     = new Listitem();
+			Listcell nameCell = new Listcell();
+			Listcell jobCell  = new Listcell();
+
+			nameCell.setLabel(name);
+			jobCell.setLabel(job);
+
+			item.appendChild(nameCell);
+			item.appendChild(jobCell);
+
+			crewList.appendChild(item);
+		}
+
+		for(String genre : m_serie.getSeriesGenre().split(","))
+		{
+			if(genre.isEmpty())
+				continue;
+
+			Listitem item     = new Listitem();
+			Listcell genreCell = new Listcell();
+
+			genreCell.setLabel(genre);
+
+			item.appendChild(genreCell);
+
+			genreList.appendChild(item);
+		}
+
+		for(String productionCompany : m_serie.getSeriesProductionCompanies().split(","))
+		{
+			if(productionCompany.isEmpty())
+				continue;
+
+			Listitem item     = new Listitem();
+			Listcell productionCompanyCell = new Listcell();
+
+			productionCompanyCell.setLabel(productionCompany);
+
+			item.appendChild(productionCompanyCell);
+
+			productionCompaniesList.appendChild(item);
+		}
+
+		for(String productionCountry : m_serie.getSeriesOriginCountries().split(","))
+		{
+			if(productionCountry.isEmpty())
+				continue;
+
+			Listitem item     = new Listitem();
+			Listcell productionCountryCell = new Listcell();
+
+			productionCountryCell.setLabel(productionCountry);
+
+			item.appendChild(productionCountryCell);
+
+			productionCountriesList.appendChild(item);
+		}
+
 		downloadLink.setValue(m_serie.getSeriesDownload());
 		localPath.setValue(m_serie.getSeriesLocalPath());
 		resolution.setValue(m_serie.getSeriesResolution());

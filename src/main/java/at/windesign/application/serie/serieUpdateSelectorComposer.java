@@ -170,7 +170,6 @@ public class serieUpdateSelectorComposer extends SelectorComposer<Component>
 
 					current++;
 				}
-				break;
 			}
 			isFinish = true;
 		}

@@ -148,8 +148,6 @@ public class movieUpdateSelectorComposer extends SelectorComposer<Component>
 				updateMovie(data);
 
 				current++;
-
-				break;
 			}
 			isFinish = true;
 		}
