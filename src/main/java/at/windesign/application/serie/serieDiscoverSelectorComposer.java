@@ -118,7 +118,7 @@ public class serieDiscoverSelectorComposer extends SelectorComposer<Component>
 					}
 				}
 			}
-			OutputStream tempFile    = new FileOutputStream("redir");
+			OutputStream tempFile    = new FileOutputStream(System.getProperty("java.io.tmpdir") + "/redir");
 			PrintStream  printStream = new PrintStream(tempFile);
 			printStream.print("serie");
 			printStream.close();

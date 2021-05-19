@@ -97,7 +97,7 @@ public class movieUtils
 				movie.setOverview(rs.getString("overview"));
 				movie.setReleaseDate(rs.getDate("releaseDate"));
 				movie.setGenre(rs.getString("genre"));
-				movie.setIMDBID(rs.getString("IMDBID"));
+				movie.setIMDBID(rs.getString("imdbid"));
 				movie.setOriginalLanguage(rs.getString("originalLanguage"));
 				movie.setPopularity(rs.getDouble("popularity"));
 				movie.setProductionCompanies(rs.getString("productionCompanies"));

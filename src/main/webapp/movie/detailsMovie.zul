@@ -10,7 +10,7 @@
     <style>
         .grid {
         display: grid;
-        grid-template-columns: 4fr 1fr 1fr;
+        grid-template-columns: 4fr 1fr 1fr 1fr;
         grid-gap: 10px;
         justify-items: center;
         }
@@ -93,6 +93,7 @@
                 <label value="Local Path"/>
                 <label value="Resolution"/>
                 <label value="State"/>
+                <label value="IMDB-ID"/>
                 <textbox id="localPath"
                          width="100%"
                          tabindex="2"/>
@@ -106,6 +107,9 @@
                         <radio label="done"/>
                     </radiogroup>
                 </vlayout>
+                <textbox id="imdbID"
+                         width="100%"
+                         tabindex="5"/>
             </div>
         </nodom>
     </groupbox>

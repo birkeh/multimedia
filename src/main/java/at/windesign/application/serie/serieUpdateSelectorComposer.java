@@ -218,7 +218,7 @@ public class serieUpdateSelectorComposer extends SelectorComposer<Component>
 				serieProgressLabel.setValue("Finish!");
 				updateSerie.detach();
 
-				OutputStream tempFile    = new FileOutputStream("redir");
+				OutputStream tempFile    = new FileOutputStream(System.getProperty("java.io.tmpdir") + "/redir");
 				PrintStream  printStream = new PrintStream(tempFile);
 				printStream.print("serie");
 				printStream.close();

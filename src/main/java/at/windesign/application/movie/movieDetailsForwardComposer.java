@@ -71,6 +71,9 @@ public class movieDetailsForwardComposer extends GenericForwardComposer<Componen
 	protected Radiogroup progress;
 
 	@Wire
+	protected Textbox imdbID;
+
+	@Wire
 	protected Hbox buttons;
 
 	@Wire
@@ -258,5 +261,6 @@ public class movieDetailsForwardComposer extends GenericForwardComposer<Componen
 		localPath.setValue(m_movie.getLocalPath());
 		resolution.setValue(m_movie.getResolution());
 		progress.setSelectedIndex(m_movie.getState() - 1);
+		imdbID.setValue(m_movie.getIMDBID());
 	}
 }

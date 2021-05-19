@@ -38,7 +38,7 @@ public class indexForwardComposer extends GenericForwardComposer<Component>
 
 		try
 		{
-			File file = new File("redir");
+			File file = new File(System.getProperty("java.io.tmpdir") + "/redir");
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			redir = reader.readLine();
 			reader.close();
