@@ -2,6 +2,7 @@ package at.windesign.application.movie;
 
 import com.omertron.themoviedbapi.MovieDbException;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -38,6 +39,11 @@ public class movieDetailsSelectorComposer extends SelectorComposer<Component>
 		movie.setModel(model);
 		model.remove(index);
 		model.add(index, movie);
+
+		Window mainWindow = (Window)Path.getComponent("/mainWindow");
+		Tab tabMovies = (Tab)mainWindow.getFellow("tabMovies");
+		movieDataSource ds = movieDataSource.INSTANCE;
+		movieUtils.movieMetrics(tabMovies, ds);
 
 		detailsMovie.onClose();
 	}
@@ -107,6 +113,11 @@ public class movieDetailsSelectorComposer extends SelectorComposer<Component>
 							}
 						}
 					   );
+
+		Window mainWindow = (Window)Path.getComponent("/mainWindow");
+		Tab tabMovies = (Tab)mainWindow.getFellow("tabMovies");
+		movieDataSource ds = movieDataSource.INSTANCE;
+		movieUtils.movieMetrics(tabMovies, ds);
 
 		detailsMovie.onClose();
 	}

@@ -1,5 +1,6 @@
 package at.windesign.application.serie;
 
+import at.windesign.application.movie.movieDataSource;
 import org.zkoss.zul.*;
 
 import java.sql.ResultSet;
@@ -339,5 +340,33 @@ public class serieUtils
 		serie.setSeriesCliffhanger(rs.getBoolean("seriesCliffhanger"));
 
 		return serie;
+	}
+
+	static public void serieMetrics(Tab tabSeries, serieDataSource ds)
+	{
+		int seriesTotal = 0;
+
+		try
+		{
+			Statement stmt = ds.getStatement();
+			ResultSet rs = stmt.executeQuery(
+					"SELECT COUNT(1) CNT " +
+					"FROM     multimedia.serie;");
+
+			while(rs.next())
+			{
+				seriesTotal = rs.getInt("CNT");
+			}
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			ds.close();
+		}
+
+		tabSeries.setLabel("TV Shows (T: " + seriesTotal + ")");
 	}
 }

@@ -2,6 +2,7 @@ package at.windesign.application.serie;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
@@ -94,7 +95,7 @@ public class serieListSelectorComposer extends SelectorComposer<Component>
 	@Listen("onClick = menuitem")
 	public void onSeriePopup(MouseEvent event)
 	{
-		String label = ((LabelElement)event.getTarget()).getLabel();
+		String label = ((LabelElement) event.getTarget()).getLabel();
 
 		if(label.compareToIgnoreCase("set all Progress to Done") == 0)
 			setAllProgressToDone();
@@ -129,7 +130,7 @@ public class serieListSelectorComposer extends SelectorComposer<Component>
 		s.recalcState();
 
 		ListModelList model = s.getModel();
-		int index = item.getIndex();
+		int           index = item.getIndex();
 		model.remove(index);
 		model.add(index, s);
 	}
@@ -141,7 +142,7 @@ public class serieListSelectorComposer extends SelectorComposer<Component>
 		if(item == null)
 			return;
 
-		serieData m = (serieData) item.getValue();
+		serieData m    = (serieData) item.getValue();
 		serieData mNew = new serieData();
 
 		try
@@ -151,7 +152,7 @@ public class serieListSelectorComposer extends SelectorComposer<Component>
 			mNew.save();
 
 			ListModelList model = m.getModel();
-			int index = item.getIndex();
+			int           index = item.getIndex();
 
 			mNew.setModel(model);
 			model.remove(index);
@@ -182,6 +183,11 @@ public class serieListSelectorComposer extends SelectorComposer<Component>
 								{
 									s.delete();
 									seriesList.removeItemAt(item.getIndex());
+
+									Window          mainWindow = (Window) Path.getComponent("/mainWindow");
+									Tab             tabSeries  = (Tab) mainWindow.getFellow("tabSeries");
+									serieDataSource ds         = serieDataSource.INSTANCE;
+									serieUtils.serieMetrics(tabSeries, ds);
 								}
 								else if("onCancel".equals(e.getName()))
 								{

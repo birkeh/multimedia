@@ -138,4 +138,51 @@ public class movieUtils
 			movie.setModel(movieListModel);
 		}
 	}
+
+	static public void movieMetrics(Tab tabMovies, movieDataSource ds)
+	{
+		int moviesTotal = 0;
+		int moviesInit  = 0;
+		int moviesProc  = 0;
+		int moviesDone  = 0;
+
+		try
+		{
+			Statement stmt = ds.getStatement();
+			ResultSet rs = stmt.executeQuery(
+					"SELECT COUNT(1) CNT, " +
+					"       state " +
+					"FROM     multimedia.movie " +
+					"GROUP BY state;");
+
+			while(rs.next())
+			{
+				int state = rs.getInt("state");
+
+				switch(state)
+				{
+					case 1:
+						moviesInit = rs.getInt("CNT");
+						break;
+					case 2:
+						moviesProc = rs.getInt("CNT");
+						break;
+					case 3:
+						moviesDone = rs.getInt("CNT");
+						break;
+				}
+			}
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			ds.close();
+		}
+
+		moviesTotal = moviesInit + moviesProc + moviesDone;
+		tabMovies.setLabel("Movies (T: " + moviesTotal + " / I: " + moviesInit + " / P: " + moviesProc + " / D: " + moviesDone + ")");
+	}
 }

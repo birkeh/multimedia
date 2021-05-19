@@ -2,6 +2,7 @@ package at.windesign.application.movie;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zk.ui.select.SelectorComposer;
@@ -94,6 +95,11 @@ public class movieListSelectorComposer extends SelectorComposer<Component>
 			updateMovie();
 		else if(label.compareToIgnoreCase("delete") == 0)
 			deleteMovie();
+
+		Window mainWindow = (Window)Path.getComponent("/mainWindow");
+		Tab tabMovies = (Tab)mainWindow.getFellow("tabMovies");
+		movieDataSource ds = movieDataSource.INSTANCE;
+		movieUtils.movieMetrics(tabMovies, ds);
 	}
 
 	public void setState(int state)

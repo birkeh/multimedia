@@ -2,6 +2,7 @@ package at.windesign.application.serie;
 
 import com.omertron.themoviedbapi.MovieDbException;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
@@ -47,6 +48,11 @@ public class serieDetailsSelectorComposer extends SelectorComposer<Component>
 		serie.setModel(model);
 		model.remove(index);
 		model.add(index, serie);
+
+		Window          mainWindow = (Window) Path.getComponent("/mainWindow");
+		Tab             tabSeries  = (Tab) mainWindow.getFellow("tabSeries");
+		serieDataSource ds         = serieDataSource.INSTANCE;
+		serieUtils.serieMetrics(tabSeries, ds);
 
 		detailsSerie.onClose();
 	}
@@ -106,6 +112,11 @@ public class serieDetailsSelectorComposer extends SelectorComposer<Component>
 									Listitem item      = (Listitem) detailsSerie.getAttribute("item");
 									Listbox  serieList = item.getListbox();
 									serieList.removeItemAt(item.getIndex());
+
+									Window          mainWindow = (Window) Path.getComponent("/mainWindow");
+									Tab             tabSeries  = (Tab) mainWindow.getFellow("tabSeries");
+									serieDataSource ds         = serieDataSource.INSTANCE;
+									serieUtils.serieMetrics(tabSeries, ds);
 
 									detailsSerie.onClose();
 								}

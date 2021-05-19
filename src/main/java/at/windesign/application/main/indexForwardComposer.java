@@ -5,10 +5,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
-import org.zkoss.zul.Label;
-import org.zkoss.zul.Tabbox;
-import org.zkoss.zul.Tabs;
-import org.zkoss.zul.Window;
+import org.zkoss.zul.*;
 
 import java.io.*;
 import java.net.URL;
