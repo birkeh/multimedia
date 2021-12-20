@@ -9,7 +9,7 @@ public enum serieDataSource
 {
 	INSTANCE;
 
-	private static final String url  = "jdbc:mysql://localhost:3306/multimedia";
+	private static final String url  = "jdbc:mysql://localhost:3306/multimedia?useSSL=false";
 	private static final String user = "multimedia";
 	private static final String pwd  = "WeissIchNicht8";
 
@@ -50,6 +50,7 @@ public enum serieDataSource
 		Statement stmt = null;
 		// get connection
 		conn = DriverManager.getConnection(url, user, pwd);
+
 		stmt = conn.createStatement();
 		return stmt;
 	}

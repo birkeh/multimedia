@@ -3,9 +3,10 @@ package at.windesign.application.serie;
 import at.windesign.application.movie.movieDataSource;
 import org.zkoss.zul.*;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
@@ -41,8 +42,6 @@ public class serieUtils
 		}
 		catch(SQLException e)
 		{
-			Messagebox.show(e.getMessage());
-			Messagebox.show(e.getSQLState());
 			e.printStackTrace();
 		}
 
@@ -81,6 +80,7 @@ public class serieUtils
 		try
 		{
 			Statement stmt = ds.getStatement();
+
 			ResultSet rs = stmt.executeQuery(
 					"SELECT		serie.seriesID seriesID," +
 							" 			serie.seriesName seriesName," +
@@ -263,7 +263,6 @@ public class serieUtils
 			header.setWidth(size + 40 + "px");
 		}
 	}
-
 
 	static protected episodeData newEpisode(ResultSet rs) throws SQLException
 	{
