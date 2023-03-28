@@ -7,6 +7,7 @@ import com.omertron.themoviedbapi.model.discover.WithBuilder;
 import com.omertron.themoviedbapi.model.movie.MovieBasic;
 import com.omertron.themoviedbapi.results.ResultList;
 import org.apache.http.client.HttpClient;
+import org.ini4j.Ini;
 import org.yamj.api.common.http.SimpleHttpClientBuilder;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
@@ -16,10 +17,7 @@ import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.*;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -83,7 +81,7 @@ public class movieDiscoverSelectorComposer extends SelectorComposer<Component>
 	}
 
 	@Listen("onClick = #saveButton")
-	public void save() throws FileNotFoundException
+	public void save()
 	{
 		ListModelList   resultListModel = (ListModelList) resultList.getModel();
 		List<movieData> dataList        = resultListModel.getInnerList();
@@ -119,11 +117,6 @@ public class movieDiscoverSelectorComposer extends SelectorComposer<Component>
 					}
 				}
 			}
-			OutputStream tempFile    = new FileOutputStream(System.getProperty("java.io.tmpdir") + "/redir");
-			PrintStream  printStream = new PrintStream(tempFile);
-			printStream.print("movie");
-			printStream.close();
-
 			Executions.sendRedirect("");
 		}
 		discoverMovie.onClose();

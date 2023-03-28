@@ -1,6 +1,7 @@
 package at.windesign.application.movie;
 
 import com.omertron.themoviedbapi.MovieDbException;
+import org.ini4j.Ini;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
@@ -195,12 +196,6 @@ public class movieUpdateSelectorComposer extends SelectorComposer<Component>
 			{
 				movieProgressLabel.setValue("Finish!");
 				updateMovie.detach();
-
-				OutputStream tempFile    = new FileOutputStream(System.getProperty("java.io.tmpdir") + "/redir");
-				PrintStream  printStream = new PrintStream(tempFile);
-				printStream.print("movie");
-				printStream.close();
-
 				Executions.sendRedirect("");
 			}
 		}

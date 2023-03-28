@@ -26,6 +26,27 @@
             </button>
         </hbox>
     </vlayout>
+    <vlayout>
+        <hbox width="100%" align="center">
+            <button id="applyFilter"
+                    label="apply filter"/>
+            <checkbox id="useFilter"
+                      tabindex="1"
+                      label="use Filter"/>
+            <checkbox id="filterInitialized"
+                      tabindex="2"
+                      disabled="true"
+                      label="initialized"/>
+            <checkbox id="filterInProgress"
+                      tabindex="3"
+                      disabled="true"
+                      label="in progress"/>
+            <checkbox id="filterDone"
+                      tabindex="4"
+                      disabled="true"
+                      label="done"/>
+        </hbox>
+    </vlayout>
     <listbox id="seriesList"
              multiple="true"
              autopaging="true"
@@ -47,5 +68,6 @@
         </menu>
         <menuitem label="update"/>
         <menuitem label="delete"/>
+        <menuitem label="open download link..."/>
     </menupopup>
 </div>

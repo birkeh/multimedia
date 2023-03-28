@@ -1,5 +1,6 @@
 package at.windesign.application.serie;
 
+import org.ini4j.Ini;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Path;
@@ -11,6 +12,8 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.*;
 import org.zkoss.zul.impl.LabelElement;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
@@ -19,6 +22,18 @@ public class serieListSelectorComposer extends SelectorComposer<Component>
 {
 	@Wire
 	private Listbox seriesList;
+
+	@Wire
+	private Checkbox useFilter;
+
+	@Wire
+	private Checkbox filterInitialized;
+
+	@Wire
+	private Checkbox filterInProgress;
+
+	@Wire
+	private Checkbox filterDone;
 
 	@Listen("onDoubleClick = #seriesList")
 	public void onClickSeriesList()
@@ -103,6 +118,8 @@ public class serieListSelectorComposer extends SelectorComposer<Component>
 			updateSerie();
 		else if(label.compareToIgnoreCase("delete") == 0)
 			deleteSerie();
+		else if(label.compareToIgnoreCase("open download link...") == 0)
+			openDownloadLinkSerie();
 	}
 
 	public void setAllProgressToDone()
@@ -135,6 +152,25 @@ public class serieListSelectorComposer extends SelectorComposer<Component>
 		model.add(index, s);
 	}
 
+	public void openDownloadLinkSerie()
+	{
+		Listitem item = seriesList.getSelectedItem();
+
+		if(item == null)
+			return;
+
+		serieData s            = (serieData) item.getValue();
+		String    downloadLink = s.getSeriesDownload();
+
+		if(downloadLink == null)
+			downloadLink = "";
+
+//		if(downloadLink.length() == 0)
+//			return;
+
+		Executions.getCurrent().sendRedirect(downloadLink,"_blank");
+	}
+
 	public void updateSerie()
 	{
 		Listitem item = seriesList.getSelectedItem();
@@ -157,8 +193,7 @@ public class serieListSelectorComposer extends SelectorComposer<Component>
 			mNew.setModel(model);
 			model.remove(index);
 			model.add(index, mNew);
-		}
-		catch(Exception e)
+		} catch(Exception e)
 		{
 		}
 	}
@@ -173,28 +208,68 @@ public class serieListSelectorComposer extends SelectorComposer<Component>
 		serieData s = (serieData) item.getValue();
 
 		Messagebox.show("Are you sure to delete \"" + s.getSeriesName() + "\"?",
-						"Question", Messagebox.OK | Messagebox.CANCEL,
-						Messagebox.QUESTION,
-						new org.zkoss.zk.ui.event.EventListener()
+				"Question", Messagebox.OK | Messagebox.CANCEL,
+				Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener()
+				{
+					public void onEvent(Event e)
+					{
+						if("onOK".equals(e.getName()))
 						{
-							public void onEvent(Event e)
-							{
-								if("onOK".equals(e.getName()))
-								{
-									s.delete();
-									seriesList.removeItemAt(item.getIndex());
+							s.delete();
+							seriesList.removeItemAt(item.getIndex());
 
-									Window          mainWindow = (Window) Path.getComponent("/mainWindow");
-									Tab             tabSeries  = (Tab) mainWindow.getFellow("tabSeries");
-									serieDataSource ds         = serieDataSource.INSTANCE;
-									serieUtils.serieMetrics(tabSeries, ds);
-								}
-								else if("onCancel".equals(e.getName()))
-								{
-									return;
-								}
-							}
+							Window          mainWindow = (Window) Path.getComponent("/mainWindow");
+							Tab             tabSeries  = (Tab) mainWindow.getFellow("tabSeries");
+							serieDataSource ds         = serieDataSource.INSTANCE;
+							serieUtils.serieMetrics(tabSeries, ds);
+						} else if("onCancel".equals(e.getName()))
+						{
+							return;
 						}
-					   );
+					}
+				}
+		);
+	}
+
+	@Listen("onClick = #useFilter")
+	public void onUseFilter()
+	{
+		if(useFilter.isChecked())
+		{
+			filterInitialized.setDisabled(false);
+			filterInProgress.setDisabled(false);
+			filterDone.setDisabled(false);
+		} else
+		{
+			filterInitialized.setDisabled(true);
+			filterInProgress.setDisabled(true);
+			filterDone.setDisabled(true);
+		}
+	}
+
+	@Listen("onClick = #applyFilter")
+	public void onApplyFilter()
+	{
+		Ini ini = null;
+		try
+		{
+			File iniFile = new File(System.getProperty("java.io.tmpdir") + "/multimedia.ini");
+			if(!iniFile.exists())
+				iniFile.createNewFile();
+			ini = new Ini(iniFile);
+			ini.put("main", "currentTab", 0);
+			ini.put("filter", "useFilter", useFilter.isChecked());
+			ini.put("filter", "filterInitialized", filterInitialized.isChecked());
+			ini.put("filter", "filterInProgress", filterInProgress.isChecked());
+			ini.put("filter", "filterDone", filterDone.isChecked());
+
+			ini.store();
+
+			Executions.sendRedirect("");
+		} catch(IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

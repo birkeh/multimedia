@@ -283,7 +283,7 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 		Groupbox groupbox = new Groupbox();
 		groupbox.setId("groupboxSeason" + season.getSeasonNumber());
 		groupbox.setStyle("opacity: " + opacity + "%;");
-		groupbox.setContentStyle(" overflow: auto;");
+		groupbox.setContentStyle(" overflow: auto; background: rgba(255, 255, 255, 0.7)");
 
 		Caption caption = new Caption();
 		caption.setLabel("Season " + season.getSeasonNumber());
@@ -353,7 +353,8 @@ public class serieDetailsForwardComposer extends GenericForwardComposer<Componen
 		String styleString = "display: grid; " +
 				"grid-template-areas: \"a ";
 
-		for(int i = 0; i < maxEpisode; i++)
+//		for(int i = 0; i < maxEpisode; i++)
+		for(int key : episodes.keySet())
 			styleString += "a ";
 		styleString = styleString + "\"; grid-auto-columns: max-content; grid-gap: 10px; justify-items: center;";
 		div.setStyle(styleString);

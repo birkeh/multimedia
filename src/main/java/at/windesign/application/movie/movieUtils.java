@@ -12,7 +12,7 @@ import java.util.TreeMap;
 
 public class movieUtils
 {
-	static public void loadMovies(movieDataSource ds, Listbox moviesList)
+	static public void loadMovies(movieDataSource ds, Listbox moviesList, boolean useFilter, boolean filterInitialize, boolean filterInProgress, boolean filterDone)
 	{
 		List<movieData>                movieList  = new ArrayList<>();
 		SortedMap<Integer, Listheader> listHeader = new TreeMap<>();
@@ -134,8 +134,34 @@ public class movieUtils
 
 		for(movieData movie : movieList)
 		{
-			movieListModel.add(movie);
-			movie.setModel(movieListModel);
+			boolean insert = false;
+
+			if(useFilter)
+			{
+				if(filterInitialize)
+				{
+					if(movie.getState() == 1)
+						insert = true;
+				}
+				if(filterInProgress)
+				{
+					if(movie.getState() == 2)
+						insert = true;
+				}
+				if(filterDone)
+				{
+					if(movie.getState() == 3)
+						insert = true;
+				}
+			}
+			else
+				insert = true;
+
+			if(insert)
+			{
+				movieListModel.add(movie);
+				movie.setModel(movieListModel);
+			}
 		}
 	}
 

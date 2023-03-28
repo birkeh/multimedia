@@ -7,6 +7,7 @@ import com.omertron.themoviedbapi.model.discover.WithBuilder;
 import com.omertron.themoviedbapi.model.tv.TVBasic;
 import com.omertron.themoviedbapi.results.ResultList;
 import org.apache.http.client.HttpClient;
+import org.ini4j.Ini;
 import org.yamj.api.common.http.SimpleHttpClientBuilder;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
@@ -16,10 +17,7 @@ import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.*;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.sql.Date;
 import java.util.List;
 
@@ -118,11 +116,6 @@ public class serieDiscoverSelectorComposer extends SelectorComposer<Component>
 					}
 				}
 			}
-			OutputStream tempFile    = new FileOutputStream(System.getProperty("java.io.tmpdir") + "/redir");
-			PrintStream  printStream = new PrintStream(tempFile);
-			printStream.print("serie");
-			printStream.close();
-
 			Executions.sendRedirect("");
 		}
 		discoverSerie.onClose();

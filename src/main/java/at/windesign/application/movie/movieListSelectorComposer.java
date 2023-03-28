@@ -1,5 +1,6 @@
 package at.windesign.application.movie;
 
+import org.ini4j.Ini;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Path;
@@ -12,6 +13,8 @@ import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.*;
 import org.zkoss.zul.impl.LabelElement;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +22,18 @@ public class movieListSelectorComposer extends SelectorComposer<Component>
 {
 	@Wire
 	private Listbox movieList;
+
+	@Wire
+	private Checkbox useFilterMovie;
+
+	@Wire
+	private Checkbox filterInitializedMovie;
+
+	@Wire
+	private Checkbox filterInProgressMovie;
+
+	@Wire
+	private Checkbox filterDoneMovie;
 
 	@Listen("onDoubleClick = #movieList")
 	public void onClickMovieList()
@@ -175,5 +190,48 @@ public class movieListSelectorComposer extends SelectorComposer<Component>
 							}
 						}
 					   );
+	}
+
+	@Listen("onClick = #useFilterMovie")
+	public void onUseFilter()
+	{
+		if(useFilterMovie.isChecked())
+		{
+			filterInitializedMovie.setDisabled(false);
+			filterInProgressMovie.setDisabled(false);
+			filterDoneMovie.setDisabled(false);
+		}
+		else
+		{
+			filterInitializedMovie.setDisabled(true);
+			filterInProgressMovie.setDisabled(true);
+			filterDoneMovie.setDisabled(true);
+		}
+	}
+
+	@Listen("onClick = #applyFilterMovie")
+	public void onApplyFilter()
+	{
+		Ini ini = null;
+		try
+		{
+			File iniFile = new File(System.getProperty("java.io.tmpdir") + "/multimedia.ini");
+			if(!iniFile.exists())
+				iniFile.createNewFile();
+			ini = new Ini(iniFile);
+			ini.put("main", "currentTab", 1);
+			ini.put("filter", "useFilterMovie", useFilterMovie.isChecked());
+			ini.put("filter", "filterInitializedMovie", filterInitializedMovie.isChecked());
+			ini.put("filter", "filterInProgressMovie", filterInProgressMovie.isChecked());
+			ini.put("filter", "filterDoneMovie", filterDoneMovie.isChecked());
+
+			ini.store();
+
+			Executions.sendRedirect("");
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

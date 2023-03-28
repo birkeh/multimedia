@@ -17,7 +17,7 @@ public class movieDetailsForwardComposer extends GenericForwardComposer<Componen
 {
 	private static final long            serialVersionUID = 1L;
 	private final        movieDataSource ds               = movieDataSource.INSTANCE;
-	private              int             opacity          = 80;
+	private              int             opacity          = 100;
 
 	@Wire
 	private Window detailsMovie;

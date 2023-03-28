@@ -2,23 +2,46 @@
      vflex="true"
      apply="at.windesign.application.movie.movieListForwardComposer, at.windesign.application.movie.movieListSelectorComposer"
 >
-    <hbox width="100%" pack="stretch">
-        <button width="100%"
-                id="updateAll"
-                label="update all"
-        >
-        </button>
-        <button width="100%"
-                id="searchMovie"
-                label="search Movie"
-        >
-        </button>
-        <button width="100%"
-                id="discoverMovie"
-                label="discover Movie"
-        >
-        </button>
-    </hbox>
+    <vlayout>
+        <hbox width="100%" pack="stretch">
+            <button width="100%"
+                    id="updateAll"
+                    label="update all"
+            >
+            </button>
+            <button width="100%"
+                    id="searchMovie"
+                    label="search Movie"
+            >
+            </button>
+            <button width="100%"
+                    id="discoverMovie"
+                    label="discover Movie"
+            >
+            </button>
+        </hbox>
+    </vlayout>
+    <vlayout>
+        <hbox width="100%" align="center">
+            <button id="applyFilterMovie"
+                    label="apply filter"/>
+            <checkbox id="useFilterMovie"
+                      tabindex="1"
+                      label="use Filter"/>
+            <checkbox id="filterInitializedMovie"
+                      tabindex="2"
+                      disabled="true"
+                      label="initialized"/>
+            <checkbox id="filterInProgressMovie"
+                      tabindex="3"
+                      disabled="true"
+                      label="in progress"/>
+            <checkbox id="filterDoneMovie"
+                      tabindex="4"
+                      disabled="true"
+                      label="done"/>
+        </hbox>
+    </vlayout>
 
     <listbox id="movieList"
              multiple="true"

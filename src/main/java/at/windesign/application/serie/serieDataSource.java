@@ -1,5 +1,7 @@
 package at.windesign.application.serie;
 
+import org.zkoss.zul.Messagebox;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -24,12 +26,12 @@ public enum serieDataSource
 		catch(ClassNotFoundException e)
 		{
 			e.printStackTrace();
+			Messagebox.show(e.getMessage());
 		}
 	}
 
 	private serieDataSource()
 	{
-		// drop the table if it exists
 		try
 		{
 			Statement stmt = this.getStatement();
@@ -38,6 +40,7 @@ public enum serieDataSource
 		catch(SQLException e)
 		{
 			e.printStackTrace();
+			Messagebox.show(e.getMessage());
 		}
 		finally
 		{
@@ -74,6 +77,7 @@ public enum serieDataSource
 		catch(SQLException e)
 		{
 			e.printStackTrace();
+			Messagebox.show(e.getMessage());
 		}
 	}
 }

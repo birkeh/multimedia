@@ -12,6 +12,10 @@
 
 	<library-property>
 		<name>org.zkoss.theme.preferred</name>
-		<value>breeze_c</value> <!-- no whitespace in theme names -->
+		<!--<value>breeze_c</value> -->
+		<!--<value>breeze</value> -->
+		<value>atlantic</value>
+		<!--<value>sapphire</value> -->
+		<!--<value>silvertail</value> -->
 	</library-property>
 </zk>

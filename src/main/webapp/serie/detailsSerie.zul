@@ -1,120 +1,120 @@
 <window id="detailsSerie"
-		title=""
-		contentStyle="overflow:auto"
-		border="normal"
-		apply="at.windesign.application.serie.serieDetailsForwardComposer, at.windesign.application.serie.serieDetailsSelectorComposer"
-		width="500px"
-		height="500px"
+        title=""
+        contentStyle="overflow:auto"
+        border="normal"
+        apply="at.windesign.application.serie.serieDetailsForwardComposer, at.windesign.application.serie.serieDetailsSelectorComposer"
+        width="500px"
+        height="500px"
 >
 
-	<style>
-		.grid {
-		display: grid;
-		grid-template-columns: 4fr 4fr 1fr 1fr;
-		grid-gap: 10px;
-		justify-items: center;
-		}
-	</style>
+    <style>
+        .grid {
+        display: grid;
+        grid-template-columns: 4fr 4fr 1fr 1fr;
+        grid-gap: 10px;
+        justify-items: center;
+        }
+    </style>
 
-	<groupbox id="overview"
-	>
-		<caption>Overview</caption>
-		<label id="overviewLabel"
-			   value=""/>
-	</groupbox>
+    <groupbox id="overview" contentStyle="background: rgba(255, 255, 255, 0.7)"
+    >
+        <caption>Overview</caption>
+        <label id="overviewLabel"
+               value=""/>
+    </groupbox>
 
-	<hbox>
-		<groupbox id="castBox"
-		>
-			<caption>Cast</caption>
-			<listbox id="castList"
-					 height="200px"
-			>
-				<listhead>
-					<listheader label="Name"/>
-					<listheader label="Role"/>
-				</listhead>
-			</listbox>
-		</groupbox>
-		<groupbox id="crewBox"
-		>
-			<caption>Crew</caption>
-			<listbox id="crewList"
-					 height="200px"
-			>
-				<listhead>
-					<listheader label="Name"/>
-					<listheader label="Job"/>
-				</listhead>
-			</listbox>
-		</groupbox>
-		<groupbox id="genreBox"
-		>
-			<caption>Genre</caption>
-			<listbox id="genreList"
-					 height="200px"
-			>
-				<listhead>
-					<listheader label="Genre"/>
-				</listhead>
-			</listbox>
-		</groupbox>
-		<groupbox id="productionCompaniesBox"
-		>
-			<caption>Production Companies</caption>
-			<listbox id="productionCompaniesList"
-					 height="200px"
-			>
-				<listhead>
-					<listheader label="Production Company"/>
-				</listhead>
-			</listbox>
-		</groupbox>
-		<groupbox id="productionCountriesBox"
-		>
-			<caption>Production Companies</caption>
-			<listbox id="productionCountriesList"
-					 height="200px"
-			>
-				<listhead>
-					<listheader label="Production Country"/>
-				</listhead>
-			</listbox>
-		</groupbox>
-	</hbox>
+    <hbox>
+        <groupbox id="castBox" contentStyle="background: rgba(255, 255, 255, 0.7)"
+        >
+            <caption>Cast</caption>
+            <listbox id="castList"
+                     height="200px"
+            >
+                <listhead>
+                    <listheader label="Name"/>
+                    <listheader label="Role"/>
+                </listhead>
+            </listbox>
+        </groupbox>
+        <groupbox id="crewBox" contentStyle="background: rgba(255, 255, 255, 0.7)"
+        >
+            <caption>Crew</caption>
+            <listbox id="crewList"
+                     height="200px"
+            >
+                <listhead>
+                    <listheader label="Name"/>
+                    <listheader label="Job"/>
+                </listhead>
+            </listbox>
+        </groupbox>
+        <groupbox id="genreBox" contentStyle="background: rgba(255, 255, 255, 0.7)"
+        >
+            <caption>Genre</caption>
+            <listbox id="genreList"
+                     height="200px"
+            >
+                <listhead>
+                    <listheader label="Genre"/>
+                </listhead>
+            </listbox>
+        </groupbox>
+        <groupbox id="productionCompaniesBox" contentStyle="background: rgba(255, 255, 255, 0.7)"
+        >
+            <caption>Production Companies</caption>
+            <listbox id="productionCompaniesList"
+                     height="200px"
+            >
+                <listhead>
+                    <listheader label="Production Company"/>
+                </listhead>
+            </listbox>
+        </groupbox>
+        <groupbox id="productionCountriesBox" contentStyle="background: rgba(255, 255, 255, 0.7)"
+        >
+            <caption>Production Countries</caption>
+            <listbox id="productionCountriesList"
+                     height="200px"
+            >
+                <listhead>
+                    <listheader label="Production Country"/>
+                </listhead>
+            </listbox>
+        </groupbox>
+    </hbox>
 
-	<groupbox id="settings"
-	>
-		<caption>Settings</caption>
+    <groupbox id="settings" contentStyle="background: rgba(255, 255, 255, 0.7)"
+    >
+        <caption>Settings</caption>
 
-		<nodom>
-			<div sclass="grid"
-				 width="100%">
-				<label value="Download Link"/>
-				<label value="Local Path"/>
-				<label value="Resolution"/>
-				<label value="Cliffhanger"/>
-				<textbox id="downloadLink"
-						 width="100%"
-						 tabindex="1"/>
-				<textbox id="localPath"
-						 width="100%"
-						 tabindex="2"/>
-				<combobox id="resolution"
-						  width="100%"
-						  tabindex="3"/>
-				<checkbox id="cliffhanger"
-						  tabindex="4"/>
-			</div>
-		</nodom>
-	</groupbox>
+        <nodom>
+            <div sclass="grid"
+                 width="100%">
+                <label value="Download Link"/>
+                <label value="Local Path"/>
+                <label value="Resolution"/>
+                <label value="Cliffhanger"/>
+                <textbox id="downloadLink"
+                         width="100%"
+                         tabindex="1"/>
+                <textbox id="localPath"
+                         width="100%"
+                         tabindex="2"/>
+                <combobox id="resolution"
+                          width="100%"
+                          tabindex="3"/>
+                <checkbox id="cliffhanger"
+                          tabindex="4"/>
+            </div>
+        </nodom>
+    </groupbox>
 
-	<hbox id="buttons"
-		  width="100%"
-		  pack="center">
-		<button id="saveButton" label="Save"/>
-		<button id="cancelButton" label="Cancel"/>
-		<button id="updateButton" label="Update from TMDB"/>
-		<button id="deleteButton" label="Delete"/>
-	</hbox>
+    <hbox id="buttons"
+          width="100%"
+          pack="center">
+        <button id="saveButton" label="Save"/>
+        <button id="cancelButton" label="Cancel"/>
+        <button id="updateButton" label="Update from TMDB"/>
+        <button id="deleteButton" label="Delete"/>
+    </hbox>
 </window>

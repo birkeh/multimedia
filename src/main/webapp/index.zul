@@ -14,8 +14,8 @@
 			<tabs id="tabs"
 				  width="120px"
 			>
-				<tab id="tabSeries" label="TV Show"/>
-				<tab id="tabMovies" label="Movies"/>
+				<tab id="tabSeries" forward="onSelect=onSelect()" label="TV Show"/>
+				<tab id="tabMovies" forward="onSelect=onSelect()" label="Movies"/>
 			</tabs>
 			<tabpanels>
 				<tabpanel>

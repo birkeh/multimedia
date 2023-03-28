@@ -16,7 +16,7 @@
         }
     </style>
 
-    <groupbox id="overview"
+    <groupbox id="overview" contentStyle="background: rgba(255, 255, 255, 0.7)"
     >
         <caption>Overview</caption>
         <label id="overviewLabel"
@@ -24,7 +24,7 @@
     </groupbox>
 
     <hbox>
-        <groupbox id="castBox"
+        <groupbox id="castBox" contentStyle="background: rgba(255, 255, 255, 0.7)"
         >
             <caption>Cast</caption>
             <listbox id="castList"
@@ -36,7 +36,7 @@
                 </listhead>
             </listbox>
         </groupbox>
-        <groupbox id="crewBox"
+        <groupbox id="crewBox" contentStyle="background: rgba(255, 255, 255, 0.7)"
         >
             <caption>Crew</caption>
             <listbox id="crewList"
@@ -48,7 +48,7 @@
                 </listhead>
             </listbox>
         </groupbox>
-        <groupbox id="genreBox"
+        <groupbox id="genreBox" contentStyle="background: rgba(255, 255, 255, 0.7)"
         >
             <caption>Genre</caption>
             <listbox id="genreList"
@@ -59,7 +59,7 @@
                 </listhead>
             </listbox>
         </groupbox>
-        <groupbox id="productionCompaniesBox"
+        <groupbox id="productionCompaniesBox" contentStyle="background: rgba(255, 255, 255, 0.7)"
         >
             <caption>Production Companies</caption>
             <listbox id="productionCompaniesList"
@@ -70,7 +70,7 @@
                 </listhead>
             </listbox>
         </groupbox>
-        <groupbox id="productionCountriesBox"
+        <groupbox id="productionCountriesBox" contentStyle="background: rgba(255, 255, 255, 0.7)"
         >
             <caption>Production Companies</caption>
             <listbox id="productionCountriesList"
@@ -83,7 +83,7 @@
         </groupbox>
     </hbox>
 
-    <groupbox id="settings"
+    <groupbox id="settings" contentStyle="background: rgba(255, 255, 255, 0.7)"
     >
         <caption>Settings</caption>
 
